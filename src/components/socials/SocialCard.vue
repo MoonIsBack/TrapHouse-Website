@@ -8,10 +8,13 @@
 // Die Variable wird per :style gesetzt, weil die Farbe aus den Daten kommt und
 // zur Bauzeit noch nicht feststeht. Das ist genau der Fall, für den die CSP in
 // vite.config.js 'unsafe-inline' bei style-src erlaubt.
+import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
 import IconTikTok from '@/components/icons/IconTikTok.vue'
 import IconInstagram from '@/components/icons/IconInstagram.vue'
 import IconArrowRight from '@/components/icons/IconArrowRight.vue'
+
+const { onPointerMove } = usePointerSpotlight()
 
 defineProps({
   social: {
@@ -32,8 +35,9 @@ const SOCIAL_ICONS = {
     :href="social.url"
     target="_blank"
     rel="noopener noreferrer"
-    class="social-card reveal"
+    class="social-card reveal reveal-pop spotlight"
     :style="{ '--brand': social.brand }"
+    @pointermove="onPointerMove"
   >
     <span class="social-icon">
       <component :is="SOCIAL_ICONS[social.id]" />
@@ -55,6 +59,10 @@ const SOCIAL_ICONS = {
   display: flex;
   flex-direction: column;
 
+  /* Hält den Lichtfleck (.spotlight) innerhalb der Karte */
+  isolation: isolate;
+  overflow: hidden;
+
   padding: 26px;
 
   border: 1px solid var(--border-soft);
@@ -75,6 +83,12 @@ const SOCIAL_ICONS = {
   /* Hier kommt die Markenfarbe zum Vorschein */
   border-color: var(--brand);
   background: var(--surface-hover);
+}
+
+/* Inhalt über den Lichtfleck legen, sonst wirkt die Schrift milchig */
+.social-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .social-icon {

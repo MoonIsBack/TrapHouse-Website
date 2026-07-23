@@ -9,6 +9,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import BackdropGlow from '@/components/BackdropGlow.vue'
 import PixelCorners from '@/components/PixelCorners.vue'
+import ScrollProgress from '@/components/ui/ScrollProgress.vue'
 </script>
 
 <template>
@@ -19,6 +20,8 @@ import PixelCorners from '@/components/PixelCorners.vue'
 
   <BackdropGlow />
 
+  <ScrollProgress />
+
   <AppHeader />
 
   <main id="inhalt">
@@ -27,7 +30,25 @@ import PixelCorners from '@/components/PixelCorners.vue'
          aufbaut — sonst würden Animationen beim zweiten Besuch nicht
          noch einmal laufen. -->
     <RouterView v-slot="{ Component, route }">
-      <component :is="Component" :key="route.name" />
+      <!-- Der :key sorgt dafür, dass Vue beim Seitenwechsel wirklich neu
+           aufbaut statt die alte Ansicht weiterzuverwenden. Dadurch startet
+           die Einblend-Animation jedes Mal neu, und die Elemente mit .reveal
+           werden erneut beobachtet.
+
+           ⚠ Hier stand kurzzeitig ein <Transition mode="out-in">. Das sieht
+           auf den ersten Blick eleganter aus, macht aber die nachgeladenen
+           Unterseiten kaputt: Shop, Discord und Socials werden erst beim
+           Aufruf heruntergeladen (siehe router/index.js) und sind im Moment
+           des Wechsels noch gar nicht da. <Transition> braucht aber genau ein
+           Kind — bei "noch nichts da" wartet es auf einen Übergang, der nie
+           kommt, und die Seite bleibt leer.
+
+           Ein einfacher Rahmen mit CSS-Animation kennt dieses Problem nicht:
+           Er animiert sich selbst, unabhängig davon, wann sein Inhalt fertig
+           geladen ist. -->
+      <div :key="route.name" class="page-anim">
+        <component :is="Component" />
+      </div>
     </RouterView>
   </main>
 

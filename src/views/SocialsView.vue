@@ -18,7 +18,7 @@ useScrollReveal()
         text="Auf jedem Kanal gibt es etwas anderes zu sehen. Am schnellsten erfährst du Neuigkeiten aber immer auf Discord."
       />
 
-      <div class="card-grid">
+      <div class="card-grid reveal-stagger">
         <SocialCard v-for="social in SOCIAL_LINKS" :key="social.id" :social="social" />
       </div>
     </div>

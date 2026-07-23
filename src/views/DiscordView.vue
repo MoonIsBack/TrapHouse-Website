@@ -41,7 +41,7 @@ const FEATURES = [
         text="Der Ort, an dem am meisten passiert. Kein Zwang, kein Bewerbungsverfahren — reinkommen und mitreden."
       />
 
-      <div class="feature-grid">
+      <div class="feature-grid reveal-stagger">
         <article v-for="feature in FEATURES" :key="feature.title" class="feature-card reveal">
           <h3>{{ feature.title }}</h3>
           <p>{{ feature.text }}</p>

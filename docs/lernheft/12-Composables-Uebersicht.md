@@ -2,8 +2,17 @@
 
 ## Wofür ist das?
 
-TrapHouse hat nur zwei Composables. Beide lohnen sich aber, weil sie Dinge
-erledigen, die man beim Selbstbauen zuverlässig vergisst.
+TrapHouse hat fünf Composables. Jedes erledigt Dinge, die man beim
+Selbstbauen zuverlässig vergisst — Aufräumen, Rücksicht auf Einstellungen,
+Schonung der Rechenleistung.
+
+| Datei | Aufgabe |
+|---|---|
+| `useMobileNav.js` | Klappmenü auf dem Handy |
+| `useScrollReveal.js` | Elemente einblenden, sobald sie ins Bild kommen |
+| `useScrollProgress.js` | Fortschrittsbalken ganz oben |
+| `useParallax.js` | Hintergrund wandert langsamer als der Text |
+| `usePointerSpotlight.js` | Lichtfleck folgt dem Mauszeiger über Karten |
 
 ## Was ist ein Composable nochmal?
 
@@ -101,6 +110,78 @@ sofort und vollständig zu sehen.
 nur die Animation abschalten, blieben sie auf `opacity: 0` stehen — die Seite
 wäre für genau diese Nutzer leer. Deshalb setzt `main.css` die Klasse `.reveal`
 in diesem Fall komplett zurück.
+
+## `useScrollProgress.js` (73 Zeilen)
+
+Liefert einen Wert zwischen 0 (ganz oben) und 1 (ganz unten). Daraus zeichnet
+`ScrollProgress.vue` den dünnen Balken am oberen Rand.
+
+Zwei Details, die leicht schiefgehen:
+
+**Division durch null.** Passt die Seite komplett ins Fenster, gibt es nichts
+zu scrollen — dann wäre die Rechnung `scrollY / 0`.
+
+**Werte außerhalb von 0 bis 1.** Beim Überziehen am Rand (das „Gummiband" auf
+iOS und macOS) meldet der Browser kurzzeitig negative Werte oder Werte über 1.
+Ohne Begrenzung würde der Balken dabei sichtbar überlaufen.
+
+## `useParallax.js` (72 Zeilen)
+
+Lässt ein Element beim Scrollen langsamer mitwandern als die Seite. Dadurch
+wirkt es weiter entfernt — dasselbe Prinzip wie Berge am Horizont, die beim
+Autofahren fast stehen bleiben, während die Leitpfosten vorbeirasen.
+
+```js
+const bild = useParallax(0.28)
+<img ref="bild" … />
+```
+
+⚠ Werte über etwa `0.4` wirken nicht mehr wie Tiefe, sondern wie ein Fehler:
+Das Bild „schwimmt" dann sichtbar gegenüber dem Text.
+
+⚠ Parallaxe ist einer der häufigsten Auslöser für Unwohlsein beim Scrollen.
+Deshalb wird der Effekt bei „Bewegung reduzieren" komplett abgeschaltet — nicht
+nur verlangsamt.
+
+## `usePointerSpotlight.js` (62 Zeilen)
+
+Ein weicher Lichtfleck folgt dem Mauszeiger über einer Karte.
+
+```js
+const { onPointerMove } = usePointerSpotlight()
+<article class="… spotlight" @pointermove="onPointerMove">
+```
+
+Das Composable schreibt nur die Position in zwei CSS-Variablen. Wie der Fleck
+aussieht, steht komplett in `main.css` bei `.spotlight` — dieselbe
+Arbeitsteilung wie bei `useScrollReveal.js`.
+
+### ⭐ Warum `requestAnimationFrame`
+
+`pointermove` feuert bei schneller Mausbewegung leicht hundertmal pro Sekunde.
+Jedes Mal sofort eine CSS-Variable zu setzen, zwingt den Browser zu ebenso
+vielen Neuberechnungen — sehen kann man davon aber höchstens 60, weil öfter gar
+nicht gezeichnet wird.
+
+Deshalb wird die Position nur **gemerkt**, und das Schreiben übernimmt der
+Browser dann, wenn er ohnehin das nächste Bild zeichnet. Alles, was
+zwischendurch hereinkommt, überschreibt nur den gemerkten Wert und kostet
+nichts.
+
+Dasselbe Muster steckt in `useScrollProgress.js`. Es lohnt sich, es zu kennen:
+**Bei allem, was sehr oft feuert — Scrollen, Mausbewegung, Größenänderung —
+nicht sofort rechnen, sondern einen Termin beim nächsten Bild anmelden.**
+
+### Warum `currentTarget` und nicht `target`
+
+```js
+const element = event.currentTarget
+```
+
+`target` wäre das Element, über dem der Zeiger gerade wirklich steht — mal das
+Bild, mal die Überschrift. Die Fleckposition würde je nach Untergrund
+umspringen. `currentTarget` ist immer die Karte selbst, also das Element mit
+dem Lauscher.
 
 ## 💡 Merken
 

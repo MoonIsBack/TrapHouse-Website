@@ -8,8 +8,11 @@
 import { computed } from 'vue'
 
 import { formatPrice } from '@/data/products'
+import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
 import IconHeart from '@/components/icons/IconHeart.vue'
 import IconCart from '@/components/icons/IconCart.vue'
+
+const { onPointerMove } = usePointerSpotlight()
 
 const props = defineProps({
   product: {
@@ -22,7 +25,7 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
 </script>
 
 <template>
-  <article class="product-card reveal">
+  <article class="product-card reveal reveal-pop spotlight" @pointermove="onPointerMove">
     <div class="product-image">
       <img :src="product.image" :alt="product.imageAlt" loading="lazy" width="900" height="1350" />
 
@@ -66,6 +69,10 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   flex-direction: column;
   overflow: hidden;
 
+  /* Hält den Lichtfleck (.spotlight) innerhalb der Karte, statt ihn mit dem
+     Seitenhintergrund verrechnen zu lassen */
+  isolation: isolate;
+
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
 
@@ -84,8 +91,15 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   box-shadow: var(--shadow-lifted);
 }
 
-.product-image {
+/* Bild und Textteil müssen über dem Lichtfleck liegen — sonst legt der sich
+   wie ein Schleier darüber und macht die Schrift milchig. */
+.product-image,
+.product-body {
   position: relative;
+  z-index: 2;
+}
+
+.product-image {
   overflow: hidden;
 
   /* Feste Bildform, damit mehrere Karten nebeneinander gleich hoch beginnen,

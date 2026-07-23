@@ -11,7 +11,7 @@
 import { DISCORD_INVITE } from '@/data/socialLinks'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import IconDiscord from '@/components/icons/IconDiscord.vue'
-import moonPixel from '@/assets/images/moon-pixel.gif'
+import moonPixel from '@/assets/images/moon-pixel.webp'
 
 defineProps({
   // Auf der Discord-Seite steht darüber schon eine Überschrift — dort wäre
@@ -92,8 +92,11 @@ p {
   /* Die Vorlage ist eine Pixelgrafik — Kanten scharf lassen */
   image-rendering: pixelated;
 
-  /* Hebt die Figur leicht vom Hintergrund ab */
-  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.5));
+  /* Hebt die Figur leicht vom Hintergrund ab. drop-shadow statt box-shadow:
+     Es folgt der tatsächlichen Silhouette und nicht dem rechteckigen Kasten
+     drumherum — bei einem freigestellten Bild ist das der Unterschied
+     zwischen "schwebt" und "klebt auf einem Rechteck". */
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.45));
 }
 
 @media (max-width: 720px) {

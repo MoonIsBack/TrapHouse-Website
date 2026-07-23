@@ -23,7 +23,7 @@ useScrollReveal()
         text="Ein Blick auf das, was gerade entsteht. Alles in kleiner Auflage und selbst ausgesucht — noch nichts davon ist bestellbar."
       />
 
-      <div class="card-grid">
+      <div class="product-grid reveal-stagger">
         <ProductCard v-for="product in PRODUCTS" :key="product.id" :product="product" />
       </div>
 
@@ -36,9 +36,13 @@ useScrollReveal()
 </template>
 
 <style scoped>
-.card-grid {
+/* Obergrenze pro Karte, sonst bläht sich ein einzelner Artikel auf die volle
+   Breite auf — und wird durch das feste Seitenverhältnis 4:5 riesig hoch.
+   Siehe dieselbe Regel in HomeView.vue. */
+.product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
+  justify-content: center;
   gap: 24px;
 }
 

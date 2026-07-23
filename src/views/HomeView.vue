@@ -1,19 +1,28 @@
 <script setup>
 // Die Startseite.
 //
-// Sie stellt nur zusammen und formuliert keine eigenen Inhalte: Hero, eine
-// Vorschau auf den Shop, der Discord-Aufruf und die Social-Kanäle. Jeder
-// Bereich verlinkt auf die zugehörige Unterseite, wo es ausführlicher wird.
+// Sie stellt nur zusammen und formuliert keine eigenen Inhalte. Die Reihenfolge
+// folgt den Fragen, die jemand beim ersten Besuch stellt:
 //
-// Alle Daten kommen aus data/ — hier steht kein einziger Produktname und kein
-// einziger Nutzername im Klartext.
+//   1. Hero          Wo bin ich hier?
+//   2. Laufband      (Trennung, Rhythmus)
+//   3. Highlights    Was habe ich davon?      ← fehlte vorher komplett
+//   4. Merch         Was gibt es zu sehen?
+//   5. Discord       Wie mache ich mit?
+//   6. Socials       Wo finde ich euch sonst?
+//
+// Punkt 3 war vorher nicht da: Die Seite sprang vom Willkommensgruß direkt zum
+// T-Shirt, ohne je zu sagen, was die Community eigentlich ist.
 import { PRODUCTS } from '@/data/products'
 import { SOCIAL_LINKS } from '@/data/socialLinks'
+import { MARQUEE_WORDS } from '@/data/community'
 import { useScrollReveal } from '@/composables/useScrollReveal'
 
 import HeroSection from '@/components/home/HeroSection.vue'
+import HighlightGrid from '@/components/home/HighlightGrid.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import MarqueeBand from '@/components/ui/MarqueeBand.vue'
 import ProductCard from '@/components/shop/ProductCard.vue'
 import SocialCard from '@/components/socials/SocialCard.vue'
 import DiscordCta from '@/components/discord/DiscordCta.vue'
@@ -26,7 +35,22 @@ useScrollReveal()
 <template>
   <HeroSection />
 
-  <!-- SHOP-VORSCHAU -->
+  <MarqueeBand :words="MARQUEE_WORDS" />
+
+  <!-- WAS DICH ERWARTET -->
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Community"
+        title="Was dich erwartet"
+        text="TrapHouse ist kein Label und keine Agentur, sondern ein Ort zum Austauschen — für alle, die Musik machen."
+      />
+
+      <HighlightGrid />
+    </div>
+  </section>
+
+  <!-- MERCH -->
   <section class="section">
     <div class="container">
       <SectionHeader
@@ -35,7 +59,7 @@ useScrollReveal()
         text="Kleine Kollektion, ordentliche Qualität — gerade in Arbeit."
       />
 
-      <div class="card-grid">
+      <div class="product-grid reveal-stagger">
         <ProductCard v-for="product in PRODUCTS" :key="product.id" :product="product" />
       </div>
 
@@ -55,6 +79,8 @@ useScrollReveal()
     </div>
   </section>
 
+  <MarqueeBand :words="MARQUEE_WORDS" />
+
   <!-- SOCIALS -->
   <section class="section">
     <div class="container">
@@ -64,7 +90,7 @@ useScrollReveal()
         text="Auf jedem Kanal gibt es andere Einblicke — such dir aus, was zu dir passt."
       />
 
-      <div class="card-grid">
+      <div class="card-grid reveal-stagger">
         <SocialCard v-for="social in SOCIAL_LINKS" :key="social.id" :social="social" />
       </div>
     </div>
@@ -72,10 +98,21 @@ useScrollReveal()
 </template>
 
 <style scoped>
-/* Das gemeinsame Raster für Karten.
-   auto-fit + minmax bedeutet: So viele Spalten wie hineinpassen, jede
-   mindestens 280 px breit. Dadurch braucht es KEINE Media Query — das Raster
-   ordnet sich von allein von drei Spalten auf eine um. */
+/* PRODUKTRASTER — mit Obergrenze pro Karte
+   Vorher stand hier minmax(280px, 1fr). Bei nur EINEM Artikel bekam der die
+   volle Breite von 1120 px — und weil die Karte ein festes Seitenverhältnis
+   von 4:5 hat, wurde daraus ein 1400 px hohes Riesen-T-Shirt.
+   Mit einer Obergrenze von 340 px bleibt die Karte immer in vernünftiger
+   Größe, und justify-content zentriert sie, statt sie links kleben zu lassen. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
+  justify-content: center;
+  gap: 24px;
+}
+
+/* Bei den Social-Kanälen ist das kein Thema: Es sind immer drei, die füllen
+   die Breite von selbst sauber aus. */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

@@ -65,16 +65,68 @@ Zwei Ausführungen: `variant="primary"` (pinker Verlauf) und `variant="ghost"`
 Die Überschrift über jedem Bereich: kleines Label, große Überschrift, Text.
 Sorgt dafür, dass alle Bereiche denselben Rhythmus haben.
 
+### `ui/NavLink.vue`
+
+Ein Navigationseintrag — entscheidet selbst, ob ein `RouterLink` (Unterseite)
+oder ein `<a target="_blank">` (fremde Adresse, z. B. RankRoom) daraus wird.
+
+Warum als eigene Komponente: Dieselbe Unterscheidung wird an **drei** Stellen
+gebraucht — Leiste für breite Bildschirme, Klappmenü, Fußbereich. Ohne sie
+stünde dasselbe `v-if` dreimal da, und beim nächsten externen Link würde man
+eine Stelle vergessen.
+
+### `ui/ScrollProgress.vue`
+
+Der dünne Balken ganz oben, der beim Scrollen mitwächst.
+
+⚠ Er arbeitet mit `transform: scaleX()` und nicht mit `width`. Eine
+Breitenänderung zwingt den Browser bei **jedem** Scroll-Schritt zu einer neuen
+Layout-Rechnung; `scaleX` erledigt die Grafikkarte ohne Layout. Bei etwas, das
+sich sechzigmal pro Sekunde ändert, ist das der Unterschied zwischen flüssig
+und hakelig.
+
+### `ui/MarqueeBand.vue`
+
+Das durchlaufende Textband zwischen zwei Bereichen.
+
+⭐ **Der Trick mit dem doppelten Inhalt:** Die Wortliste steht zweimal
+hintereinander im HTML, und die Animation schiebt das Band um genau seine halbe
+Breite. In dem Moment, in dem die erste Liste links hinausgeschoben ist, steht
+die zweite exakt dort, wo die erste anfing — der Sprung zurück auf Null ist
+unsichtbar. Ohne die Verdopplung entstünde am Ende eine Lücke.
+
 ## Bereichsspezifische Bausteine
 
-### `home/HeroSection.vue` (195 Zeilen)
+### `home/HeroSection.vue`
 
-Der Bereich ganz oben auf der Startseite. Das Foto ist ein echtes `<img>` und
+Der Bereich ganz oben auf der Startseite. Das Bild ist ein echtes `<img>` und
 kein CSS-Hintergrund — der Browser findet es dadurch früher und kann es
 parallel laden.
 
-Darüber liegen zwei Abdunklungs-Schichten: eine für die Lesbarkeit, eine für
-den Farbton und den Übergang nach unten.
+Darüber liegen drei Schichten: eine Abdunklung für die Lesbarkeit, ein pinker
+Schein hinter der Überschrift und ein feines Raster für Struktur.
+
+⭐ **Warum dort nicht mehr die Instagram-Grafik liegt.** Ursprünglich war
+`hero-backdrop.webp` der Hintergrund — die Community-Kachel von Instagram. Die
+ist aber voller Text („Jeder ist willkommen", „Was euch erwartet:"). Dieser
+Text schlug durch die Abdunklung und stand direkt neben der echten Überschrift.
+Zwei konkurrierende Texte übereinander liest niemand als Gestaltung, sondern
+als Fehler.
+
+Jetzt liegt dort `hero-texture.webp`: dieselbe Grafik, aber so stark
+weichgezeichnet, dass nur ein Farbverlauf übrig bleibt. Markenfarben bleiben,
+Text ist weg — und die Datei schrumpfte von 179 KB auf 5 KB, weil ein
+weichgezeichnetes Bild kaum noch Information enthält.
+
+**Die Lehre daraus:** Ein Hero-Hintergrund muss Atmosphäre liefern, nicht
+Inhalt. Sobald er selbst etwas sagen will, kämpft er mit dem Text davor.
+
+### `home/HighlightGrid.vue`
+
+„Was dich erwartet" — vier Karten, die erklären, worum es bei TrapHouse geht.
+
+Dieser Bereich hat lange gefehlt: Die Startseite sprang vom Willkommensgruß
+direkt zum T-Shirt, ohne je zu sagen, was die Community eigentlich ist.
 
 ### `shop/ProductCard.vue` (207 Zeilen)
 
