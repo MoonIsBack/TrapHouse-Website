@@ -1,0 +1,57 @@
+/* SCHRIFTEN — bewusst selbst gehostet
+   ====================================
+   Die alte TrapHouse-Seite hat die Schriften bei jedem Aufruf von
+   fonts.googleapis.com nachgeladen. Das hat zwei Nachteile:
+
+   1. Google erfährt dabei die IP-Adresse jedes Besuchers. In der EU ist das
+      ohne vorherige Einwilligung nicht zulässig (ein Landgericht hat das 2022
+      ausdrücklich so entschieden).
+   2. Es ist langsamer: Der Browser muss erst eine zweite Verbindung zu einem
+      fremden Server aufbauen, bevor überhaupt Text erscheinen kann.
+
+   Die vier Dateien in ./fonts/ sind zusammen rund 36 KB — sie liegen jetzt im
+   Projekt und werden mit ausgeliefert. Damit lädt die Seite nichts von außen.
+
+   Es sind nur die "latin"-Ausschnitte der Schriften: Sie enthalten das
+   lateinische Alphabet inklusive Umlauten und ß, aber kein Kyrillisch oder
+   Griechisch. Das reicht für eine deutschsprachige Seite und spart Platz.
+
+   font-display: swap bedeutet: Text sofort in einer Systemschrift zeigen und
+   auf die richtige Schrift umstellen, sobald sie da ist. Lieber kurz die
+   falsche Schrift als für einen Moment gar keinen Text. */
+
+/* Anton — die Display-Schrift für große Überschriften.
+   Sehr schmal und fett; genau ein Schnitt, mehr gibt es von ihr nicht. */
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/anton-400.woff2') format('woff2');
+}
+
+/* Poppins — die Leseschrift für Fließtext, Knöpfe und Navigation.
+   Drei Schnitte: normal, halbfett, fett. */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/poppins-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./fonts/poppins-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./fonts/poppins-700.woff2') format('woff2');
+}
