@@ -26,40 +26,36 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
     <div class="product-image">
       <img :src="product.image" :alt="product.imageAlt" loading="lazy" width="900" height="1350" />
 
-      <span v-if="!isAvailable" class="product-badge">Demnächst</span>
+      <span v-if="!isAvailable" class="product-badge">Coming Soon</span>
     </div>
 
     <div class="product-body">
       <h3>{{ product.name }}</h3>
       <p class="product-description">{{ product.description }}</p>
 
-      <div class="product-footer">
+      <!-- PREIS UND KAUFKNÖPFE — nur bei 'verfuegbar'
+           Solange der Artikel eine Ankündigung ist, erscheint hier weder ein
+           Preis noch ein Kaufknopf. Beides wird bewusst ganz weggelassen und
+           nicht nur ausgegraut: Ein deaktivierter Warenkorb-Knopf sieht immer
+           noch nach Shop aus, und genau das soll die Karte nicht.
+           Warum das mehr als Optik ist, steht in data/products.js. -->
+      <div v-if="isAvailable" class="product-footer">
         <span class="product-price">{{ formatPrice(product.price) }}</span>
 
         <div class="product-actions">
-          <!-- :disabled statt die Knöpfe zu verstecken: So sieht man, dass es
-               den Shop geben wird, und der Platz springt später nicht um.
-               Ein deaktivierter Knopf wird von Screenreadern zudem als
-               "nicht verfügbar" angekündigt. -->
-          <button
-            type="button"
-            class="icon-button"
-            :disabled="!isAvailable"
-            aria-label="Auf die Merkliste"
-          >
+          <button type="button" class="icon-button" aria-label="Auf die Merkliste">
             <IconHeart />
           </button>
 
-          <button
-            type="button"
-            class="icon-button"
-            :disabled="!isAvailable"
-            aria-label="In den Warenkorb"
-          >
+          <button type="button" class="icon-button" aria-label="In den Warenkorb">
             <IconCart />
           </button>
         </div>
       </div>
+
+      <!-- Steht an derselben Stelle wie sonst der Preis, damit die Karte nicht
+           unten ausfranst -->
+      <p v-else class="product-soon">Kommt bald</p>
     </div>
   </article>
 </template>
@@ -162,6 +158,20 @@ h3 {
   color: var(--text);
 }
 
+/* Steht anstelle des Preises, solange der Artikel nur angekündigt ist.
+   margin-top: auto wie beim .product-footer, damit die Zeile auch hier unten
+   an der Karte klebt und mehrere Karten gleich hoch abschließen. */
+.product-soon {
+  margin-top: auto;
+  padding-top: 14px;
+
+  color: var(--accent-strong);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
 .product-actions {
   display: flex;
   gap: 8px;
@@ -188,14 +198,9 @@ h3 {
     background var(--transition);
 }
 
-.icon-button:hover:not(:disabled) {
+.icon-button:hover {
   border-color: rgba(var(--accent-rgb), 0.6);
   background: rgba(var(--accent-rgb), 0.14);
   color: var(--accent-strong);
-}
-
-.icon-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 </style>

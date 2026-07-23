@@ -4,6 +4,14 @@ on:
   push:
     branches: [main]
 
+  # Erlaubt es, den Deploy auf GitHub von Hand zu starten:
+  # Actions → "Deploy TrapHouse to GitHub Pages" → "Run workflow".
+  #
+  # Praktisch, wenn sich am Code nichts geändert hat, aber trotzdem neu
+  # veröffentlicht werden muss — etwa nachdem GitHub Pages neu eingerichtet
+  # wurde. Ohne diesen Eintrag bräuchte es dafür jedes Mal einen Commit.
+  workflow_dispatch:
+
 permissions:
   contents: read
   pages: write

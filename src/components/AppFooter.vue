@@ -6,7 +6,9 @@
 // automatisch mit auf.
 import { NAV_LINKS } from '@/data/navigation'
 import { SOCIAL_LINKS } from '@/data/socialLinks'
+import { LEGAL_LINKS, showLegalPages } from '@/config/legalConfig'
 
+import NavLink from '@/components/ui/NavLink.vue'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
 import IconTikTok from '@/components/icons/IconTikTok.vue'
 import IconInstagram from '@/components/icons/IconInstagram.vue'
@@ -37,9 +39,7 @@ const currentYear = new Date().getFullYear()
 
       <nav class="footer-nav" aria-label="Fußzeilen-Navigation">
         <h3>Seiten</h3>
-        <RouterLink v-for="link in NAV_LINKS" :key="link.name" :to="{ name: link.name }">
-          {{ link.label }}
-        </RouterLink>
+        <NavLink v-for="link in NAV_LINKS" :key="link.label" :link="link" />
       </nav>
 
       <div class="footer-socials">
@@ -60,6 +60,18 @@ const currentYear = new Date().getFullYear()
 
     <div class="container footer-bottom">
       <p>© {{ currentYear }} TrapHouse</p>
+
+      <!-- RECHTSSEITEN
+           Stehen bewusst hier unten und nicht in der Hauptnavigation. Wichtig
+           ist nur, dass sie auf JEDER Seite erreichbar sind — der Fußbereich
+           erfüllt das. Bitte nicht entfernen: § 5 DDG verlangt, dass das
+           Impressum ständig verfügbar ist. -->
+      <nav v-if="showLegalPages" class="footer-legal" aria-label="Rechtliches">
+        <RouterLink v-for="link in LEGAL_LINKS" :key="link.name" :to="{ name: link.name }">
+          {{ link.label }}
+        </RouterLink>
+      </nav>
+
       <p class="footer-note">
         Diese Seite lädt nichts von fremden Servern und setzt keine Cookies.
       </p>
@@ -154,6 +166,40 @@ h3 {
 
 .footer-bottom p {
   margin: 0;
+}
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+
+  /* Nimmt den freien Platz und sitzt dadurch zwischen Copyright und Hinweis */
+  margin: 0 auto;
+}
+
+.footer-legal a {
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.footer-legal a:hover,
+.footer-legal a.router-link-active {
+  color: var(--accent-strong);
+}
+
+@media (max-width: 720px) {
+  /* Untereinander statt nebeneinander — der Hinweis rechts ist sonst zu lang
+     und drückt die Rechtslinks in eine unglückliche Zeile */
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .footer-legal {
+    margin: 0;
+  }
 }
 
 .footer-note {

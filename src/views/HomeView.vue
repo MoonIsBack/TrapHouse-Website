@@ -32,7 +32,7 @@ useScrollReveal()
       <SectionHeader
         eyebrow="Merch"
         title="Trag es nach draußen"
-        text="Kleine Kollektion, ordentliche Qualität. Der Shop öffnet demnächst."
+        text="Kleine Kollektion, ordentliche Qualität — gerade in Arbeit."
       />
 
       <div class="card-grid">
@@ -41,7 +41,7 @@ useScrollReveal()
 
       <div class="section-action reveal">
         <BaseButton :to="{ name: 'shop' }" variant="ghost">
-          Alle Artikel ansehen
+          Merch ansehen
           <IconArrowRight />
         </BaseButton>
       </div>

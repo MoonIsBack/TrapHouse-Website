@@ -48,6 +48,7 @@ Damit kannst du schon das meiste ändern.
 |---|---|---|
 | 20 | [Bilder und Schriften](20-Bilder-und-Schriften.md) | Warum nichts mehr von Google kommt |
 | 21 | ⭐ [Inhalte ändern](21-Inhalte-aendern.md) | Texte, Preise, Links austauschen |
+| 22 | ⭐ [Impressum und Datenschutz](22-Rechtsseiten.md) | Was du ausfüllen musst, bevor du online gehst |
 
 ### Ausblick
 

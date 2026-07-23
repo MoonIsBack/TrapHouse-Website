@@ -48,7 +48,7 @@ import heroBackdrop from '@/assets/images/hero-backdrop.webp'
         </BaseButton>
 
         <BaseButton :to="{ name: 'shop' }" variant="ghost">
-          Zum Shop
+          Merch ansehen
           <IconArrowRight />
         </BaseButton>
       </div>

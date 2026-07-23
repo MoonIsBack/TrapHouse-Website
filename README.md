@@ -64,10 +64,12 @@ Wenn du wenig Zeit hast:
 
 Zwei Dinge fehlen, bevor die Seite ernsthaft online gehen kann:
 
-1. **Der Discord-Einladungslink.** Steht in `src/data/socialLinks.js` noch auf
+1. **`src/config/legalConfig.js` ausfüllen.** Impressum und
+   Datenschutzerklärung sind gebaut, enthalten aber noch Platzhalter — beide
+   Seiten zeigen solange einen roten Warnkasten. Anleitung:
+   [22 — Impressum und Datenschutz](docs/lernheft/22-Rechtsseiten.md)
+2. **Der Discord-Einladungslink.** Steht in `src/data/socialLinks.js` noch auf
    `'#'` — alle Discord-Knöpfe führen ins Leere.
-2. **Impressum und Datenschutzerklärung.** In Deutschland Pflicht, sobald die
-   Seite geschäftsmäßig ist.
 
 Die vollständige Liste steht in
 [40 — Was noch fehlt](docs/lernheft/40-Was-noch-fehlt.md).

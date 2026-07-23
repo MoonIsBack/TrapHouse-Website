@@ -18,7 +18,7 @@ export const DISCORD_INVITE = '#'
 **Alle** Discord-Knöpfe führen aktuell ins Leere. Das ist die auffälligste
 offene Stelle.
 
-### 2. Impressum und Datenschutzerklärung fehlen
+### 2. Impressum und Datenschutz sind gebaut, aber nicht ausgefüllt
 
 ⚠ **Das ist eine rechtliche Pflicht, keine Fleißaufgabe.**
 
@@ -26,15 +26,16 @@ Nach § 5 DDG braucht in Deutschland jede geschäftsmäßige Website ein
 Impressum — und „geschäftsmäßig" ist schnell erreicht, spätestens wenn Merch
 verkauft wird.
 
-Die gute Nachricht: Weil die Seite **nichts von außen lädt und keine Cookies
-setzt**, wird die Datenschutzerklärung sehr kurz. Es gibt keine Einwilligung
-einzuholen, kein Cookie-Banner, keine Drittanbieter aufzulisten. Das bleibt nur
-so, solange das auch so bleibt.
+Beide Seiten existieren inzwischen (`#/impressum` und `#/datenschutz`), aber in
+`src/config/legalConfig.js` stehen noch Platzhalter. Solange das so ist, zeigen
+sie einen roten Warnkasten — und die Seite darf nicht öffentlich erreichbar
+sein.
 
-→ RankRoom hat dafür bereits eine ausgearbeitete Lösung: `legalConfig.js`, die
-Komponenten unter `components/legal/` und die Anleitung in
-`LEGAL_AND_PRIVACY_SETUP.md`. **Das ließe sich fast unverändert übernehmen** —
-siehe [30-RankRoom-spaeter-einbinden](30-RankRoom-spaeter-einbinden.md).
+**Vorher zu entscheiden:** welche Anschrift hineinkommt. Ein Postfach reicht
+nicht; für eine Privatperson heißt das in der Regel, dass die Wohnadresse
+öffentlich im Netz steht.
+
+→ Vollständige Anleitung: [22-Rechtsseiten](22-Rechtsseiten.md)
 
 ### 3. GitHub Pages muss einmal umgestellt werden
 

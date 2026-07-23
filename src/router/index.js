@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
+import { showLegalPages } from '@/config/legalConfig'
 
 // WARUM HASH-ROUTING (die # in der Adresse)?
 //
@@ -54,6 +55,33 @@ const router = createRouter({
       name: 'socials',
       component: () => import('@/views/SocialsView.vue'),
     },
+
+    // RECHTSSEITEN
+    //
+    // Bewusst als echte Routen und nicht als Popup wie in RankRoom. Dort gab
+    // es noch keinen Router, deshalb waren Popups die einzige Möglichkeit.
+    //
+    // Echte Adressen sind hier die bessere Wahl: Eine eigene Adresse lässt
+    // sich verlinken, in einem neuen Tab öffnen und weitergeben — genau das
+    // erwartet man bei Impressum und Datenschutz.
+    //
+    // ⚠ Die beiden Routen gibt es nur, wenn legalConfig.js ausgefüllt ist
+    // (beim Entwickeln immer). Der Grund steht dort bei "showLegalPages".
+    // Das Verteilen mit ... fügt bei false ein leeres Array ein, also nichts.
+    ...(showLegalPages
+      ? [
+          {
+            path: '/impressum',
+            name: 'impressum',
+            component: () => import('@/views/ImprintView.vue'),
+          },
+          {
+            path: '/datenschutz',
+            name: 'datenschutz',
+            component: () => import('@/views/PrivacyView.vue'),
+          },
+        ]
+      : []),
 
     // Alles, was auf keine der obigen Adressen passt. Muss ganz unten stehen,
     // sonst würde es alle anderen Routen abfangen.

@@ -18,9 +18,9 @@ useScrollReveal()
   <section class="section">
     <div class="container">
       <SectionHeader
-        eyebrow="Shop"
+        eyebrow="Merch"
         title="TrapHouse Merch"
-        text="Alles in kleiner Auflage und selbst ausgesucht. Der Verkauf startet, sobald die erste Charge da ist."
+        text="Ein Blick auf das, was gerade entsteht. Alles in kleiner Auflage und selbst ausgesucht — noch nichts davon ist bestellbar."
       />
 
       <div class="card-grid">
@@ -28,7 +28,7 @@ useScrollReveal()
       </div>
 
       <p class="shop-note reveal">
-        Fragen zu Größen oder Versand? Schreib uns auf
+        Ideen, Wünsche oder Feedback zu den Entwürfen? Sag uns Bescheid auf
         <RouterLink :to="{ name: 'discord' }">Discord</RouterLink> oder per DM auf Instagram.
       </p>
     </div>

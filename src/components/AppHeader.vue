@@ -14,6 +14,7 @@ import { DISCORD_INVITE } from '@/data/socialLinks'
 import { useMobileNav } from '@/composables/useMobileNav'
 
 import BaseButton from '@/components/ui/BaseButton.vue'
+import NavLink from '@/components/ui/NavLink.vue'
 import IconDiscord from '@/components/icons/IconDiscord.vue'
 import IconMenu from '@/components/icons/IconMenu.vue'
 import IconClose from '@/components/icons/IconClose.vue'
@@ -51,13 +52,16 @@ onBeforeUnmount(() => {
       </RouterLink>
 
       <!-- DESKTOP-NAVIGATION
-           RouterLink vergibt automatisch die Klasse "router-link-active" für
-           den Eintrag, der zur aktuellen Adresse passt — deshalb muss hier
-           nichts von Hand verglichen werden. -->
+           NavLink entscheidet je Eintrag, ob ein RouterLink oder ein externer
+           Link daraus wird. Bei internen Einträgen vergibt der Router die
+           Klasse "router-link-active" selbst — deshalb muss hier nichts von
+           Hand verglichen werden.
+
+           :key ist das Label und nicht der Name: Externe Einträge haben gar
+           keinen "name", und ein v-for ohne eindeutigen key führt zu
+           merkwürdigen Fehlern beim Neuzeichnen. -->
       <nav class="desktop-nav" aria-label="Hauptnavigation">
-        <RouterLink v-for="link in NAV_LINKS" :key="link.name" :to="{ name: link.name }">
-          {{ link.label }}
-        </RouterLink>
+        <NavLink v-for="link in NAV_LINKS" :key="link.label" :link="link" />
       </nav>
 
       <div class="header-actions">
@@ -88,14 +92,7 @@ onBeforeUnmount(() => {
          beim Durchtabben nicht angesprungen werden können. -->
     <Transition name="slide">
       <nav v-if="isOpen" id="mobile-nav" class="mobile-nav" aria-label="Hauptnavigation">
-        <RouterLink
-          v-for="link in NAV_LINKS"
-          :key="link.name"
-          :to="{ name: link.name }"
-          @click="close"
-        >
-          {{ link.label }}
-        </RouterLink>
+        <NavLink v-for="link in NAV_LINKS" :key="link.label" :link="link" @navigate="close" />
       </nav>
     </Transition>
   </header>
