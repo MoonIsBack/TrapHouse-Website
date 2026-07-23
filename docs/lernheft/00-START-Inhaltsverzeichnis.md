@@ -18,6 +18,8 @@ etwas gelesen hast, kennst du die Rubriken:
 Lies **03**. Wenn du danach noch fünf Minuten hast, lies **05**.
 Damit kannst du schon das meiste ändern.
 
+Willst du nur etwas online bringen: **08**.
+
 ## Alle Kapitel
 
 ### Grundlagen
@@ -31,6 +33,7 @@ Damit kannst du schon das meiste ändern.
 | 05 | ⭐ [Dateien, die ich häufig ändere](05-Dateien-die-ich-haeufig-aendere.md) | Der Alltag |
 | 06 | [Dateien, die ich fast nie anfasse](06-Dateien-die-ich-fast-nie-anfasse.md) | Finger weg (meistens) |
 | 07 | [Projekt starten und bauen](07-Projekt-starten-und-bauen.md) | `npm run …` |
+| 08 | ⭐ [Veröffentlichen Schritt für Schritt](08-Veroeffentlichen-Schritt-fuer-Schritt.md) | Die Seite online bringen, und was tun wenn 404 |
 
 ### Die Bausteine
 
