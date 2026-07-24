@@ -80,11 +80,21 @@ verschoben. Optisch ist kein Unterschied zu sehen.
 > Sobald Animation oder Scrollen dazukommen, gehört die Weichheit in den
 > Farbverlauf statt in einen Filter.
 
-⚠ Dasselbe Muster steckt noch an einer zweiten Stelle: `HeroSection.vue` hat
-`filter: saturate(1.6) contrast(1.1)` auf dem Hintergrundbild **und**
-verschiebt es beim Scrollen (Parallaxe). Das ist bisher nicht aufgefallen und
-kostet gemessen nur ein Einzelbild — aber wenn dort irgendwann etwas langsam
-wird, ist das die erste Stelle zum Nachsehen.
+Dieselbe Komponente trägt außerdem den **Grundverlauf der ganzen Seite**. Der
+lag früher am `<body>` mit `background-attachment: fixed` — die nächste
+Verwandte derselben Falle. Hier ist er umsonst, weil dieses Element ohnehin
+feststeht.
+
+⚠ Zwei weitere Stellen mit demselben Muster wurden bei der Gelegenheit
+mitentschärft:
+
+- `HeroSection.vue` hatte `filter: saturate(1.6) contrast(1.1)` auf dem
+  Hintergrundbild und verschiebt es beim Scrollen. Die Farbkorrektur steckt
+  jetzt fest in der Bilddatei → [20-Bilder-und-Schriften](20-Bilder-und-Schriften.md)
+- `HomeView.vue` ließ im Kapitelmodus einen `filter: blur(5px)` über eine
+  Viertelsekunde hinweg verschwinden — für einen ganzen Bildschirminhalt. Das
+  ist nur deshalb nie aufgefallen, weil der Kapitelmodus gerade nicht aktiv
+  ist. Deckkraft und Verschiebung allein erzeugen denselben Eindruck.
 
 ### `components/PixelCorners.vue` (78 Zeilen)
 

@@ -110,9 +110,19 @@ const textureRef = useParallax(0.28)
   top: -15%;
   position: absolute;
 
-  /* Das Bild ist bereits weichgezeichnet; Sättigung und Kontrast holen die
-     Markenfarben zurück, die beim Weichzeichnen flau geworden sind. */
-  filter: saturate(1.6) contrast(1.1);
+  /* ⚠ HIER STAND EINMAL: filter: saturate(1.6) contrast(1.1)
+     Sättigung und Kontrast holen die Markenfarben zurück, die beim
+     Weichzeichnen flau geworden sind — aber sie sind jetzt fest in die
+     Bilddatei eingebacken statt bei jeder Darstellung neu berechnet zu werden.
+
+     Der Grund ist derselbe wie bei BackdropGlow.vue: Dieses Bild ist riesig
+     (volle Fensterbreite, 130 % Höhe) und wird beim Scrollen verschoben. Ein
+     Filter darauf zwingt den Browser, die gesamte Fläche einmal komplett
+     durchzurechnen. Eingebacken kostet er null.
+
+     Eingebacken wurde er mit derselben Filter-Angabe im canvas des Browsers —
+     dadurch ist das Ergebnis exakt dasselbe wie vorher im CSS.
+     → docs/lernheft/20-Bilder-und-Schriften.md */
   opacity: 1;
 
   will-change: transform;

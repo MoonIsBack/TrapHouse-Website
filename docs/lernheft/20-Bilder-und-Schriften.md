@@ -82,7 +82,7 @@ In `src/assets/images/`, zusammen **302 KB** (vorher 4,4 MB):
 | `shirt.webp` | 167 KB | Das Shirt im Shop |
 | `moon-pixel.webp` | 87 KB | Maskottchen beim Discord-Aufruf (animiert) |
 | `traphouse-logo.webp` | 36 KB | Logo in Kopf und Fuß |
-| `hero-texture.webp` | 5 KB | Hintergrund im Hero |
+| `hero-texture.webp` | 8 KB | Hintergrund im Hero |
 | `pixel-left.png` | 3 KB | Figur unten links |
 | `pixel-right.png` | 3 KB | Figur unten rechts |
 
@@ -100,6 +100,31 @@ ursprüngliche Figur unverändert.
 Kante weich und rundet die Pixeltreppen ab — genau das, was bei einer
 Pixelgrafik falsch aussieht. Muss die Kontur dicker oder dünner werden, gehört
 die Bilddatei neu erzeugt.
+
+### ⭐ Farbkorrekturen gehören ins Bild, nicht ins CSS
+
+`hero-texture.webp` sah lange blass aus und wurde im CSS nachgeschärft:
+
+```css
+filter: saturate(1.6) contrast(1.1);   /* ✗ nicht mehr */
+```
+
+Das funktioniert, hat aber einen Haken: Das Bild füllt die volle Fensterbreite
+und wird beim Scrollen verschoben. Der Browser muss die Farbkorrektur also über
+eine sehr große Fläche rechnen, statt das Bild einfach nur hinzumalen.
+
+Die Korrektur steckt jetzt **fest in der Datei**. Sie kostet damit gar nichts
+mehr. Die Datei wurde dadurch von 5 KB auf 8 KB größer — kräftigere Farben
+lassen sich schlechter zusammenpacken — aber 3 KB einmalig sind ein guter Tausch
+gegen eine Rechnung bei jeder Darstellung.
+
+Eingebacken wurde sie mit **derselben** Filter-Angabe im `canvas` des Browsers.
+Ein `canvas` kennt `filter` genauso wie CSS, deshalb ist das Ergebnis exakt
+dasselbe — nachgemessen lag die mittlere Abweichung bei 0,33 von 255.
+
+**💡 Die Regel:** Was sich am Bild nie ändert, gehört ins Bild. `filter` im CSS
+ist für Zustände da, die wechseln (etwa beim Darüberfahren), nicht für eine
+Korrektur, die immer gilt.
 
 ### Warum WebP?
 

@@ -18,16 +18,11 @@ defineProps({
     type: String,
     default: '',
   },
-  // Auf true stellen, wenn die Überschrift mittig stehen soll
-  centered: {
-    type: Boolean,
-    default: false,
-  },
 })
 </script>
 
 <template>
-  <header class="section-header reveal" :class="{ 'is-centered': centered }">
+  <header class="section-header reveal">
     <span v-if="eyebrow" class="eyebrow">{{ eyebrow }}</span>
 
     <h2>{{ title }}</h2>
@@ -39,15 +34,6 @@ defineProps({
 <style scoped>
 .section-header {
   margin-bottom: 44px;
-}
-
-.is-centered {
-  text-align: center;
-}
-
-.is-centered p {
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .eyebrow {

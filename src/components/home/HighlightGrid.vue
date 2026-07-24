@@ -33,9 +33,13 @@ const { onPointerMove } = usePointerSpotlight()
 </template>
 
 <style scoped>
+/* Eigenes Raster statt .card-grid aus main.css: Die Karten stehen enger
+   beieinander und dürfen schmaler werden als die großen Kanal-Karten.
+   min(250px, 100%) wie überall — sonst läuft das Raster auf sehr schmalen
+   Handys über den Bildschirmrand hinaus. */
 .highlight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
   gap: 18px;
 }
 

@@ -109,9 +109,17 @@ body,
 }
 
 body {
-  /* Der Verlauf sitzt am body und ist fest verankert, damit er beim Scrollen
-     stehen bleibt und nicht mitwandert. */
-  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom)) fixed;
+  /* ⚠ HIER STAND EINMAL:
+       background: linear-gradient(...) fixed;
+
+     Das "fixed" am Ende ist background-attachment: fixed — der Verlauf bleibt
+     beim Scrollen stehen. Sieht richtig aus, ist aber eine der bekanntesten
+     Bremsen in Safari: Ein festgenagelter Hintergrund lässt sich nicht
+     einfach mitschieben, er muss beim Scrollen laufend neu gezeichnet werden.
+
+     Der Verlauf liegt jetzt in BackdropGlow.vue. Dieses Element ist ohnehin
+     schon position: fixed und bekommt vom Browser eine eigene Ebene — dort
+     kostet dasselbe Aussehen nichts. Hier bleibt nur die Grundfarbe. */
   background-color: var(--bg-bottom);
 
   color: var(--text);

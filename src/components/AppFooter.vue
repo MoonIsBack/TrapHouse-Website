@@ -130,7 +130,12 @@ h3 {
 .social-link {
   color: var(--text-muted);
   font-size: 0.92rem;
-  font-weight: 500;
+
+  /* 400 und nicht 500: Von Poppins liegen nur die Schnitte 400, 600 und 700
+     im Projekt. Bei 500 sucht der Browser den nächstgelegenen — und das ist
+     ohnehin die 400. Die Angabe hier sagt also, was wirklich passiert. */
+  font-weight: 400;
+
   transition: color var(--transition);
 }
 

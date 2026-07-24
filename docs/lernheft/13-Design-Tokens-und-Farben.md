@@ -221,6 +221,27 @@ ist hier unkritisch, weil sich der Kopfbereich nicht bewegt — aber er gehört
 nicht in eine `transition`, denn dann wird er beim Ein- und Ausblenden doch
 wieder Bild für Bild neu berechnet.
 
+### Der Verwandte davon: `background-attachment: fixed`
+
+```css
+/* ✗ bremst Safari beim Scrollen */
+body {
+  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom)) fixed;
+}
+```
+
+Das `fixed` am Ende heißt: Der Hintergrund bleibt beim Scrollen stehen. Sieht
+gut aus, ist aber dieselbe Falle — ein festgenagelter Hintergrund lässt sich
+nicht mitschieben, er muss laufend neu gezeichnet werden.
+
+Der Verlauf liegt deshalb jetzt in `BackdropGlow.vue`. Dieses Element ist
+ohnehin schon `position: fixed` und hat eine eigene Ebene; dort kostet dasselbe
+Aussehen nichts. Am `body` steht nur noch die Grundfarbe.
+
+**💡 Kurzfassung aller drei Fälle:** Wenn der Browser eine Fläche bei jedem
+Bild neu ausrechnen muss, wird die ganze Seite träge — auch die Klicks. Alles,
+was sich bewegt, sollte er nur **verschieben** müssen.
+
 ## 💡 Merken
 
 **Steht in einer Komponente eine Farbe wie `#ff2f92`, ist das ein Fehler.**

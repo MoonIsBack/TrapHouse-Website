@@ -120,22 +120,32 @@ useHomeScroll()
   }
 
   /* Das Kapitel liegt zunächst etwas tiefer und weiter hinten. Sobald seine
-     Mitte den Viewport übernimmt, öffnet es sich ruhig auf volle Größe. */
+     Mitte den Viewport übernimmt, öffnet es sich ruhig auf volle Größe.
+
+     ⚠ HIER STAND EINMAL zusätzlich: filter: blur(5px), mit blur in der
+     transition und in will-change. Also ein Weichzeichner, der sich über eine
+     Viertelsekunde hinweg verändert — und damit bei jedem einzelnen Bild neu
+     gerechnet werden muss, gleichzeitig für einen ganzen Bildschirminhalt.
+     Genau dieses Muster hat die Navigation in Safari lahmgelegt (siehe
+     BackdropGlow.vue). Es ist hier nur deshalb nie aufgefallen, weil der
+     Kapitelmodus aktuell nicht aktiv ist.
+
+     Deckkraft und Verschiebung allein erzeugen denselben Eindruck — das
+     Kapitel tritt aus dem Hintergrund nach vorn — und beides kann der Browser
+     auf der Grafikkarte erledigen, ohne etwas neu zu berechnen.
+     → docs/lernheft/13-Design-Tokens-und-Farben.md */
   .scroll-mode-chapter .scroll-panel > .container {
     opacity: 0.28;
-    filter: blur(5px);
     transform: translateY(38px) scale(0.955);
     transform-origin: center center;
     transition:
       opacity 0.26s ease,
-      filter 0.26s ease,
       transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, filter, transform;
+    will-change: opacity, transform;
   }
 
   .scroll-mode-chapter .scroll-panel.is-scroll-active > .container {
     opacity: 1;
-    filter: none;
     transform: none;
   }
 

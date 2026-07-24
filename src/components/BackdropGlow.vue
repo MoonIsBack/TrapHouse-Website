@@ -29,6 +29,14 @@
   inset: 0;
   z-index: -1;
 
+  /* Der Grundverlauf der ganzen Seite. Er lag früher am <body> mit
+     background-attachment: fixed — und das ist in Safari eine der
+     bekanntesten Scroll-Bremsen, weil ein festgenagelter Hintergrund beim
+     Scrollen laufend neu gezeichnet werden muss.
+     Hier ist er umsonst: Dieses Element steht ohnehin fest und bewegt sich
+     nie mit. Das Aussehen ist exakt dasselbe. */
+  background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+
   /* Klicks gehen hindurch, statt hier hängen zu bleiben */
   pointer-events: none;
 
