@@ -5,14 +5,16 @@
     <!-- Der Pfad beginnt mit einem einzelnen /: Vite setzt beim Bauen den
          "base"-Wert aus vite.config.js automatisch davor. Schreibt man ihn
          hier selbst mit hin, steht er am Ende doppelt in der Adresse. -->
-    <!-- Dasselbe originale TrapHouse-Schriftlogo wie im Header.
-         Die Versionsnummer verhindert, dass Browser das alte Haus-T aus
-         ihrem besonders hartnäckigen Favicon-Cache weiterverwenden. -->
-    <link rel="icon" type="image/webp" href="/traphouse-logo.webp?v=2">
-    <link rel="shortcut icon" type="image/webp" href="/traphouse-logo.webp?v=2">
+    <!-- Das originale TrapHouse-Schriftlogo auf einer quadratischen,
+         transparenten PNG-Fläche. Der neue Dateiname umgeht zusätzlich den
+         besonders hartnäckigen Favicon-Cache von Safari und Chrome. -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/traphouse-favicon-v3.png">
+    <link rel="shortcut icon" type="image/png" href="/traphouse-favicon-v3.png">
+    <link rel="apple-touch-icon" href="/traphouse-favicon-v3.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>TrapHouse | Deine Musik Community</title>
+    <meta name="application-name" content="TrapHouse">
     <meta
       name="description"
       content="TrapHouse ist die deutschsprachige Community für Artists und Producer: Discord-Server, Merch und alles rund um deine Musik."

@@ -13,7 +13,7 @@ TrapHouse-Website/
 ├── vite.config.js        Build-Einstellungen + Sicherheitsregel (CSP)
 │
 ├── public/               Dateien, die 1:1 mitkopiert werden
-│   └── traphouse-logo.webp    TrapHouse-Logo im Browser-Tab
+│   └── traphouse-favicon-v3.png  TrapHouse-Logo im Browser-Tab
 │
 ├── docs/lernheft/        ← dieses Lernheft
 │
