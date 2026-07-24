@@ -112,10 +112,16 @@ onBeforeUnmount(() => {
   z-index: 100;
 
   border-bottom: 1px solid transparent;
+
+  /* ⚠ backdrop-filter steht bewusst NICHT in dieser Liste. Eine Fläche
+     weichzuzeichnen ist teuer; sie über eine Viertelsekunde hinweg
+     stufenweise weichzuzeichnen heißt, das bei jedem Bild neu zu tun.
+     Hintergrund und Rahmen blenden weiterhin weich ein, der Weichzeichner
+     schaltet hart um — sehen kann man den Unterschied nicht.
+     → docs/lernheft/13-Design-Tokens-und-Farben.md */
   transition:
     background var(--transition),
-    border-color var(--transition),
-    backdrop-filter var(--transition);
+    border-color var(--transition);
 }
 
 /* Erst beim Scrollen bekommt der Kopfbereich einen Hintergrund. Ganz oben

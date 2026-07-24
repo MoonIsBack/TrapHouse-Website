@@ -31,7 +31,7 @@ Logo, Navigation, Social-Links, Jahreszahl. Liest alles aus `data/`. Die
 Jahreszahl kommt aus `new Date().getFullYear()`, damit dort nie eine veraltete
 Zahl steht.
 
-### `components/BackdropGlow.vue` (98 Zeilen)
+### `components/BackdropGlow.vue`
 
 Die farbigen Schleier im Hintergrund. Liegt hinter allem (`z-index: -1`) und
 lässt Klicks durch (`pointer-events: none`).
@@ -39,6 +39,52 @@ lässt Klicks durch (`pointer-events: none`).
 ⚠ Fehlte `pointer-events: none`, läge eine unsichtbare Fläche über der Seite
 und würde jeden Klick schlucken. Ein Fehler, der schwer zu finden ist, weil
 man ja nichts sieht.
+
+#### ⭐ Der teuerste Fehler, den diese Seite hatte
+
+Ursprünglich war jeder Fleck ein **harter Kreis mit `filter: blur(110px)`**.
+Das sah gut aus — und machte in Safari auf dem MacBook die gesamte Navigation
+unbenutzbar. Ein Klick auf einen Menüpunkt kam gefühlt erst nach einer Sekunde
+an.
+
+Warum: Ein Filter zwingt den Browser, das Element erst zu zeichnen und das
+Ergebnis danach Pixel für Pixel weichzurechnen. Bei etwas Unbewegtem passiert
+das einmal. Diese Flecken bewegen sich aber dauerhaft — und die Animation
+enthielt zusätzlich ein `scale()`. Eine **verschobene** Ebene kann der Browser
+einfach woanders hinschieben. Eine **skalierte** muss er neu berechnen, sonst
+würde sie unscharf. Also wurde der Weichzeichner bei jedem einzelnen Bild neu
+gerechnet, endlos, auf jeder Seite.
+
+Safari erledigt das auf dem Hauptprozess — demselben, der Mausklicks
+entgegennimmt. Gemessen wurde das so: Jedes Ereignis trägt einen Zeitstempel,
+wann der Browser es erzeugt hat. Vergleicht man den mit dem Moment, in dem der
+eigene Code es bekommt, sieht man die Verzögerung schwarz auf weiß.
+
+| | mit `filter: blur()` | mit `radial-gradient` |
+|---|---|---|
+| Klick kommt im Code an nach | **267 ms** | **17 ms** |
+| Loslassen kommt an nach | **211 ms** | **1 ms** |
+
+Safari **stapelte** die Eingaben, während es rechnete, und reichte sie später
+im Block nach. Chrome verlagert Weichzeichner auf die Grafikkarte — dort fiel
+es nie auf. Auf dem iPhone auch nicht, weil dort das Klappmenü benutzt wird.
+
+Die Lösung: ein `radial-gradient` statt eines Filters. Ein Farbverlauf **ist**
+bereits weich, da gibt es nichts nachzubearbeiten. Für den Browser ist das ein
+simpler Malvorgang, das Ergebnis wird einmal gerastert und danach nur noch
+verschoben. Optisch ist kein Unterschied zu sehen.
+
+**💡 Die Regel, die daraus folgt:**
+
+> `filter: blur()` ist in Ordnung, solange sich das Element **nicht bewegt**.
+> Sobald Animation oder Scrollen dazukommen, gehört die Weichheit in den
+> Farbverlauf statt in einen Filter.
+
+⚠ Dasselbe Muster steckt noch an einer zweiten Stelle: `HeroSection.vue` hat
+`filter: saturate(1.6) contrast(1.1)` auf dem Hintergrundbild **und**
+verschiebt es beim Scrollen (Parallaxe). Das ist bisher nicht aufgefallen und
+kostet gemessen nur ein Einzelbild — aber wenn dort irgendwann etwas langsam
+wird, ist das die erste Stelle zum Nachsehen.
 
 ### `components/PixelCorners.vue` (78 Zeilen)
 

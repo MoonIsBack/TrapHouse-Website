@@ -183,6 +183,44 @@ Willst du statt Pink z. B. ein Giftgrün, änderst du **drei Zeilen**:
 
 Und passe den Rotstich im Hintergrund an, damit er zur neuen Farbe passt.
 
+## ⚠ Weichzeichner und Bewegung vertragen sich nicht
+
+Eine Regel, die man einmal teuer bezahlt und danach nie wieder vergisst:
+
+> `filter: blur()` ist in Ordnung, solange sich das Element **nicht bewegt**.
+> Sobald Animation oder Scrollen dazukommen, gehört die Weichheit in den
+> Farbverlauf statt in einen Filter.
+
+Der Grund: Ein Filter zwingt den Browser, das Element erst zu zeichnen und das
+Ergebnis danach weichzurechnen. Bewegt sich das Element, passiert das bei
+**jedem einzelnen Bild** — und Safari macht das auf demselben Prozess, der auch
+Mausklicks entgegennimmt. Die ganze Seite reagiert dann verzögert.
+
+Statt eines weichgezeichneten Kreises also lieber ein Farbverlauf, der von
+Haus aus weich ausläuft:
+
+```css
+/* teuer, sobald es sich bewegt */
+background: rgba(var(--accent-rgb), 0.5);
+filter: blur(110px);
+
+/* günstig, sieht genauso aus */
+background: radial-gradient(
+  circle closest-side,
+  rgba(var(--accent-rgb), 0.5) 0%,
+  rgba(var(--accent-rgb), 0.18) 40%,
+  transparent 76%
+);
+```
+
+Was das konkret ausgemacht hat, steht bei `BackdropGlow.vue` in
+[11-Komponenten-Uebersicht](11-Komponenten-Uebersicht.md).
+
+Dasselbe gilt für `backdrop-filter` (die milchige Fläche im Kopfbereich). Der
+ist hier unkritisch, weil sich der Kopfbereich nicht bewegt — aber er gehört
+nicht in eine `transition`, denn dann wird er beim Ein- und Ausblenden doch
+wieder Bild für Bild neu berechnet.
+
 ## 💡 Merken
 
 **Steht in einer Komponente eine Farbe wie `#ff2f92`, ist das ein Fehler.**

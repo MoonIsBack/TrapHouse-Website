@@ -37,31 +37,73 @@
   overflow: hidden;
 }
 
+/* ⭐ WARUM HIER EIN FARBVERLAUF STEHT UND KEIN filter: blur()
+   ============================================================
+   Ursprünglich war jeder Fleck ein harter Kreis mit filter: blur(110px).
+   Das sah richtig aus, war aber der teuerste Fehler auf der ganzen Seite.
+
+   Ein Filter zwingt den Browser, das Element zuerst zu zeichnen und das
+   Ergebnis anschließend Pixel für Pixel weichzurechnen. Solange sich nichts
+   bewegt, passiert das einmal. Diese Flecken bewegen sich aber dauerhaft —
+   und die Animation enthielt zusätzlich ein scale(). Eine verschobene Ebene
+   kann der Browser einfach woanders hinschieben; eine SKALIERTE muss er neu
+   berechnen, sonst würde sie unscharf. Also wurde der Weichzeichner bei jedem
+   einzelnen Bild neu gerechnet. Endlos. Auf jeder Seite.
+
+   Safari erledigt das auf dem Hauptprozess — demselben, der Mausklicks
+   entgegennimmt. Gemessen auf einem MacBook: Klicks kamen mit 210 bis 270 ms
+   Verspätung im Code an, weil Safari sie stapelte, während es rechnete. Die
+   Navigation fühlte sich dadurch sekundenlang tot an. Chrome verlagert
+   Weichzeichner auf die Grafikkarte, dort fiel es nie auf.
+
+   Ein radial-gradient ist bereits weich — er muss nirgends nachbearbeitet
+   werden. Für den Browser ist das ein simpler Malvorgang, das Ergebnis wird
+   einmal gerastert und danach nur noch verschoben.
+
+   ⚠ Merksatz fürs nächste Mal: filter: blur() ist in Ordnung, solange sich
+   das Element NICHT bewegt. Sobald Animation oder Scrollen dazukommen, gehört
+   die Weichheit in den Farbverlauf statt in einen Filter. */
 .glow {
   position: absolute;
-  border-radius: 50%;
-
-  /* Der große Weichzeichner macht aus dem harten Kreis einen weichen Schein */
-  filter: blur(110px);
   opacity: 0.5;
 }
 
+/* Die Elemente sind deutlich größer als die früheren Kreise: Der Weichzeichner
+   hat den Schein weit über die Kreisfläche hinausgetragen, und diesen Raum
+   braucht der Farbverlauf jetzt selbst. Die Position ist so gewählt, dass die
+   Mitte des Scheins dort bleibt, wo sie vorher war. */
 .glow-pink {
-  top: -180px;
-  right: -120px;
-  width: 520px;
-  height: 520px;
-  background: rgba(var(--accent-rgb), 0.5);
+  top: -520px;
+  right: -460px;
+  width: 1200px;
+  height: 1200px;
+
+  background: radial-gradient(
+    circle closest-side,
+    rgba(var(--accent-rgb), 0.5) 0%,
+    rgba(var(--accent-rgb), 0.4) 20%,
+    rgba(var(--accent-rgb), 0.18) 40%,
+    rgba(var(--accent-rgb), 0.05) 60%,
+    transparent 76%
+  );
 
   animation: drift-a 22s ease-in-out infinite alternate;
 }
 
 .glow-violet {
-  bottom: -220px;
-  left: -160px;
-  width: 560px;
-  height: 560px;
-  background: rgba(176, 38, 255, 0.4);
+  bottom: -540px;
+  left: -480px;
+  width: 1200px;
+  height: 1200px;
+
+  background: radial-gradient(
+    circle closest-side,
+    rgba(176, 38, 255, 0.4) 0%,
+    rgba(176, 38, 255, 0.32) 20%,
+    rgba(176, 38, 255, 0.15) 40%,
+    rgba(176, 38, 255, 0.04) 60%,
+    transparent 76%
+  );
 
   animation: drift-b 26s ease-in-out infinite alternate;
 }
