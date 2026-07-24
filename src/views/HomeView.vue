@@ -103,11 +103,9 @@ useHomeScroll()
 </template>
 
 <style scoped>
-/* MODERNES BEREICHS-SCROLLEN
-   Jeder Themenblock rastet am unteren Rand des festen Headers ein. Die
-   Browser-Engine übernimmt dabei Touchpad, Mausrad und Touch-Gesten nativ,
-   statt das Scrollen mit JavaScript künstlich zu blockieren. */
-.scroll-panel {
+/* Nur der Kapitelmodus gibt den Themenbereichen eine Bildschirmhöhe. Beim
+   Standardmodus beeinflusst diese Klasse weder Layout noch Scrollverhalten. */
+.scroll-mode-chapter .scroll-panel {
   min-height: calc(100svh - var(--header-height));
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -160,18 +158,6 @@ useHomeScroll()
   .product-grid,
   .card-grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* Auf Touch-Geräten sanfter: Der Browser hilft beim Einrasten, erzwingt es
-   aber nicht, wenn jemand bewusst nur ein kleines Stück scrollen möchte. */
-@media (prefers-reduced-motion: no-preference) {
-  :global(html.home-modern-scroll) {
-    scroll-snap-type: y proximity;
-  }
-
-  .scroll-mode-modern .scroll-panel {
-    scroll-snap-stop: normal;
   }
 }
 

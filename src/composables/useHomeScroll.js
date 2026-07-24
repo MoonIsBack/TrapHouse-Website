@@ -1,10 +1,10 @@
 import { HOME_SCROLL_MODE } from '@/config/scrollConfig'
 import { useChapterScroll } from '@/composables/useChapterScroll'
-import { useModernScroll } from '@/composables/useModernScroll'
+import { useStandardScroll } from '@/composables/useStandardScroll'
 
 const SCROLL_MODES = {
   chapter: useChapterScroll,
-  modern: useModernScroll,
+  standard: useStandardScroll,
 }
 
 // Zentrale Auswahl: HomeView muss nicht wissen, wie die beiden Varianten
@@ -13,8 +13,8 @@ export function useHomeScroll() {
   const startScrollMode = SCROLL_MODES[HOME_SCROLL_MODE]
 
   if (!startScrollMode) {
-    console.warn(`Unbekannter HOME_SCROLL_MODE: "${HOME_SCROLL_MODE}". Verwende "modern".`)
-    useModernScroll()
+    console.warn(`Unbekannter HOME_SCROLL_MODE: "${HOME_SCROLL_MODE}". Verwende "standard".`)
+    useStandardScroll()
     return
   }
 
