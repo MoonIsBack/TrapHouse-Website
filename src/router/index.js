@@ -9,6 +9,23 @@ import PrivacyView from '@/views/PrivacyView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { showLegalPages } from '@/config/legalConfig'
 
+// Safari unterstützt "behavior: instant" nicht zuverlässig. Für einen
+// Routenwechsel wird die globale Smooth-Regel deshalb für genau zwei Frames
+// ausgesetzt. Danach funktionieren Anker und andere sanfte Sprünge wieder wie
+// gewohnt. Chrome, Firefox und Safari benutzen damit denselben schnellen Weg.
+function jumpToTopImmediately() {
+  const root = document.documentElement
+  root.classList.add('is-route-jump')
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      root.classList.remove('is-route-jump')
+    })
+  })
+
+  return { top: 0, behavior: 'auto' }
+}
+
 // WARUM HASH-ROUTING (die # in der Adresse)?
 //
 // Es gibt zwei Arten, wie eine Vue-Seite mit Unterseiten umgehen kann:
@@ -111,10 +128,9 @@ const router = createRouter({
       return { el: to.hash, behavior: 'smooth' }
     }
 
-    // Beim Seitenwechsel sofort oben beginnen. Ohne "instant" übernimmt die
-    // globale Smooth-Scroll-Regel und lässt die neue Seite scheinbar langsam
-    // laden, während der Browser in Wahrheit nur noch nach oben scrollt.
-    return { top: 0, behavior: 'instant' }
+    // Beim Seitenwechsel sofort oben beginnen. Die Hilfsfunktion verhindert,
+    // dass Safari dabei die globale Smooth-Scroll-Regel übernimmt.
+    return jumpToTopImmediately()
   },
 })
 

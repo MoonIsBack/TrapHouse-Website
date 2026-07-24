@@ -93,6 +93,13 @@ html {
   scroll-padding-top: calc(var(--header-height) + 16px);
 }
 
+/* Kurzzeitiger Router-Zustand für einen sofortigen Seitenwechsel. Wichtig:
+   "auto" statt "instant", weil Safari nur den CSS-Standardwert zuverlässig
+   unterstützt. Die Klasse wird nach zwei Browserframes wieder entfernt. */
+html.is-route-jump {
+  scroll-behavior: auto;
+}
+
 html,
 body,
 #app {
