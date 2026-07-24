@@ -1,4 +1,6 @@
 <script setup>
+import { useRouter } from 'vue-router'
+
 // Ein Navigationseintrag — egal ob interne Unterseite oder fremde Adresse.
 //
 // Nach demselben Prinzip wie BaseButton.vue: Die Komponente entscheidet
@@ -12,15 +14,34 @@
 // für breite Bildschirme, im Klappmenü fürs Handy und im Fußbereich. Ohne
 // diese Komponente stünde in allen dreien dasselbe v-if — und beim nächsten
 // externen Link würdest du garantiert eine Stelle vergessen.
-defineProps({
+const props = defineProps({
   // Ein Eintrag aus NAV_LINKS in data/navigation.js
   link: {
     type: Object,
     required: true,
   },
+  // Safari kann einen normalen click im festen Desktop-Header verzögern,
+  // solange das Touchpad noch Scroll-Momentum meldet. Nur dort darf die
+  // interne Route deshalb bereits beim pointerdown gestartet werden.
+  navigateOnPointerDown: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-defineEmits(['navigate'])
+const emit = defineEmits(['navigate'])
+const router = useRouter()
+
+function handlePointerDown(event) {
+  if (!props.navigateOnPointerDown || props.link.external) return
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
+  // Verhindert Safaris verzögerten Standardklick nicht vollständig, startet
+  // die Route aber sofort. Der spätere RouterLink-Klick ist dann ein harmloser
+  // Aufruf derselben bereits aktiven Route.
+  router.push({ name: props.link.name })
+  emit('navigate')
+}
 </script>
 
 <template>
@@ -57,7 +78,13 @@ defineEmits(['navigate'])
   </a>
 
   <!-- Unterseite dieser Website -->
-  <RouterLink v-else :to="{ name: link.name }" class="nav-link" @click="$emit('navigate')">
+  <RouterLink
+    v-else
+    :to="{ name: link.name }"
+    class="nav-link"
+    @pointerdown="handlePointerDown"
+    @click="$emit('navigate')"
+  >
     {{ link.label }}
   </RouterLink>
 </template>

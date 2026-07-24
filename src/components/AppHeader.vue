@@ -61,7 +61,12 @@ onBeforeUnmount(() => {
            keinen "name", und ein v-for ohne eindeutigen key führt zu
            merkwürdigen Fehlern beim Neuzeichnen. -->
       <nav class="desktop-nav" aria-label="Hauptnavigation">
-        <NavLink v-for="link in NAV_LINKS" :key="link.label" :link="link" />
+        <NavLink
+          v-for="link in NAV_LINKS"
+          :key="link.label"
+          :link="link"
+          navigate-on-pointer-down
+        />
       </nav>
 
       <div class="header-actions">
