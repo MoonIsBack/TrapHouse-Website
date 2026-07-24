@@ -75,6 +75,19 @@ gebraucht — Leiste für breite Bildschirme, Klappmenü, Fußbereich. Ohne sie
 stünde dasselbe `v-if` dreimal da, und beim nächsten externen Link würde man
 eine Stelle vergessen.
 
+Die Komponente hat eine Sonderangabe:
+
+```vue
+<NavLink :link="link" navigate-on-pointer-down />
+```
+
+Damit startet die Route bereits beim Aufsetzen der Maustaste statt beim Klick —
+ein Gegenmittel gegen Safaris verzögerten Klick im festen Kopfbereich.
+
+⚠ Sie steht **nur** an der Desktop-Leiste in `AppHeader.vue`. Warum sie ans
+Klappmenü und in den Fußbereich nicht gehört, steht in
+[14-Router-und-Unterseiten](14-Router-und-Unterseiten.md).
+
 ### `ui/ScrollProgress.vue`
 
 Der dünne Balken ganz oben, der beim Scrollen mitwächst.
@@ -147,7 +160,10 @@ Der große Beitreten-Aufruf. Steht auf **zwei** Seiten (Startseite und
 Discord-Seite), deshalb eine eigene Komponente. Über `:show-heading="false"`
 lässt sich die Überschrift abschalten, wo schon eine darüber steht.
 
-Hier taucht `MoonPixel.gif` auf — die Datei lag vorher ungenutzt herum.
+Hier taucht das Maskottchen `moon-pixel.webp` auf — die Datei lag in der alten
+Seite ungenutzt im Bilderordner. Ihre schwarze Kontur steckt in der Bilddatei
+selbst und nicht im CSS; warum das so sein muss, steht in
+[20-Bilder-und-Schriften](20-Bilder-und-Schriften.md).
 
 ### `icons/` (9 Dateien, je 15–26 Zeilen)
 
@@ -162,15 +178,21 @@ der Schriftgröße), `fill="currentColor"` (nimmt die Textfarbe an),
 
 | Datei | Adresse | Zeilen |
 |---|---|---|
-| `HomeView.vue` | `#/` | 90 |
-| `ShopView.vue` | `#/shop` | 60 |
-| `DiscordView.vue` | `#/discord` | 100 |
-| `SocialsView.vue` | `#/socials` | 34 |
+| `HomeView.vue` | `#/` | ~145 |
+| `ShopView.vue` | `#/shop` | ~50 |
+| `DiscordView.vue` | `#/discord` | ~105 |
+| `SocialsView.vue` | `#/socials` | ~27 |
+| `ImprintView.vue` | `#/impressum` | — |
+| `PrivacyView.vue` | `#/datenschutz` | — |
 | `NotFoundView.vue` | alles andere | 57 |
 
 Alle Views sind kurz. Das ist Absicht: Sie stellen zusammen, sie bauen nicht.
-`SocialsView.vue` mit 34 Zeilen ist das beste Beispiel — sie holt die Liste
-und lässt `SocialCard` den Rest machen.
+`SocialsView.vue` ist das beste Beispiel — sie holt die Liste, lässt
+`SocialCard` den Rest machen und hat **gar kein eigenes CSS** mehr, seit die
+Kartenraster zentral in `main.css` stehen.
+
+`HomeView.vue` ist die längste, weil dort zusätzlich die Regeln für den
+Kapitelmodus liegen ([15-Scrollverhalten](15-Scrollverhalten.md)).
 
 ## 💡 Merken
 

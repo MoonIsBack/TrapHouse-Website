@@ -126,6 +126,50 @@ h1, h2, h3 {
 }
 ```
 
+## Die wiederkehrenden Klassen
+
+Neben den Farbwerten stehen in `main.css` ein paar Klassen, die überall benutzt
+werden. Sie sind der Grund, warum die Seite einen gleichmäßigen Rhythmus hat:
+
+| Klasse | Wofür |
+|---|---|
+| `.container` | Gemeinsame Inhaltsbreite (1120 px) + Abstand zum Rand |
+| `.section` | Der Abstand oben und unten zwischen zwei Bereichen |
+| `.product-grid` | Kartenraster **mit** Obergrenze pro Karte (Merch) |
+| `.card-grid` | Kartenraster, das die Breite ausfüllt (Social-Kanäle) |
+| `.reveal` | Element blendet ein, sobald es ins Bild kommt |
+| `.reveal-stagger` | Kinder blenden nacheinander ein statt gleichzeitig |
+| `.spotlight` | Lichtfleck folgt dem Mauszeiger über der Karte |
+
+Eine neue Seite braucht dadurch fast kein eigenes CSS mehr:
+
+```vue
+<section class="section">
+  <div class="container">
+    <div class="card-grid reveal-stagger">…</div>
+  </div>
+</section>
+```
+
+### ⭐ Warum die beiden Raster zentral stehen
+
+Sie waren vorher fast gleich in `HomeView`, `ShopView` und `SocialsView`
+hinterlegt. Dreimal dasselbe heißt: Ändert man es an einer Stelle, franst es an
+den anderen beiden aus — und genau das war passiert.
+
+Beide benutzen dieselbe Schreibweise:
+
+```css
+grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+```
+
+⚠ Das `min(280px, 100%)` ist wichtig. Ohne es hieße die Regel „jede Spalte ist
+mindestens 280 px breit" — auch auf einem Handy, das gar keine 280 px übrig
+hat. Dann wird das Raster breiter als die Seite und man kann seitlich
+wegscrollen. Mit `min(…, 100%)` gibt die Spalte nach, sobald es eng wird.
+
+**Diese Schreibweise gehört in jedes neue Raster.**
+
 ## Wie du die Seite umfärbst
 
 Willst du statt Pink z. B. ein Giftgrün, änderst du **drei Zeilen**:

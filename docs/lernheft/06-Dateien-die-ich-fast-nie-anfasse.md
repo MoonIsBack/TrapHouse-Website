@@ -53,8 +53,21 @@ Typisches Beispiel für ein eingebettetes YouTube-Video:
 
 ## `src/main.js`
 
-Zwölf Zeilen, die Vue starten. Die ändert man genau einmal: wenn ein Paket
+Siebzehn Zeilen, die Vue starten. Die ändert man genau einmal: wenn ein Paket
 dazukommt, das sich „global" einhängen muss.
+
+⚠ Eine Zeile darin ist eine Ausnahme:
+
+```js
+document.title = 'TrapHouse | Deine Musik Community'
+```
+
+Derselbe Titel steht auch in `index.html`. Das ist **kein** vergessener
+Doppeleintrag: Manche Browser stellen beim Wiederöffnen eines lange
+zwischengespeicherten Tabs den alten Titel wieder her, und diese Zeile
+korrigiert ihn sofort nach dem Laden.
+
+**Änderst du den Titel, musst du ihn an beiden Stellen ändern.**
 
 ## `.github/workflows/deploy.yml`
 

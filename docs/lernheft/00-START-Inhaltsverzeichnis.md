@@ -41,9 +41,10 @@ Willst du nur etwas online bringen: **08**.
 |---|---|---|
 | 10 | [Vue-Grundbegriffe](10-Vue-Grundbegriffe.md) | props, emit, ref, computed |
 | 11 | [Komponenten-Übersicht](11-Komponenten-Uebersicht.md) | Jede Komponente einzeln erklärt |
-| 12 | [Composables-Übersicht](12-Composables-Uebersicht.md) | Die beiden Logik-Bausteine |
+| 12 | [Composables-Übersicht](12-Composables-Uebersicht.md) | Die Logik-Bausteine ohne Aussehen |
 | 13 | [Design-Tokens und Farben](13-Design-Tokens-und-Farben.md) | Wie das Aussehen zusammenhängt |
 | 14 | [Router und Unterseiten](14-Router-und-Unterseiten.md) | Warum die `#` in der Adresse steht |
+| 15 | [Scrollverhalten](15-Scrollverhalten.md) | Der Schalter zwischen „normal" und „Kapitel" |
 
 ### Inhalte und Material
 

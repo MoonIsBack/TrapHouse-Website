@@ -33,11 +33,16 @@ export function useChapterScroll() {
   }
 
   function updateActivePanel() {
+    // Die Liste einmal holen und dann zweimal benutzen: Diese Funktion läuft
+    // bei jedem Scroll-Bild, und jedes querySelectorAll durchsucht das
+    // komplette Dokument neu.
+    const allPanels = panels()
+
     const viewportCenter = window.innerHeight / 2
     let closestPanel
     let closestDistance = Number.POSITIVE_INFINITY
 
-    for (const panel of panels()) {
+    for (const panel of allPanels) {
       const rectangle = panel.getBoundingClientRect()
       const panelCenter = rectangle.top + rectangle.height / 2
       const distance = Math.abs(panelCenter - viewportCenter)
@@ -48,7 +53,7 @@ export function useChapterScroll() {
       }
     }
 
-    for (const panel of panels()) {
+    for (const panel of allPanels) {
       panel.classList.toggle('is-scroll-active', panel === closestPanel)
     }
   }

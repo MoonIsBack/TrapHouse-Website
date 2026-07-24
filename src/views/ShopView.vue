@@ -36,15 +36,8 @@ useScrollReveal()
 </template>
 
 <style scoped>
-/* Obergrenze pro Karte, sonst bläht sich ein einzelner Artikel auf die volle
-   Breite auf — und wird durch das feste Seitenverhältnis 4:5 riesig hoch.
-   Siehe dieselbe Regel in HomeView.vue. */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
-  justify-content: center;
-  gap: 24px;
-}
+/* Das Raster .product-grid steht zentral in assets/main.css — es wird hier
+   und auf der Startseite gebraucht und war deshalb vorher doppelt hinterlegt. */
 
 .shop-note {
   margin-top: 44px;

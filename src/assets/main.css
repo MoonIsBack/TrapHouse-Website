@@ -194,6 +194,42 @@ button {
   padding: clamp(52px, 7vw, 88px) 0;
 }
 
+/* DIE BEIDEN KARTENRASTER
+   =======================
+   Sie standen vorher dreimal fast gleich in HomeView, ShopView und SocialsView.
+   Dreimal dasselbe heißt: Ändert man es an einer Stelle, franst es an den
+   anderen beiden aus. Deshalb stehen sie jetzt hier — genau wie .container
+   und .section, die aus demselben Grund zentral sind.
+
+   ⭐ WARUM minmax(min(280px, 100%), …) UND NICHT minmax(280px, …)
+   Die kurze Schreibweise sagt: "Jede Spalte ist mindestens 280 px breit" —
+   auch dann, wenn das Fenster gar keine 280 px hergibt. Auf einem 320-px-Handy
+   bleiben nach dem Seitenabstand nur 272 px übrig; das Raster wird dann breiter
+   als die Seite und man kann seitlich wegscrollen.
+
+   min(280px, 100%) heißt stattdessen: "280 px, aber höchstens die volle
+   Breite". Auf großen Bildschirmen ändert sich dadurch nichts, auf kleinen
+   kann das Raster nicht mehr überlaufen — ganz ohne @media-Regel. */
+
+/* Karten mit Obergrenze: Bei nur EINEM Artikel bekäme die Karte sonst die
+   volle Breite von 1120 px — und weil sie ein festes Seitenverhältnis von 4:5
+   hat, würde daraus ein 1400 px hohes Riesen-T-Shirt. Mit der Obergrenze von
+   340 px bleibt sie in vernünftiger Größe, justify-content zentriert sie. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 340px));
+  justify-content: center;
+  gap: 24px;
+}
+
+/* Karten, die die Breite ausfüllen sollen (Social-Kanäle). Hier ist keine
+   Obergrenze nötig: Es sind immer mehrere, die füllen die Zeile von selbst. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 24px;
+}
+
 /* EINBLENDEN BEIM SCROLLEN
    Die Klasse .reveal setzt das Element leicht nach unten versetzt und
    durchsichtig. useScrollReveal.js hängt .is-visible an, sobald es in den
@@ -336,9 +372,11 @@ button {
 
 /* SEITENWECHSEL
    =============
-   Beim Wechsel auf eine andere Unterseite blendet die alte kurz aus und die
-   neue wieder ein, statt hart umzuschalten. Ausgelöst wird das vom
-   <Transition name="page"> um den RouterView in App.vue.
+   Beim Wechsel auf eine andere Unterseite fährt die neue kurz von unten ein,
+   statt hart umzuschalten. Ausgelöst wird das von dem Rahmen mit der Klasse
+   .page-anim um den RouterView in App.vue: Er bekommt über :key bei jedem
+   Wechsel eine neue Identität, wird dadurch neu aufgebaut — und eine
+   CSS-Animation läuft bei einem neu aufgebauten Element automatisch los.
 
    WARUM NICHT DIE VIEW-TRANSITION-SCHNITTSTELLE DES BROWSERS?
    Die wäre moderner und könnte sogar einzelne Elemente von Seite zu Seite
@@ -348,13 +386,15 @@ button {
    es keinen zuverlässigen Zeitpunkt. Alle kursierenden Lösungen arbeiten mit
    Wartezeiten auf gut Glück und brechen, sobald eine Seite nachgeladen wird.
 
-   Vues eigener Übergang weiß dagegen von sich aus, wann die Komponente
-   gewechselt hat. Er sieht hier identisch aus, funktioniert in jedem Browser
-   und hat keine Sonderfälle. Wenn die Browser-Schnittstelle irgendwann eine
-   saubere Anbindung bekommt, kann man immer noch wechseln.
+   Der neu aufgebaute Rahmen braucht dagegen gar keinen Zeitpunkt: Er entsteht
+   genau dann, wenn die neue Seite da ist. Das sieht hier identisch aus,
+   funktioniert in jedem Browser und hat keine Sonderfälle. Wenn die
+   Browser-Schnittstelle irgendwann eine saubere Anbindung bekommt, kann man
+   immer noch wechseln.
 
-   Die Animation liegt auf einem Rahmen um die Seite (siehe App.vue) und läuft
-   bei jedem Wechsel neu an, weil der Rahmen über :key neu aufgebaut wird. */
+   ⚠ Die 0,2 Sekunden sind bewusst kurz. Eine Seite, die man häufig wechselt,
+   darf sich nicht bei jedem Klick erst aufbauen — vorher waren es 0,34
+   Sekunden und 10 px, und genau das hat man als Verzögerung wahrgenommen. */
 .page-anim {
   animation: page-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

@@ -9,7 +9,10 @@ Projekt, es gibt kein Tracking und keine Cookies.
 ## Was die Seite hat
 
 - Startseite mit Hero, Shop-Vorschau, Discord-Aufruf und Social-Kanälen
-- Drei Unterseiten (`#/shop`, `#/discord`, `#/socials`) plus 404-Seite
+- Drei Unterseiten (`#/shop`, `#/discord`, `#/socials`), Impressum und
+  Datenschutz plus 404-Seite
+- Umschaltbares Scrollverhalten der Startseite in `src/config/scrollConfig.js`
+  (`'standard'` oder `'chapter'`)
 - Klappmenü fürs Handy — schließt bei Escape und beim Seitenwechsel
 - Einblenden beim Scrollen, abgeschaltet für alle, die „Bewegung reduzieren"
   eingestellt haben
@@ -36,8 +39,9 @@ src/
   components/    Vue-Komponenten
     ui/          Knopf und Überschrift — überall verwendet
     icons/       SVG-Icons statt Font Awesome
-    home/ shop/ socials/ discord/
+    home/ shop/ socials/ discord/ legal/
   composables/   Wiederverwendbare Logik ohne eigenes Aussehen
+  config/        Schalter: Impressumsangaben, Scrollverhalten
   data/          Die Inhalte: Navigation, Social-Links, Produkte
   router/        Welche Adresse zeigt welche Seite
   views/         Je eine Datei pro Unterseite

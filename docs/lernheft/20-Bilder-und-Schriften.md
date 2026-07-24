@@ -75,16 +75,31 @@ das oft nicht der Fall.
 
 ## Die Bilder
 
-In `src/assets/images/`, zusammen **424 KB** (vorher 4,4 MB):
+In `src/assets/images/`, zusammen **302 KB** (vorher 4,4 MB):
 
 | Datei | Größe | Wofür |
 |---|---|---|
-| `hero-backdrop.webp` | 184 KB | Hintergrund im Hero |
 | `shirt.webp` | 167 KB | Das Shirt im Shop |
+| `moon-pixel.webp` | 87 KB | Maskottchen beim Discord-Aufruf (animiert) |
 | `traphouse-logo.webp` | 36 KB | Logo in Kopf und Fuß |
-| `moon-pixel.gif` | 35 KB | Maskottchen beim Discord-Aufruf |
+| `hero-texture.webp` | 5 KB | Hintergrund im Hero |
 | `pixel-left.png` | 3 KB | Figur unten links |
 | `pixel-right.png` | 3 KB | Figur unten rechts |
+
+### Das Maskottchen `moon-pixel.webp`
+
+Eine **animierte** WebP-Datei: 360 × 660 px, sechs Einzelbilder, transparenter
+Hintergrund. Fünfmal 100 ms, das letzte Bild 200 ms.
+
+Die schwarze Umrandung der Figur ist **in die Bilddatei eingebrannt** — sie ist
+kein CSS-Schatten. Erzeugt wurde sie, indem die Transparenzmaske jedes Bildes
+um 4 Pixel verbreitert und in `#080508` eingefärbt wurde; darüber liegt die
+ursprüngliche Figur unverändert.
+
+⚠ **Nicht durch einen `drop-shadow` im CSS ersetzen.** Ein Schatten folgt der
+Kante weich und rundet die Pixeltreppen ab — genau das, was bei einer
+Pixelgrafik falsch aussieht. Muss die Kontur dicker oder dünner werden, gehört
+die Bilddatei neu erzeugt.
 
 ### Warum WebP?
 

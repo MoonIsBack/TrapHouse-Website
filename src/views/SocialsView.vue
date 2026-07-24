@@ -25,10 +25,5 @@ useScrollReveal()
   </section>
 </template>
 
-<style scoped>
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-</style>
+<!-- Diese Seite braucht keine eigenen Stile: Das Kartenraster .card-grid steht
+     zentral in assets/main.css, alles Weitere regeln .section und .container. -->

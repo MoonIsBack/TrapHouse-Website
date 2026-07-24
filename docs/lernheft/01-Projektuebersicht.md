@@ -32,7 +32,7 @@ Probleme, die sich mit einer einzelnen Datei nicht lösen ließen:
 |---|---|
 | ☰-Knopf ohne jede Funktion | `useMobileNav.js` — echtes Klappmenü |
 | Schriften und Icons vom fremden CDN | Beides liegt jetzt im Projekt |
-| 4,4 MB Bilder | 424 KB als WebP |
+| 4,4 MB Bilder | 302 KB als WebP |
 | Pixel-Figuren auf der falschen Seite | Klassen heißen jetzt, was sie tun |
 | `font-weight: 600` war nie geladen | Der Schnitt wird jetzt mitgeliefert |
 | Alle Inhalte im HTML verstreut | Gesammelt in `src/data/` |

@@ -84,6 +84,8 @@ Fehlt eins davon, bricht die Navigation.
 | Hero-Text | `components/home/HeroSection.vue` |
 | Punkte auf der Discord-Seite | `views/DiscordView.vue` (`FEATURES`) |
 | Text ganz unten | `components/AppFooter.vue` |
+| Startseite anders scrollen lassen | `config/scrollConfig.js` — siehe [15](15-Scrollverhalten.md) |
+| Impressumsangaben | `config/legalConfig.js` — siehe [22](22-Rechtsseiten.md) |
 | Neue Unterseite | 3 Dateien — siehe [14](14-Router-und-Unterseiten.md) |
 
 ## 💡 Merken

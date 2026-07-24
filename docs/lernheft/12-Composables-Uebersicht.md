@@ -2,7 +2,7 @@
 
 ## Wofür ist das?
 
-TrapHouse hat fünf Composables. Jedes erledigt Dinge, die man beim
+TrapHouse hat acht Composables. Jedes erledigt Dinge, die man beim
 Selbstbauen zuverlässig vergisst — Aufräumen, Rücksicht auf Einstellungen,
 Schonung der Rechenleistung.
 
@@ -13,6 +13,13 @@ Schonung der Rechenleistung.
 | `useScrollProgress.js` | Fortschrittsbalken ganz oben |
 | `useParallax.js` | Hintergrund wandert langsamer als der Text |
 | `usePointerSpotlight.js` | Lichtfleck folgt dem Mauszeiger über Karten |
+| `useHomeScroll.js` | Wählt aus, wie die Startseite scrollt |
+| `useStandardScroll.js` | Normales Browser-Scrollen (absichtlich leer) |
+| `useChapterScroll.js` | Ein Impuls = ein Kapitel weiter |
+
+Die letzten drei gehören zusammen und werden über **einen Schalter** in
+`src/config/scrollConfig.js` ausgewählt.
+→ Eigenes Kapitel: [15-Scrollverhalten](15-Scrollverhalten.md)
 
 ## Was ist ein Composable nochmal?
 
@@ -183,6 +190,52 @@ Bild, mal die Überschrift. Die Fleckposition würde je nach Untergrund
 umspringen. `currentTarget` ist immer die Karte selbst, also das Element mit
 dem Lauscher.
 
+## Die drei Scroll-Composables der Startseite
+
+Sie hängen zusammen und werden nie einzeln aufgerufen. `HomeView.vue` ruft
+ausschließlich `useHomeScroll()` auf; welche der beiden Varianten dahinter
+läuft, entscheidet `src/config/scrollConfig.js`.
+
+### `useHomeScroll.js` (22 Zeilen) — die Weiche
+
+```js
+const SCROLL_MODES = {
+  chapter: useChapterScroll,
+  standard: useStandardScroll,
+}
+```
+
+Eine Tabelle statt einer `if`-Kette. Ein weiterer Modus bräuchte damit nur eine
+neue Datei und eine neue Zeile hier — an `HomeView.vue` müsste nichts geändert
+werden.
+
+### `useStandardScroll.js` (7 Zeilen) — absichtlich leer
+
+Eine Funktion, die **nichts** tut. Das ist kein vergessener Code:
+
+Weil beide Varianten dieselbe Form haben (eine Funktion, die man aufruft), kann
+die Weiche oben einfach die eine oder die andere nehmen. Und weil diese hier
+wirklich leer ist — kein Lauscher, keine Klasse, keine Sonderregel — verhält
+sich der Standardmodus exakt wie eine ganz gewöhnliche Website.
+
+### `useChapterScroll.js` (~200 Zeilen) — der Kapitelmodus
+
+Fängt das Mausrad ab und scrollt selbst zum nächsten Abschnitt. Die Abschnitte
+erkennt es an `data-scroll-panel` im Template von `HomeView.vue`.
+
+⚠ Dieses Composable ist das einzige im Projekt, das ein Ereignis mit
+`{ passive: false }` anmeldet — also mit der Erlaubnis, das Scrollen zu
+**stoppen**. Genau deshalb ist es auch das einzige, das ein Handy oder einen
+Touchscreen ausdrücklich in Ruhe lässt:
+
+```js
+window.matchMedia('(hover: hover) and (pointer: fine)')
+```
+
+Die vier Fallen, die es abfängt (Touchpad-Nachlauf, lange Kapitel,
+Touchscreens, „Bewegung reduzieren"), stehen ausführlich in
+[15-Scrollverhalten](15-Scrollverhalten.md).
+
 ## 💡 Merken
 
 **Ein Composable ist der richtige Ort für alles, was man beim Selbstbauen
@@ -197,5 +250,6 @@ fest; ohne Aufräumen bleiben die im Speicher liegen.
 
 ## Siehe auch
 
-- [04-Datenfluss](04-Datenfluss.md) — Beispiel 2 und 3 zeigen beide Composables in Aktion
+- [04-Datenfluss](04-Datenfluss.md) — Beispiel 2 und 3 zeigen Composables in Aktion
 - [10-Vue-Grundbegriffe](10-Vue-Grundbegriffe.md)
+- [15-Scrollverhalten](15-Scrollverhalten.md) — die drei Scroll-Composables im Zusammenhang

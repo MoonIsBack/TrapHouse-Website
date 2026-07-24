@@ -139,9 +139,13 @@ useHomeScroll()
     transform: none;
   }
 
-  /* Die Merch-Karte bleibt innerhalb der festen Kapitelhöhe kompakt. */
-  .product-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 300px));
+  /* Die Merch-Karte bleibt innerhalb der festen Kapitelhöhe kompakt.
+     ⚠ Der Vorsatz .scroll-mode-chapter muss hier stehen: Ohne ihn galt die
+     Regel auch im Standardmodus — und wurde dort von der allgemeinen
+     .product-grid-Regel in main.css wieder überschrieben. Sie tat also
+     nirgends etwas. */
+  .scroll-mode-chapter .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 300px));
   }
 }
 
@@ -154,33 +158,9 @@ useHomeScroll()
   }
 }
 
-@media (max-width: 600px) {
-  .product-grid,
-  .card-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* PRODUKTRASTER — mit Obergrenze pro Karte
-   Vorher stand hier minmax(280px, 1fr). Bei nur EINEM Artikel bekam der die
-   volle Breite von 1120 px — und weil die Karte ein festes Seitenverhältnis
-   von 4:5 hat, wurde daraus ein 1400 px hohes Riesen-T-Shirt.
-   Mit einer Obergrenze von 340 px bleibt die Karte immer in vernünftiger
-   Größe, und justify-content zentriert sie, statt sie links kleben zu lassen. */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
-  justify-content: center;
-  gap: 24px;
-}
-
-/* Bei den Social-Kanälen ist das kein Thema: Es sind immer drei, die füllen
-   die Breite von selbst sauber aus. */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
+/* .product-grid und .card-grid stehen jetzt zentral in assets/main.css —
+   sie waren hier, in ShopView und in SocialsView fast gleich hinterlegt.
+   → Siehe docs/lernheft/13-Design-Tokens-und-Farben.md */
 
 .section-action {
   display: flex;

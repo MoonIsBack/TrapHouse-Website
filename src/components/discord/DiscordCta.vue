@@ -5,9 +5,16 @@
 // ist er eine eigene Komponente und nicht zweimal hingeschrieben — sonst
 // müsste man jede Änderung an zwei Stellen machen und würde eine vergessen.
 //
-// Hier taucht endlich MoonPixel.gif auf: Die Datei lag in der alten Seite im
-// images-Ordner, wurde aber nirgends eingebunden. Als Maskottchen neben dem
-// Aufruf hat sie jetzt einen Platz.
+// Hier taucht endlich das Maskottchen auf: Die Datei lag in der alten Seite im
+// images-Ordner, wurde aber nirgends eingebunden. Als Figur neben dem Aufruf
+// hat sie jetzt einen Platz.
+//
+// ⚠ Die schwarze Kontur der Figur steckt in der WebP-Datei selbst — sie ist
+// KEIN CSS-Schatten und darf auch nicht wieder zu einem gemacht werden. Ein
+// drop-shadow folgt der Kante weich und rundet die Pixeltreppen ab; bei einer
+// Pixelgrafik sieht genau das falsch aus. Muss die Kontur anders werden,
+// gehört die Bilddatei neu erzeugt.
+// → docs/lernheft/20-Bilder-und-Schriften.md
 import { DISCORD_INVITE } from '@/data/socialLinks'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import IconDiscord from '@/components/icons/IconDiscord.vue'
@@ -91,7 +98,6 @@ p {
 
   /* Die Vorlage ist eine Pixelgrafik — Kanten scharf lassen */
   image-rendering: pixelated;
-
 }
 
 @media (max-width: 720px) {

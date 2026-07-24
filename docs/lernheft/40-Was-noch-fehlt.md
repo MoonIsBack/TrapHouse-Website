@@ -104,6 +104,35 @@ Sollte irgendwann ein Warenkorb dazukommen, ändert sich das sofort.
 
 Für Suchmaschinen. Bei vier Unterseiten findet Google die auch so.
 
+### 10. Kein Manifest — die Seite lässt sich nicht als App ablegen
+
+Legt jemand die Seite auf den Homebildschirm seines Handys, bekommt sie keinen
+ordentlichen Namen und kein eigenes Icon. Dafür bräuchte es eine
+`site.webmanifest` in `public/` und die passende Zeile in `index.html`:
+
+```html
+<link rel="manifest" href="/site.webmanifest">
+```
+
+Eine solche Datei gab es schon einmal, sie war aber nie eingebunden und nannte
+ein anderes Icon als der Browser-Tab. Deshalb wurde sie zusammen mit den alten
+Logo-Entwürfen entfernt.
+
+⚠ Wenn du sie neu anlegst: Das Icon darin sollte ein **quadratisches** Bild
+sein (192 × 192 und 512 × 512 sind die üblichen Größen). Der breite
+TrapHouse-Schriftzug taugt dafür nicht — auf dem Homebildschirm würde er in
+einem quadratischen Rahmen entweder gequetscht oder winzig dargestellt.
+
+### 11. Das Tab-Logo ist mit 107 KB sehr groß
+
+`traphouse-logo-transparent-v5.png` ist 480 × 215 px groß und wird im Tab auf
+etwa 16 × 16 px angezeigt. Browser laden es trotzdem vollständig.
+
+Das ist keine Baustelle, sondern eine Abwägung: Kleiner gerechnet würde der
+feine Schriftzug matschig. Wer es optimieren will, bräuchte eine eigens für
+kleine Größen gezeichnete Fassung — und die sähe dann anders aus als das
+aktuelle Tab-Logo.
+
 ## Was bewusst NICHT geplant ist
 
 | Nicht geplant | Warum |

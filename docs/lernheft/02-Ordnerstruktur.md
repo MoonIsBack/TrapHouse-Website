@@ -13,13 +13,7 @@ TrapHouse-Website/
 ├── vite.config.js        Build-Einstellungen + Sicherheitsregel (CSP)
 │
 ├── public/               Dateien, die 1:1 mitkopiert werden
-│   ├── traphouse-icon.svg     Ursprüngliches Logo im Browser-Tab
-│   ├── traphouse-favicon-v3.png  TrapHouse-Logo als PNG
-│   ├── traphouse-favicon-v4.ico  TrapHouse-Logo für Browser-Tabs
-│   ├── traphouse-logo-transparent-v5.png  Transparentes Logo im Browser-Tab
-│   ├── traphouse-monogram-v6.png  Unverzerrtes T-Monogramm im Browser-Tab
-│   ├── traphouse-stacked-v7.png   Vollständiges Logo in zwei Zeilen
-│   └── site.webmanifest          Name und Icon für installierte Web-Apps
+│   └── traphouse-logo-transparent-v5.png  Das Browser-Tab-Logo ⭐
 │
 ├── docs/lernheft/        ← dieses Lernheft
 │
@@ -33,6 +27,10 @@ TrapHouse-Website/
     │   ├── fonts/             Die 4 Schriftdateien
     │   └── images/            Alle Bilder
     │
+    ├── config/           Schalter, die DU umlegst
+    │   ├── legalConfig.js     Impressumsangaben ⭐
+    │   └── scrollConfig.js    'standard' oder 'chapter'
+    │
     ├── router/           Welche Adresse zeigt welche Seite
     ├── views/            Je eine Datei pro Unterseite
     ├── components/       Bausteine, die man sehen kann
@@ -41,11 +39,41 @@ TrapHouse-Website/
     │   ├── home/              Nur für die Startseite
     │   ├── shop/              Nur für den Shop
     │   ├── socials/           Nur für die Socials
+    │   ├── legal/             Rahmen für Impressum + Datenschutz
     │   └── discord/           Nur für Discord
     │
     ├── composables/      Wiederverwendbare Logik ohne Aussehen
     └── data/             Die Inhalte: Links, Produkte, Navigation ⭐
 ```
+
+### ⚠ Zum `public/`-Ordner
+
+**Alles, was dort liegt, wird mitveröffentlicht — auch das, was niemand
+benutzt.** Deshalb liegt dort genau eine Datei: das Browser-Tab-Logo, das
+`index.html` einbindet.
+
+Bei der Suche nach dem richtigen Tab-Bild waren zeitweise sechs Fassungen
+darin (ein T-Monogramm, eine zweizeilige Variante, ein `.ico` …). Die sind
+aufgeräumt; wer sie braucht, holt sie aus der Git-Historie zurück:
+
+```sh
+git log --diff-filter=D --name-only -- public/
+```
+
+⚠ Das Tab-Logo bitte **nicht** stillschweigend gegen einen dieser alten
+Entwürfe tauschen — die Entscheidung für den vollständigen transparenten
+Schriftzug ist bewusst gefallen.
+
+⚠ Safari merkt sich Tab-Logos sehr hartnäckig. Änderst du es, brauchst du einen
+**neuen Dateinamen oder eine neue Zahl hinter `?v=`**, sonst zeigt Safari
+tagelang das alte Bild.
+
+### Warum `public/` und nicht `assets/`?
+
+Bilder in `src/assets/` werden **importiert**, und Vite hängt ihnen beim Bauen
+eine Prüfsumme an den Namen (`shirt-a3f2c1.webp`). Für ein Tab-Logo geht das
+nicht: `index.html` verweist darauf, bevor überhaupt JavaScript läuft — der
+Name muss also vorher feststehen. Genau dafür ist `public/` da.
 
 ## Was gehört wohin?
 
@@ -55,6 +83,7 @@ TrapHouse-Website/
 | `components/` | Ein **Teil** einer Seite |
 | `components/ui/` | Bausteine, die auf **mehreren** Seiten vorkommen |
 | `composables/` | Logik, die **kein** Aussehen hat — z. B. das Klappmenü |
+| `config/` | **Schalter und Angaben**, die du bewusst setzt |
 | `data/` | **Inhalte**: Texte, Links, Preise |
 | `assets/` | **Material**: Farben, Schriften, Bilder |
 | `router/` | Nur die Zuordnung Adresse → Ansicht |
@@ -97,9 +126,11 @@ Alles in `src/`. Das ist dein Code.
 
 ## 💡 Merken
 
-**`data/` ist für Inhalte, `assets/` ist für Material.**
+**`data/` ist für Inhalte, `assets/` ist für Material, `config/` ist für
+Entscheidungen.**
 
-Ein Produktname gehört nach `data/`. Das Foto dazu nach `assets/images/`.
+Ein Produktname gehört nach `data/`. Das Foto dazu nach `assets/images/`. Die
+Frage „wie soll die Startseite scrollen?" nach `config/`.
 
 ## Siehe auch
 

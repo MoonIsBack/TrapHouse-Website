@@ -34,6 +34,17 @@ const router = useRouter()
 
 function handlePointerDown(event) {
   if (!props.navigateOnPointerDown || props.link.external) return
+
+  // Nur echte Mauszeiger. Der Grund für diesen Sofortweg ist Safaris
+  // verzögerter Klick bei laufendem Touchpad-Momentum — ein reines
+  // Maus-/Trackpad-Problem.
+  //
+  // ⚠ Ohne diese Zeile würde auf einem Tablet mit breitem Bildschirm (dort ist
+  // die Desktop-Leiste sichtbar) schon das Aufsetzen des Fingers die Seite
+  // wechseln. Wer nur scrollen wollte und dabei zufällig auf einem Menüpunkt
+  // aufsetzt, landet dann ungewollt woanders.
+  if (event.pointerType !== 'mouse') return
+
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
 
   // Verhindert Safaris verzögerten Standardklick nicht vollständig, startet
