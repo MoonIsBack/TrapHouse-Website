@@ -20,6 +20,11 @@ Damit kannst du schon das meiste ändern.
 
 Willst du nur etwas online bringen: **08**.
 
+⚠ **Bevor die Seite öffentlich wird: 22.** Impressum und Datenschutz sind
+gebaut, aber noch nicht ausgefüllt — alles dafür steht in **einer** Datei
+(`src/config/legalConfig.js`). Das ist der einzige Punkt auf der ganzen Liste,
+bei dem es nicht um Optik geht.
+
 ## Alle Kapitel
 
 ### Grundlagen
