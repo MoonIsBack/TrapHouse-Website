@@ -136,11 +136,11 @@ Und in `RankRoomView.vue` das Ganze einwickeln:
 ```
 
 **Warum das funktioniert:** CSS-Variablen werden nach unten vererbt. Innerhalb
-dieses `div` gilt das Indigo, außerhalb weiter das Pink. Genau deshalb steht in
+dieses `div` gilt das Indigo, außerhalb weiter das Orange. Genau deshalb steht in
 TrapHouses Komponenten nirgends eine feste Farbe, sondern immer `var(--accent)`.
 
 → Willst du RankRoom stattdessen an TrapHouse angleichen, lässt du diesen
-Block einfach weg. Dann übernimmt RankRoom das Pink — ohne eine einzige
+Block einfach weg. Dann übernimmt RankRoom das Orange — ohne eine einzige
 Änderung an seinen Komponenten.
 
 ### Schritt 5: Die CSP erweitern

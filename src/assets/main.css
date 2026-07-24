@@ -12,37 +12,57 @@
      .rankroom-scope { --accent: #a5b4fc; --accent-strong: #818cf8; }
 
    Alles innerhalb dieses Elements benutzt dann die RankRoom-Farben, der Rest
-   der Seite bleibt pink. Deshalb wird unten konsequent var(--accent) benutzt
+   der Seite behält ihr Orange. Deshalb wird unten konsequent var(--accent) benutzt
    und nirgends eine feste Farbe hingeschrieben.
    → Siehe docs/lernheft/30-RankRoom-spaeter-einbinden.md */
 :root {
   /* --- Hintergrund ---------------------------------------------------
-     Fast schwarz, aber mit einem leichten Rotstich, damit das Pink darauf
-     nicht wie ein Fremdkörper wirkt, sondern wie aus derselben Familie. */
-  --bg-top: #150d13;
-  --bg-bottom: #0b070a;
+     Fast schwarz, aber mit einem warmen Braunstich statt eines neutralen
+     Graus. Das ist der halbe Trick an dieser Farbwelt: Ein Orange auf reinem
+     Schwarz wirkt grell und billig; auf einem Schwarz, das selbst schon einen
+     Rest Wärme hat, wirkt dasselbe Orange wie Glut. */
+  --bg-top: #18100a;
+  --bg-bottom: #0b0705;
+
+  /* Derselbe Wert als reine Zahlen — für halbdurchsichtige Flächen wie den
+     Kopfbereich, der beim Scrollen milchig wird. */
+  --bg-bottom-rgb: 11, 7, 5;
 
   /* --- Schrift-Farbskala ---------------------------------------------
      Vier Stufen von "wichtig" bis "ganz dezent". Immer eine davon nehmen,
-     nie ein eigenes Grau erfinden — sonst franst das Bild aus. */
-  --text: #f8f3f6; /* Überschriften, wichtige Werte */
-  --text-secondary: #d0c4cb; /* normaler Fließtext */
-  --text-muted: #9c8e96; /* Labels, Nebeninfos */
-  --text-subtle: #6d6169; /* Platzhalter, ganz dezent */
+     nie ein eigenes Grau erfinden — sonst franst das Bild aus.
+     Die Grautöne sind leicht ins Warme gezogen, damit sie zum Hintergrund
+     gehören und nicht wie aufgeklebt wirken. */
+  --text: #f9f4ef; /* Überschriften, wichtige Werte */
+  --text-secondary: #d5c8bd; /* normaler Fließtext */
+  --text-muted: #a09287; /* Labels, Nebeninfos */
+  --text-subtle: #6f635a; /* Platzhalter, ganz dezent */
 
   /* --- Akzentfarbe ---------------------------------------------------
-     Das TrapHouse-Pink aus der alten Seite (#ff2f92) bleibt die Leitfarbe,
-     dazu ein helleres Pink für Hover-Zustände. */
-  --accent: #ff2f92;
-  --accent-strong: #ff5fa8;
+     Glut-Orange als Leitfarbe, dazu ein helleres Orange für Hover-Zustände
+     und für Text, der sich abheben soll. */
+  --accent: #ff6a17;
+  --accent-strong: #ff9a52;
 
   /* Akzent als reine RGB-Werte — für halbtransparente Flächen,
-     z. B. rgba(var(--accent-rgb), 0.5). Entspricht --accent (#ff2f92). */
-  --accent-rgb: 255, 47, 146;
+     z. B. rgba(var(--accent-rgb), 0.5). Entspricht --accent (#ff6a17). */
+  --accent-rgb: 255, 106, 23;
+
+  /* Die zweite Farbe des Hintergrundscheins. Sie liegt am anderen Ende des
+     Verlaufs, damit der Hintergrund von warm nach glühend läuft statt
+     einfarbig zu sein. */
+  --accent-2-rgb: 255, 45, 85;
+
+  /* ⭐ Schriftfarbe AUF gefüllten Akzentflächen (Knöpfe, Abzeichen).
+     Bewusst nicht Weiß: Weiß auf Orange erreicht nur ein Kontrastverhältnis
+     von etwa 2,9 zu 1 und ist damit zu blass — dieses fast schwarze Braun
+     kommt auf über 8 zu 1. Nebenbei ist dunkle Schrift auf Orange genau der
+     Look, den man von Warnwesten und Plattencovern kennt. */
+  --on-accent: #1a0d04;
 
   /* Der Verlauf für Hauptaktionen und hervorgehobene Überschriften.
-     Pink nach Violett — das ist der eigentliche "TrapHouse-Look". */
-  --accent-gradient: linear-gradient(135deg, #ff2f92, #b026ff);
+     Orange nach Glutrot. */
+  --accent-gradient: linear-gradient(135deg, #ff6a17, #ff2d55);
 
   /* --- Flächen und Rahmen --------------------------------------------
      Die Karten sind keine festen Farbflächen, sondern milchiges Glas: eine

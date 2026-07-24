@@ -13,7 +13,7 @@ wird.
 ```css
 /* Einmal in main.css definiert: */
 :root {
-  --accent: #ff2f92;
+  --accent: #ff6a17;
 }
 
 /* Überall benutzt: */
@@ -23,7 +23,7 @@ wird.
 
 Ändere die eine Zeile — und Knopf, Badge und alles andere ändern sich mit.
 
-In der alten `style.css` stand `#ff2f92` an mehreren Stellen einzeln. Eine
+In der alten `style.css` stand die Akzentfarbe an mehreren Stellen einzeln. Eine
 Farbänderung hieß: suchen, ersetzen, eine Stelle übersehen.
 
 ## Die Tokens im Überblick
@@ -33,21 +33,30 @@ Alle stehen ganz oben in `src/assets/main.css`.
 ### Hintergrund
 
 ```css
---bg-top: #150d13;      /* oben, minimal heller */
---bg-bottom: #0b070a;   /* unten, fast schwarz */
+--bg-top: #18100a;      /* oben, minimal heller */
+--bg-bottom: #0b0705;   /* unten, fast schwarz */
+--bg-bottom-rgb: 11, 7, 5;
 ```
 
-Beide haben einen leichten Rotstich. Das ist Absicht: Auf reinem Grau (#111,
-wie in der alten Fassung) wirkt Pink wie ein Fremdkörper.
+Beide haben einen **warmen Braunstich**. Das ist Absicht und der halbe Trick an
+dieser Farbwelt: Ein Orange auf reinem Schwarz wirkt grell und billig. Auf
+einem Schwarz, das selbst schon einen Rest Wärme hat, wirkt dasselbe Orange wie
+Glut.
+
+`--bg-bottom-rgb` ist derselbe Wert als reine Zahlen — für halbdurchsichtige
+Flächen wie den Kopfbereich, der beim Scrollen milchig wird.
 
 ### Schrift — vier Stufen
 
 ```css
---text: #f8f3f6;            /* Überschriften */
---text-secondary: #d0c4cb;  /* Fließtext */
---text-muted: #9c8e96;      /* Labels, Nebeninfos */
---text-subtle: #6d6169;     /* ganz dezent */
+--text: #f9f4ef;            /* Überschriften */
+--text-secondary: #d5c8bd;  /* Fließtext */
+--text-muted: #a09287;      /* Labels, Nebeninfos */
+--text-subtle: #6f635a;     /* ganz dezent */
 ```
+
+Auch die Grautöne sind leicht ins Warme gezogen. Ein neutrales Grau auf einem
+warmen Schwarz wirkt sonst bläulich und wie aufgeklebt.
 
 ⚠ **Immer eine dieser vier nehmen, nie ein eigenes Grau erfinden.** Sonst hat
 die Seite nach ein paar Wochen zwölf leicht verschiedene Graustufen und wirkt
@@ -56,11 +65,33 @@ unruhig, ohne dass man sagen kann, warum.
 ### Akzent
 
 ```css
---accent: #ff2f92;         /* das TrapHouse-Pink */
---accent-strong: #ff5fa8;  /* heller, für Hover */
---accent-rgb: 255, 47, 146;
---accent-gradient: linear-gradient(135deg, #ff2f92, #b026ff);
+--accent: #ff6a17;         /* das TrapHouse-Orange */
+--accent-strong: #ff9a52;  /* heller, für Hover und farbigen Text */
+--accent-rgb: 255, 106, 23;
+--accent-2-rgb: 255, 45, 85;   /* der zweite Fleck im Hintergrund */
+--on-accent: #1a0d04;          /* Schrift AUF gefüllten Akzentflächen */
+--accent-gradient: linear-gradient(135deg, #ff6a17, #ff2d55);
 ```
+
+### ⭐ Warum `--on-accent` und nicht einfach Weiß
+
+Auf dem alten Pink stand weiße Schrift. Auf Orange geht das nicht mehr gut:
+
+| Schrift auf dem Knopf | Kontrast |
+|---|---|
+| Weiß auf `#ff6a17` | **2,9 : 1** — zu blass |
+| `#1a0d04` auf `#ff6a17` | **8,4 : 1** — klar lesbar |
+
+Für normalen Text verlangt die Barrierefreiheits-Richtlinie 4,5 : 1. Weiß auf
+Orange verfehlt das deutlich; ein fast schwarzes Braun liegt weit darüber.
+
+Nebenbei ist dunkle Schrift auf Orange genau der Look, den man von Warnwesten
+und Plattencovern kennt — es sieht nicht nach Kompromiss aus, sondern nach
+Absicht.
+
+⚠ Deshalb steht in Knöpfen und Abzeichen `var(--on-accent)` und nirgends
+`#fff`. Wechselst du später auf eine **dunkle** Akzentfarbe, setzt du hier
+einmal Weiß ein und alle Knöpfe stimmen wieder.
 
 ### Warum gibt es `--accent-rgb` zusätzlich?
 
@@ -80,7 +111,7 @@ background: rgba(var(--accent-rgb), 0.2);   /* ✓ */
 müssen dieselbe Farbe beschreiben, sonst haben Flächen und Ränder plötzlich
 verschiedene Farbtöne.
 
-Hex → RGB umrechnen: `#ff2f92` → `ff`=255, `2f`=47, `92`=146.
+Hex → RGB umrechnen: `#ff6a17` → `ff`=255, `6a`=106, `17`=23.
 
 ### Flächen, Rundungen, Schatten
 
@@ -172,16 +203,36 @@ wegscrollen. Mit `min(…, 100%)` gibt die Spalte nach, sobald es eng wird.
 
 ## Wie du die Seite umfärbst
 
-Willst du statt Pink z. B. ein Giftgrün, änderst du **drei Zeilen**:
+Willst du statt Orange z. B. ein Giftgrün, änderst du **sechs Zeilen**:
 
 ```css
 --accent: #2fff92;
 --accent-strong: #5fffa8;
 --accent-rgb: 47, 255, 146;
+--accent-2-rgb: 38, 255, 176;
 --accent-gradient: linear-gradient(135deg, #2fff92, #26ffb0);
+--on-accent: #04180d;   /* dunkel, weil Grün hell ist */
 ```
 
-Und passe den Rotstich im Hintergrund an, damit er zur neuen Farbe passt.
+Und zieh den Farbstich im Hintergrund mit — bei Grün also ins Grünliche statt
+ins Braune. Genau das macht den Unterschied zwischen „Farbe getauscht" und
+„sieht aus wie geplant".
+
+### Wie diese Farbwelt entstanden ist
+
+Vorher war die Seite pink (`#ff2f92`) mit einem violetten Verlauf. Das kam aus
+der allerersten Fassung. Orange passt besser zu dem, was die Community sonst
+benutzt — und funktioniert auf dunklem Grund sogar besser: Der farbige Text
+kommt jetzt auf 9,6 : 1 statt auf 7,1 : 1.
+
+Drei Richtungen standen zur Wahl, alle drei sind ein gültiger Ausgangspunkt,
+falls du später doch anders willst:
+
+| | Akzent | Verlauf | Wirkung |
+|---|---|---|---|
+| **Glut** (eingebaut) | `#ff6a17` | nach `#ff2d55` | warm, energisch |
+| Bernstein | `#ffa116` | nach `#ff5c1a` | goldener, ruhiger |
+| Neon | `#ff5a00` | nach `#ff0059` | härter, mehr Kontrast |
 
 ## ⚠ Weichzeichner und Bewegung vertragen sich nicht
 
@@ -244,7 +295,7 @@ was sich bewegt, sollte er nur **verschieben** müssen.
 
 ## 💡 Merken
 
-**Steht in einer Komponente eine Farbe wie `#ff2f92`, ist das ein Fehler.**
+**Steht in einer Komponente eine Farbe wie `#ff6a17`, ist das ein Fehler.**
 Dort gehört `var(--accent)` hin.
 
 Der Test: Kannst du die Seite umfärben, indem du nur `main.css` anfasst? Wenn

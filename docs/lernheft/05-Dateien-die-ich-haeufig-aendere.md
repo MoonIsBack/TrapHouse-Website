@@ -39,7 +39,7 @@ keinen Warenkorb dahinter. Siehe [40-Was-noch-fehlt](40-Was-noch-fehlt.md).
 Alles zwischen `:root {` und der schließenden Klammer.
 
 ```css
---accent: #ff2f92;        /* Ändere das, und die ganze Seite ändert sich */
+--accent: #ff6a17;        /* Ändere das, und die ganze Seite ändert sich */
 --content-width: 1120px;  /* Wie breit der Inhalt maximal wird */
 ```
 
@@ -79,7 +79,7 @@ Fehlt eins davon, bricht die Navigation.
 | Preis ändern | `data/products.js` |
 | Artikel hinzufügen | `data/products.js` |
 | Shop wirklich öffnen | `data/products.js` (`status`) |
-| Pink gegen eine andere Farbe tauschen | `assets/main.css` |
+| Orange gegen eine andere Farbe tauschen | `assets/main.css` |
 | Überschrift einer Seite | die passende `views/*.vue` |
 | Hero-Text | `components/home/HeroSection.vue` |
 | Punkte auf der Discord-Seite | `views/DiscordView.vue` (`FEATURES`) |

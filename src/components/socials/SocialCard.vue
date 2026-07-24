@@ -2,7 +2,7 @@
 // Eine Kanal-Karte (YouTube, TikTok, Instagram).
 //
 // Die Markenfarbe des Kanals wird über eine CSS-Variable hereingereicht und
-// erst beim Darüberfahren sichtbar. Im Ruhezustand bleiben alle Karten pink —
+// erst beim Darüberfahren sichtbar. Im Ruhezustand bleiben alle Karten orange —
 // sonst sähe der Bereich aus wie ein Farbkasten und nichts stäche mehr hervor.
 //
 // Die Variable wird per :style gesetzt, weil die Farbe aus den Daten kommt und

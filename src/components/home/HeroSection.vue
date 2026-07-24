@@ -142,14 +142,14 @@ const textureRef = useParallax(0.28)
   background:
     linear-gradient(
       100deg,
-      rgba(11, 7, 10, 0.92) 0%,
-      rgba(11, 7, 10, 0.6) 42%,
-      rgba(11, 7, 10, 0.12) 100%
+      rgba(var(--bg-bottom-rgb), 0.92) 0%,
+      rgba(var(--bg-bottom-rgb), 0.6) 42%,
+      rgba(var(--bg-bottom-rgb), 0.12) 100%
     ),
-    linear-gradient(180deg, rgba(11, 7, 10, 0.55) 0%, transparent 20%, var(--bg-bottom) 98%);
+    linear-gradient(180deg, rgba(var(--bg-bottom-rgb), 0.55) 0%, transparent 20%, var(--bg-bottom) 98%);
 }
 
-/* Ein zusätzlicher pinker Schein hinter der Überschrift. Er hebt den Text
+/* Ein zusätzlicher orangener Schein hinter der Überschrift. Er hebt den Text
    optisch von der Textur ab und bindet den Bereich farblich an den Rest der
    Seite an. */
 .hero-glow {
@@ -211,7 +211,7 @@ h1 {
   display: block;
 }
 
-/* Der Markenname im pink-violetten Verlauf.
+/* Der Markenname im Orange-Verlauf.
    Der Verlauf wird als Hintergrund gezeichnet und dann auf die Buchstaben
    zugeschnitten (background-clip: text) — die Schrift selbst ist durchsichtig. */
 .hero-accent {
@@ -311,8 +311,8 @@ h1 {
   .hero-scrim {
     background: linear-gradient(
       180deg,
-      rgba(11, 7, 10, 0.8) 0%,
-      rgba(11, 7, 10, 0.86) 45%,
+      rgba(var(--bg-bottom-rgb), 0.8) 0%,
+      rgba(var(--bg-bottom-rgb), 0.86) 45%,
       var(--bg-bottom) 100%
     );
   }

@@ -66,7 +66,7 @@ defineProps({
   border: 1px solid rgba(var(--accent-rgb), 0.28);
   border-radius: var(--radius-lg);
 
-  /* Zwei Schichten: ein pinker Schein oben rechts, darunter die Glasfläche */
+  /* Zwei Schichten: ein orangener Schein oben rechts, darunter die Glasfläche */
   background:
     radial-gradient(80% 120% at 88% 15%, rgba(var(--accent-rgb), 0.22), transparent 68%),
     var(--surface);

@@ -22,7 +22,7 @@ Zwei Feinheiten:
 
 - Ganz oben ist er durchsichtig, beim Scrollen wird er milchig — sonst läge ein
   Balken über dem Hero-Bild
-- Die aktive Seite bekommt einen pinken Punkt. Die Klasse dafür
+- Die aktive Seite bekommt einen farbigen Punkt. Die Klasse dafür
   (`router-link-active`) vergibt der Router selbst
 
 ### `components/AppFooter.vue` (178 Zeilen)
@@ -113,7 +113,7 @@ Der eine Knopf für alles. Entscheidet selbst, welches HTML-Element er wird:
 | `:href="'https://…'"` | `<a target="_blank">` — externe Adresse |
 | keins von beidem | `<button>` |
 
-Zwei Ausführungen: `variant="primary"` (pinker Verlauf) und `variant="ghost"`
+Zwei Ausführungen: `variant="primary"` (Orange-Verlauf) und `variant="ghost"`
 (nur Umrandung).
 
 ### `ui/SectionHeader.vue` (81 Zeilen)
@@ -172,7 +172,7 @@ Der Bereich ganz oben auf der Startseite. Das Bild ist ein echtes `<img>` und
 kein CSS-Hintergrund — der Browser findet es dadurch früher und kann es
 parallel laden.
 
-Darüber liegen drei Schichten: eine Abdunklung für die Lesbarkeit, ein pinker
+Darüber liegen drei Schichten: eine Abdunklung für die Lesbarkeit, ein oranger
 Schein hinter der Überschrift und ein feines Raster für Struktur.
 
 ⭐ **Warum dort nicht mehr die Instagram-Grafik liegt.** Ursprünglich war
@@ -208,7 +208,7 @@ mehrere Karten nebeneinander gleich hoch beginnen.
 ### `socials/SocialCard.vue` (149 Zeilen)
 
 Eine Kanal-Karte. Die Markenfarbe kommt aus den Daten und erscheint erst beim
-Darüberfahren — im Ruhezustand bleibt alles pink.
+Darüberfahren — im Ruhezustand bleibt alles orange.
 
 ### `discord/DiscordCta.vue` (116 Zeilen)
 

@@ -1,7 +1,7 @@
 <script setup>
 // Der farbige Schimmer im Hintergrund der ganzen Seite.
 //
-// Zwei große, sehr weich auslaufende Farbflecken — einer pink, einer violett.
+// Zwei große, sehr weich auslaufende Farbflecken in den beiden Akzentfarben.
 // Sie liegen hinter allem anderen und bewegen sich langsam, damit die Seite
 // nicht wie eine gleichmäßig schwarze Fläche wirkt.
 //
@@ -17,8 +17,8 @@
 
 <template>
   <div class="backdrop" aria-hidden="true">
-    <span class="glow glow-pink" />
-    <span class="glow glow-violet" />
+    <span class="glow glow-primary" />
+    <span class="glow glow-secondary" />
     <span class="grain" />
   </div>
 </template>
@@ -80,7 +80,7 @@
    hat den Schein weit über die Kreisfläche hinausgetragen, und diesen Raum
    braucht der Farbverlauf jetzt selbst. Die Position ist so gewählt, dass die
    Mitte des Scheins dort bleibt, wo sie vorher war. */
-.glow-pink {
+.glow-primary {
   top: -520px;
   right: -460px;
   width: 1200px;
@@ -98,7 +98,7 @@
   animation: drift-a 22s ease-in-out infinite alternate;
 }
 
-.glow-violet {
+.glow-secondary {
   bottom: -540px;
   left: -480px;
   width: 1200px;
@@ -106,10 +106,10 @@
 
   background: radial-gradient(
     circle closest-side,
-    rgba(176, 38, 255, 0.4) 0%,
-    rgba(176, 38, 255, 0.32) 20%,
-    rgba(176, 38, 255, 0.15) 40%,
-    rgba(176, 38, 255, 0.04) 60%,
+    rgba(var(--accent-2-rgb), 0.4) 0%,
+    rgba(var(--accent-2-rgb), 0.32) 20%,
+    rgba(var(--accent-2-rgb), 0.15) 40%,
+    rgba(var(--accent-2-rgb), 0.04) 60%,
     transparent 76%
   );
 

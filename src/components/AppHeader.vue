@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
    liegt er unsichtbar über dem Hero-Bild. */
 .is-scrolled {
   border-bottom-color: var(--border-soft);
-  background: rgba(11, 7, 10, 0.72);
+  background: rgba(var(--bg-bottom-rgb), 0.72);
   backdrop-filter: blur(16px);
 }
 
@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
   background: var(--surface);
 }
 
-/* Der aktive Eintrag: pink und mit einem kleinen Punkt darunter.
+/* Der aktive Eintrag: in der Akzentfarbe und mit einem kleinen Punkt darunter.
    Die Klasse vergibt der Router selbst. */
 .desktop-nav a.router-link-active {
   color: var(--accent-strong);
@@ -252,7 +252,7 @@ onBeforeUnmount(() => {
   padding: 10px var(--page-padding) 20px;
 
   border-bottom: 1px solid var(--border-soft);
-  background: rgba(11, 7, 10, 0.96);
+  background: rgba(var(--bg-bottom-rgb), 0.96);
   backdrop-filter: blur(16px);
 }
 

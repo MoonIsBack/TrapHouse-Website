@@ -112,6 +112,17 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  /* Hebt das freigestellte Shirt vom Kartenhintergrund ab. drop-shadow und
+     nicht box-shadow: box-shadow würde einen Schatten um den rechteckigen
+     Bildkasten legen, drop-shadow folgt der tatsächlichen Silhouette.
+
+     ⚠ Filter und Bewegung sind sonst eine schlechte Kombination (siehe
+     BackdropGlow.vue). Hier ist es vertretbar: Es geht um eine einzelne kleine
+     Karte, und die Vergrößerung läuft nur eine halbe Sekunde beim
+     Darüberfahren — nicht dauerhaft und nicht über den ganzen Bildschirm. */
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55));
+
   transition: transform 0.5s ease;
 }
 
@@ -128,7 +139,7 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   border-radius: var(--radius-pill);
 
   background: var(--accent-gradient);
-  color: #fff;
+  color: var(--on-accent);
 
   font-size: 0.68rem;
   font-weight: 700;

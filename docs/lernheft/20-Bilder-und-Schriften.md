@@ -79,10 +79,10 @@ In `src/assets/images/`, zusammen **302 KB** (vorher 4,4 MB):
 
 | Datei | Größe | Wofür |
 |---|---|---|
-| `shirt.webp` | 167 KB | Das Shirt im Shop |
+| `shirt.webp` | 149 KB | Das Shirt im Shop (mit Kante) |
 | `moon-pixel.webp` | 87 KB | Maskottchen beim Discord-Aufruf (animiert) |
 | `traphouse-logo.webp` | 36 KB | Logo in Kopf und Fuß |
-| `hero-texture.webp` | 8 KB | Hintergrund im Hero |
+| `hero-texture.webp` | 8 KB | Hintergrund im Hero (warm eingefärbt) |
 | `pixel-left.png` | 3 KB | Figur unten links |
 | `pixel-right.png` | 3 KB | Figur unten rechts |
 
@@ -100,6 +100,33 @@ ursprüngliche Figur unverändert.
 Kante weich und rundet die Pixeltreppen ab — genau das, was bei einer
 Pixelgrafik falsch aussieht. Muss die Kontur dicker oder dünner werden, gehört
 die Bilddatei neu erzeugt.
+
+### Die Kante am Shirt
+
+`shirt.webp` ist freigestellt, also mit durchsichtigem Hintergrund. Beim
+Freistellen bleibt fast immer ein Rest der alten Umgebung an der Kante hängen —
+hier ein heller, ausgefranster Saum, der auf dunklem Grund wie ein
+aufgemalter Umriss aussah.
+
+Behoben wurde das direkt in der Bilddatei, nach demselben Prinzip wie beim
+Maskottchen:
+
+1. Aus der Transparenz eine harte Maske machen (ab 50 % gilt als „Shirt")
+2. Diese Maske um **einen Pixel** schrumpfen
+3. Der Ring zwischen beiden wird fast schwarz — das ist die Kante
+4. Alles außerhalb der Maske wird vollständig durchsichtig
+
+Schritt 4 räumt den ausgefransten Saum weg, Schritt 3 gibt der Silhouette einen
+sauberen Abschluss. Die Kante liegt **nur nach innen**, die Umrisse bleiben
+also exakt so groß wie vorher.
+
+Nebeneffekt: Die Datei wurde von 163 KB auf 149 KB kleiner. Ein sauber
+durchsichtiger Bereich lässt sich viel besser zusammenpacken als einer voller
+halbdurchsichtiger Zwischenwerte.
+
+⚠ Auch hier gilt: **nicht** über CSS lösen. Ein `filter: drop-shadow()` als
+Umriss würde die Kante bei jeder Darstellung neu berechnen, und die Karte
+vergrößert das Bild beim Darüberfahren.
 
 ### ⭐ Farbkorrekturen gehören ins Bild, nicht ins CSS
 
@@ -188,7 +215,7 @@ statt der alten Fassung aus dem Zwischenspeicher.
 ### Immer `alt` setzen
 
 ```vue
-<img :src="bild" alt="Schwarzes TrapHouse T-Shirt mit pinkem Logo" />  <!-- Inhalt -->
+<img :src="bild" alt="Schwarzes TrapHouse T-Shirt mit weißem Logo" />  <!-- Inhalt -->
 <img :src="deko" alt="" aria-hidden="true" />                          <!-- Deko -->
 ```
 

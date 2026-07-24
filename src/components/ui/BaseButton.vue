@@ -25,7 +25,7 @@ const props = defineProps({
     type: String,
     default: null,
   },
-  // 'primary' = pinker Verlauf, für die wichtigste Aktion pro Bereich
+  // 'primary' = Orange-Verlauf, für die wichtigste Aktion pro Bereich
   // 'ghost'   = nur Umrandung, für alles Zweitrangige
   variant: {
     type: String,
@@ -104,7 +104,13 @@ const attributes = computed(() => {
 
 .is-primary {
   background: var(--accent-gradient);
-  color: #fff;
+
+  /* Dunkle Schrift auf Orange statt weißer: Weiß käme auf dem hellen Orange
+     nur auf ein Kontrastverhältnis von etwa 2,9 zu 1 und wäre damit zu blass.
+     Der Wert steckt in --on-accent, damit er beim nächsten Farbwechsel an
+     einer Stelle mitwandert. */
+  color: var(--on-accent);
+
   box-shadow: var(--shadow-accent);
 }
 
@@ -121,7 +127,7 @@ const attributes = computed(() => {
 .is-ghost:hover {
   border-color: rgba(var(--accent-rgb), 0.6);
   background: var(--surface-hover);
-  color: #fff;
+  color: var(--text);
 }
 
 /* Icons im Knopf minimal größer als der Text, sonst wirken sie zu zierlich */

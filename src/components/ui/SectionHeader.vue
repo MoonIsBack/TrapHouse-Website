@@ -1,5 +1,5 @@
 <script setup>
-// Die Überschrift über jedem Bereich: kleines pinkes Label, große Überschrift,
+// Die Überschrift über jedem Bereich: kleines farbiges Label, große Überschrift,
 // optional ein erklärender Satz darunter.
 //
 // Alle Bereiche benutzen sie, damit die Seite einen gleichmäßigen Rhythmus

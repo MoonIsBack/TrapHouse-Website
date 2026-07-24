@@ -50,7 +50,7 @@ export const PRODUCTS = [
     name: 'TrapHouse Hoodie',
     price: 45,
     image: hoodieImage,
-    imageAlt: 'Schwarzer TrapHouse Hoodie mit pinkem Logo auf der Brust',
+    imageAlt: 'Schwarzer TrapHouse Hoodie mit weißem Logo auf der Brust',
     description: 'Schwerer Hoodie mit Kängurutasche. Unisex, S bis XXL.',
     status: 'bald',
   },
@@ -133,7 +133,7 @@ In der passenden Datei unter `src/views/`:
 
 | Angabe | Was es ist |
 |---|---|
-| `eyebrow` | Das kleine pinke Label darüber |
+| `eyebrow` | Das kleine farbige Label darüber |
 | `title` | Die große Überschrift |
 | `text` | Der Absatz darunter |
 
@@ -148,7 +148,7 @@ In der passenden Datei unter `src/views/`:
 </h1>
 ```
 
-Der Teil in `<span class="hero-accent">` bekommt den pink-violetten Verlauf.
+Der Teil in `<span class="hero-accent">` bekommt den Orange-Verlauf.
 
 ## Die Punkte auf der Discord-Seite ändern
 
