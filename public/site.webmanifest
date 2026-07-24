@@ -9,8 +9,8 @@
   "theme_color": "#0b070a",
   "icons": [
     {
-      "src": "traphouse-favicon-v3.png?v=4",
-      "sizes": "512x512",
+      "src": "traphouse-monogram-v6.png",
+      "sizes": "256x256",
       "type": "image/png",
       "purpose": "any"
     }

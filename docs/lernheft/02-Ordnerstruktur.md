@@ -16,6 +16,7 @@ TrapHouse-Website/
 │   ├── traphouse-favicon-v3.png  TrapHouse-Logo als PNG
 │   ├── traphouse-favicon-v4.ico  TrapHouse-Logo für Browser-Tabs
 │   ├── traphouse-logo-transparent-v5.png  Transparentes Logo im Browser-Tab
+│   ├── traphouse-monogram-v6.png  Unverzerrtes T-Monogramm im Browser-Tab
 │   └── site.webmanifest          Name und Icon für installierte Web-Apps
 │
 ├── docs/lernheft/        ← dieses Lernheft
