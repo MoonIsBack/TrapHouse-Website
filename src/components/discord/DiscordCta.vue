@@ -92,11 +92,6 @@ p {
   /* Die Vorlage ist eine Pixelgrafik — Kanten scharf lassen */
   image-rendering: pixelated;
 
-  /* Hebt die Figur leicht vom Hintergrund ab. drop-shadow statt box-shadow:
-     Es folgt der tatsächlichen Silhouette und nicht dem rechteckigen Kasten
-     drumherum — bei einem freigestellten Bild ist das der Unterschied
-     zwischen "schwebt" und "klebt auf einem Rechteck". */
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.45));
 }
 
 @media (max-width: 720px) {
