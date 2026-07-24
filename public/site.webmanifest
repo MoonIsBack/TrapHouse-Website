@@ -9,7 +9,7 @@
   "theme_color": "#0b070a",
   "icons": [
     {
-      "src": "traphouse-monogram-v6.png",
+      "src": "traphouse-stacked-v7.png",
       "sizes": "256x256",
       "type": "image/png",
       "purpose": "any"
