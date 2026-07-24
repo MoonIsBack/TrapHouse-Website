@@ -1,6 +1,8 @@
 <script setup>
 import { useRouter } from 'vue-router'
 
+import { linkIstAktiv, haltExternenKlickAn } from '@/config/linkConfig'
+
 // Ein Navigationseintrag — egal ob interne Unterseite oder fremde Adresse.
 //
 // Nach demselben Prinzip wie BaseButton.vue: Die Komponente entscheidet
@@ -8,6 +10,9 @@ import { useRouter } from 'vue-router'
 //
 //   { name: 'shop' }              → RouterLink, bleibt auf dieser Seite
 //   { href: '…', external: true } → <a target="_blank">, neuer Tab
+//
+// Externe Einträge unterliegen dem Schalter in config/linkConfig.js — außer
+// sie tragen "immerErreichbar: true" (das ist bei RankRoom der Fall).
 //
 // WARUM ALS EIGENE KOMPONENTE?
 // Weil dieselbe Unterscheidung an DREI Stellen gebraucht wird: in der Leiste
@@ -65,10 +70,11 @@ function handlePointerDown(event) {
   <a
     v-if="link.external"
     :href="link.href"
-    target="_blank"
-    rel="noopener noreferrer"
+    :target="linkIstAktiv(link.immerErreichbar) ? '_blank' : null"
+    :rel="linkIstAktiv(link.immerErreichbar) ? 'noopener noreferrer' : null"
+    :aria-disabled="linkIstAktiv(link.immerErreichbar) ? null : 'true'"
     class="nav-link is-external"
-    @click="$emit('navigate')"
+    @click="haltExternenKlickAn($event, link.immerErreichbar), $emit('navigate')"
   >
     {{ link.label }}
 

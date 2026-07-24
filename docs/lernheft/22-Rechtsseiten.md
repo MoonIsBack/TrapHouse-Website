@@ -154,7 +154,7 @@ Datum mit.
 - [ ] Beide Seiten aufgerufen — kein roter Warnkasten mehr
 - [ ] E-Mail-Adresse geprüft: kommt Post dort wirklich an?
 - [ ] `legalFacts` ehrlich eingestellt
-- [ ] Discord-Link eingetragen (`data/socialLinks.js`)
+- [x] Discord-Link eingetragen (`data/socialLinks.js`)
 - [ ] Bei echtem Verkauf: AGB und Widerrufsbelehrung ergänzt
 
 ## 💡 Merken

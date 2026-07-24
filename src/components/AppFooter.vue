@@ -7,6 +7,7 @@
 import { NAV_LINKS } from '@/data/navigation'
 import { SOCIAL_LINKS } from '@/data/socialLinks'
 import { LEGAL_LINKS, showLegalPages } from '@/config/legalConfig'
+import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
 
 import NavLink from '@/components/ui/NavLink.vue'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
@@ -48,9 +49,11 @@ const currentYear = new Date().getFullYear()
           v-for="social in SOCIAL_LINKS"
           :key="social.id"
           :href="social.url"
-          target="_blank"
-          rel="noopener noreferrer"
+          :target="EXTERNE_LINKS_AKTIV ? '_blank' : null"
+          :rel="EXTERNE_LINKS_AKTIV ? 'noopener noreferrer' : null"
+          :aria-disabled="EXTERNE_LINKS_AKTIV ? null : 'true'"
           class="social-link"
+          @click="haltExternenKlickAn"
         >
           <component :is="SOCIAL_ICONS[social.id]" />
           {{ social.label }}

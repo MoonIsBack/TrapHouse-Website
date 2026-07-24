@@ -37,5 +37,9 @@ export const NAV_LINKS = [
   { name: 'shop', label: 'Merch' },
   { name: 'discord', label: 'Discord' },
   { name: 'socials', label: 'Socials' },
-  { href: RANKROOM_URL, label: 'RankRoom', external: true },
+  // "immerErreichbar" nimmt diesen Eintrag vom Schalter in config/linkConfig.js
+  // aus: RankRoom ist dein eigenes Projekt und kein fremder Dienst. Steht der
+  // Schalter auf false, sind Discord und die Social-Kanäle tot — RankRoom bleibt
+  // erreichbar. Später soll es ohnehin Teil dieser Seite werden.
+  { href: RANKROOM_URL, label: 'RankRoom', external: true, immerErreichbar: true },
 ]

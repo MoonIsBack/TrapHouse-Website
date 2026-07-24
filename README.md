@@ -13,6 +13,8 @@ Projekt, es gibt kein Tracking und keine Cookies.
   Datenschutz plus 404-Seite
 - Umschaltbares Scrollverhalten der Startseite in `src/config/scrollConfig.js`
   (`'standard'` oder `'chapter'`)
+- Links zu fremden Diensten per Schalter abschaltbar
+  (`src/config/linkConfig.js`)
 - Klappmenü fürs Handy — schließt bei Escape und beim Seitenwechsel
 - Einblenden beim Scrollen, abgeschaltet für alle, die „Bewegung reduzieren"
   eingestellt haben
@@ -66,14 +68,15 @@ Wenn du wenig Zeit hast:
 
 ## ⚠ Offene Punkte
 
-Zwei Dinge fehlen, bevor die Seite ernsthaft online gehen kann:
+Eine Sache fehlt, bevor die Seite ernsthaft online gehen kann:
 
-1. **`src/config/legalConfig.js` ausfüllen.** Impressum und
-   Datenschutzerklärung sind gebaut, enthalten aber noch Platzhalter — beide
-   Seiten zeigen solange einen roten Warnkasten. Anleitung:
-   [22 — Impressum und Datenschutz](docs/lernheft/22-Rechtsseiten.md)
-2. **Der Discord-Einladungslink.** Steht in `src/data/socialLinks.js` noch auf
-   `'#'` — alle Discord-Knöpfe führen ins Leere.
+**`src/config/legalConfig.js` ausfüllen.** Impressum und Datenschutzerklärung
+sind gebaut, enthalten aber noch Platzhalter — beide Seiten zeigen solange
+einen roten Warnkasten. Anleitung:
+[22 — Impressum und Datenschutz](docs/lernheft/22-Rechtsseiten.md)
+
+Der Discord-Einladungslink ist inzwischen eingetragen
+(`src/data/socialLinks.js`).
 
 Die vollständige Liste steht in
 [40 — Was noch fehlt](docs/lernheft/40-Was-noch-fehlt.md).

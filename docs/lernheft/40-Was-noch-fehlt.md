@@ -7,18 +7,7 @@ Monaten überrascht wirst.
 
 ## 🔴 Muss, bevor die Seite ernsthaft online geht
 
-### 1. Der Discord-Link fehlt
-
-`src/data/socialLinks.js`:
-
-```js
-export const DISCORD_INVITE = '#'
-```
-
-**Alle** Discord-Knöpfe führen aktuell ins Leere. Das ist die auffälligste
-offene Stelle.
-
-### 2. Impressum und Datenschutz sind gebaut, aber nicht ausgefüllt
+### 1. Impressum und Datenschutz sind gebaut, aber nicht ausgefüllt
 
 ⚠ **Das ist eine rechtliche Pflicht, keine Fleißaufgabe.**
 
@@ -37,14 +26,14 @@ nicht; für eine Privatperson heißt das in der Regel, dass die Wohnadresse
 
 → Vollständige Anleitung: [22-Rechtsseiten](22-Rechtsseiten.md)
 
-### 3. GitHub Pages muss einmal umgestellt werden
+### 2. GitHub Pages muss einmal umgestellt werden
 
 Auf GitHub unter **Settings → Pages → Source** auf „GitHub Actions" stellen.
 Ohne das läuft der Deploy-Workflow zwar durch, veröffentlicht aber nichts.
 
 ## 🟡 Sollte, bevor der Shop öffnet
 
-### 4. Es gibt keinen Warenkorb
+### 3. Es gibt keinen Warenkorb
 
 Die Knöpfe „Merken" und „In den Warenkorb" sind aktuell absichtlich deaktiviert
 (`status: 'bald'`). Stellst du auf `'verfuegbar'` um, werden sie klickbar —
@@ -62,7 +51,7 @@ Ein echter Shop braucht:
 (Shopify, Spreadshirt, Fourthwall). Dann bleibt diese Seite so einfach, wie sie
 ist, und du sparst dir den ganzen rechtlichen Rattenschwanz.
 
-### 5. Die Vorschau-Karte beim Teilen hat kein Bild
+### 4. Die Vorschau-Karte beim Teilen hat kein Bild
 
 In der `index.html` fehlt `og:image`. Teilst du den Link auf WhatsApp oder
 Discord, erscheint eine Karte ohne Bild.
@@ -79,12 +68,12 @@ relative Pfade funktionieren dort nicht zuverlässig.
 
 ## 🟢 Kann, muss aber nicht
 
-### 6. Nur ein Artikel im Shop
+### 5. Nur ein Artikel im Shop
 
 Das Raster ist auf mehrere ausgelegt — bei einem einzelnen Artikel sieht die
 Shop-Seite noch etwas leer aus.
 
-### 7. Keine echten Community-Zahlen
+### 6. Keine echten Community-Zahlen
 
 Im Hero steht „Musik-Community · seit 2024". Sobald der Server eine ordentliche
 Größe hat, wären echte Zahlen („1.200 Mitglieder") überzeugender.
@@ -93,18 +82,18 @@ Größe hat, wären echte Zahlen („1.200 Mitglieder") überzeugender.
 außen, und genau den vermeidet diese Seite. Von Hand eintragen ist hier die
 bessere Lösung.
 
-### 8. Keine Tests
+### 7. Keine Tests
 
 Es gibt keine automatischen Tests. Bei einer Seite, die nichts berechnet, ist
 das vertretbar: Es gibt kaum Logik, die falsch sein könnte.
 
 Sollte irgendwann ein Warenkorb dazukommen, ändert sich das sofort.
 
-### 9. Keine Sitemap, kein `robots.txt`
+### 8. Keine Sitemap, kein `robots.txt`
 
 Für Suchmaschinen. Bei vier Unterseiten findet Google die auch so.
 
-### 10. Kein Manifest — die Seite lässt sich nicht als App ablegen
+### 9. Kein Manifest — die Seite lässt sich nicht als App ablegen
 
 Legt jemand die Seite auf den Homebildschirm seines Handys, bekommt sie keinen
 ordentlichen Namen und kein eigenes Icon. Dafür bräuchte es eine
@@ -123,7 +112,7 @@ sein (192 × 192 und 512 × 512 sind die üblichen Größen). Der breite
 TrapHouse-Schriftzug taugt dafür nicht — auf dem Homebildschirm würde er in
 einem quadratischen Rahmen entweder gequetscht oder winzig dargestellt.
 
-### 11. Das Tab-Logo ist mit 107 KB sehr groß
+### 10. Das Tab-Logo ist mit 107 KB sehr groß
 
 `traphouse-logo-transparent-v5.png` ist 480 × 215 px groß und wird im Tab auf
 etwa 16 × 16 px angezeigt. Browser laden es trotzdem vollständig.
@@ -145,11 +134,11 @@ aktuelle Tab-Logo.
 
 ## 💡 Merken
 
-**Der Discord-Link und das Impressum sind die zwei Dinge, die wirklich fehlen.**
+**Das Impressum ist das eine Ding, das wirklich noch fehlt.**
 
 Alles andere in dieser Liste ist eine Entscheidung, keine Baustelle.
 
 ## Siehe auch
 
-- [21-Inhalte-aendern](21-Inhalte-aendern.md) — Discord-Link eintragen
+- [21-Inhalte-aendern](21-Inhalte-aendern.md) — Texte und Links ändern
 - [30-RankRoom-spaeter-einbinden](30-RankRoom-spaeter-einbinden.md) — Rechtsseiten übernehmen

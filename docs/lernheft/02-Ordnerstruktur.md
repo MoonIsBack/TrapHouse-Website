@@ -29,6 +29,7 @@ TrapHouse-Website/
     │
     ├── config/           Schalter, die DU umlegst
     │   ├── legalConfig.js     Impressumsangaben ⭐
+    │   ├── linkConfig.js      Links nach außen an/aus
     │   └── scrollConfig.js    'standard' oder 'chapter'
     │
     ├── router/           Welche Adresse zeigt welche Seite

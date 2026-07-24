@@ -14,6 +14,8 @@
 //   keins      → <button>
 import { computed } from 'vue'
 
+import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
+
 const props = defineProps({
   // Ziel innerhalb der Seite, z. B. { name: 'shop' }
   to: {
@@ -52,8 +54,17 @@ const attributes = computed(() => {
   if (props.href) {
     return {
       href: props.href,
-      target: '_blank',
-      rel: 'noopener noreferrer',
+
+      // Ist der Schalter in config/linkConfig.js aus, wird kein neuer Tab
+      // vorbereitet und der Klick unten abgefangen. Der Knopf bleibt aber
+      // vollständig bedienbar — auch mit der Tastatur.
+      target: EXTERNE_LINKS_AKTIV ? '_blank' : null,
+      rel: EXTERNE_LINKS_AKTIV ? 'noopener noreferrer' : null,
+
+      // Teilt Screenreadern mit, dass hier gerade nichts passiert
+      'aria-disabled': EXTERNE_LINKS_AKTIV ? null : 'true',
+
+      onClick: haltExternenKlickAn,
     }
   }
 

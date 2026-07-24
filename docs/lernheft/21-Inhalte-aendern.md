@@ -4,15 +4,12 @@
 
 Vollständige Beispiele zum Abschreiben. Kein Vorwissen nötig.
 
-## Den Discord-Link eintragen
-
-**Die wichtigste offene Stelle im Projekt.** Solange hier `'#'` steht, führen
-alle Discord-Knöpfe ins Leere.
+## Den Discord-Link ändern
 
 `src/data/socialLinks.js`, ganz unten:
 
 ```js
-export const DISCORD_INVITE = 'https://discord.gg/deinCode'
+export const DISCORD_INVITE = 'https://discord.gg/gF4nkXmUpS'
 ```
 
 Speichern — fertig. Damit stimmen auf einen Schlag:
@@ -24,7 +21,54 @@ Speichern — fertig. Damit stimmen auf einen Schlag:
 
 ⚠ Nimm einen **dauerhaften** Einladungslink. Discord-Einladungen laufen
 standardmäßig nach 7 Tagen ab. Beim Erstellen unter „Einladung bearbeiten" auf
-„Nie" stellen.
+„Nie" stellen. Ein abgelaufener Link fällt niemandem auf — er führt einfach
+ins Leere.
+
+## ⭐ Alle Links zu fremden Diensten abschalten
+
+`src/config/linkConfig.js` — **eine Zeile**:
+
+```js
+export const EXTERNE_LINKS_AKTIV = true    // oder false
+```
+
+| Wert | Was passiert |
+|---|---|
+| `true` | Discord, YouTube, TikTok und Instagram öffnen sich normal |
+| `false` | Die Knöpfe und Karten sehen gleich aus und lassen sich anklicken — aber es passiert nichts |
+
+Praktisch, wenn du die Seite herzeigen willst, ohne dass jemand in einem
+halbfertigen Discord-Server landet. Oder wenn ein Kanal gerade umbenannt wird
+und der alte Link ins Leere führen würde.
+
+### Was der Schalter NICHT abschaltet
+
+**1. Die Navigation innerhalb der Seite.** Home, Merch, Discord und Socials
+funktionieren immer — sonst wäre die Seite unbedienbar.
+
+**2. RankRoom.** Das ist dein eigenes Projekt und kein fremder Dienst. Die
+Ausnahme steht direkt am Eintrag in `src/data/navigation.js`:
+
+```js
+{ href: RANKROOM_URL, label: 'RankRoom', external: true, immerErreichbar: true },
+```
+
+Willst du später einen weiteren Link genauso ausnehmen, schreibst du dort
+ebenfalls `immerErreichbar: true` dazu.
+
+**3. Den Link zur Datenschutzerklärung des Hosters.** Auf den muss verwiesen
+werden; ihn abzuschalten wäre kein Schalter, sondern ein Mangel.
+
+### ⚠ Warum die Links nicht einfach verschwinden
+
+Naheliegend wäre, bei `false` das `href` wegzulassen. Das wäre aber ein
+Rückschritt: Ein `<a>` ohne `href` ist für Tastatur und Screenreader **kein
+Link mehr** — er fällt aus der Tab-Reihenfolge und wird nicht mehr angekündigt.
+Die Seite ließe sich je nach Schalterstellung unterschiedlich bedienen.
+
+Stattdessen bleibt alles an seinem Platz, und der Klick wird abgefangen. Für
+Screenreader wird zusätzlich `aria-disabled="true"` gesetzt, damit auch dort
+ankommt: hier passiert gerade nichts.
 
 ## Einen Artikel hinzufügen
 

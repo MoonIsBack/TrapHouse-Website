@@ -36,7 +36,10 @@ export const SOCIAL_LINKS = [
 
 // Der Einladungslink zum Discord-Server.
 //
-// ⚠ Hier steht bewusst noch '#': Sobald du den echten Link hast (discord.gg/…),
-// trägst du ihn hier ein — er wird dann automatisch überall benutzt, wo ein
-// Discord-Knopf auftaucht.
-export const DISCORD_INVITE = '#'
+// Das ist der DAUERLINK — er läuft nicht ab. Discord bietet beim Erstellen
+// einer Einladung auch zeitlich begrenzte Links an; ein solcher würde hier nach
+// einem Tag ins Leere führen, ohne dass es jemandem auffällt.
+//
+// Er wird automatisch überall benutzt, wo ein Discord-Knopf auftaucht:
+// im Kopfbereich, im Hero, im großen Aufruf und im Fußbereich.
+export const DISCORD_INVITE = 'https://discord.gg/gF4nkXmUpS'

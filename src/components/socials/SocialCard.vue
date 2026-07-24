@@ -8,6 +8,7 @@
 // Die Variable wird per :style gesetzt, weil die Farbe aus den Daten kommt und
 // zur Bauzeit noch nicht feststeht. Das ist genau der Fall, für den die CSP in
 // vite.config.js 'unsafe-inline' bei style-src erlaubt.
+import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
 import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
 import IconTikTok from '@/components/icons/IconTikTok.vue'
@@ -33,11 +34,13 @@ const SOCIAL_ICONS = {
 <template>
   <a
     :href="social.url"
-    target="_blank"
-    rel="noopener noreferrer"
+    :target="EXTERNE_LINKS_AKTIV ? '_blank' : null"
+    :rel="EXTERNE_LINKS_AKTIV ? 'noopener noreferrer' : null"
+    :aria-disabled="EXTERNE_LINKS_AKTIV ? null : 'true'"
     class="social-card reveal reveal-pop spotlight"
     :style="{ '--brand': social.brand }"
     @pointermove="onPointerMove"
+    @click="haltExternenKlickAn"
   >
     <span class="social-icon">
       <component :is="SOCIAL_ICONS[social.id]" />

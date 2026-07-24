@@ -12,11 +12,12 @@ sechs Dateien.
 Hier steht der **Discord-Einladungslink** und jeder Social-Kanal.
 
 ```js
-export const DISCORD_INVITE = '#'   // ← hier deinen echten Link eintragen
+export const DISCORD_INVITE = 'https://discord.gg/gF4nkXmUpS'
 ```
 
-⚠ Solange hier `'#'` steht, führen **alle** Discord-Knöpfe ins Leere.
-Das ist die wichtigste offene Stelle im ganzen Projekt.
+⚠ Das muss ein **Dauerlink** sein. Discord bietet beim Erstellen einer
+Einladung auch zeitlich begrenzte Links an — so einer würde hier nach einem Tag
+ins Leere führen, ohne dass es jemandem auffällt.
 
 Einen Kanal ergänzen: Eintrag in `SOCIAL_LINKS` hinzufügen, dann in
 `AppFooter.vue` und `SocialCard.vue` das passende Icon in `SOCIAL_ICONS`
@@ -74,7 +75,8 @@ Fehlt eins davon, bricht die Navigation.
 
 | Ich will … | Datei |
 |---|---|
-| Discord-Link eintragen | `data/socialLinks.js` |
+| Discord-Link ändern | `data/socialLinks.js` |
+| Alle Links zu fremden Diensten abschalten | `config/linkConfig.js` |
 | Instagram-Namen ändern | `data/socialLinks.js` |
 | Preis ändern | `data/products.js` |
 | Artikel hinzufügen | `data/products.js` |
