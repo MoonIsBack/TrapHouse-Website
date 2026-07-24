@@ -1,0 +1,18 @@
+{
+  "name": "TrapHouse | Deine Musik Community",
+  "short_name": "TrapHouse",
+  "description": "Deine Musik Community",
+  "start_url": "/TrapHouse-Website/",
+  "scope": "/TrapHouse-Website/",
+  "display": "standalone",
+  "background_color": "#0b070a",
+  "theme_color": "#0b070a",
+  "icons": [
+    {
+      "src": "traphouse-favicon-v3.png?v=4",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
