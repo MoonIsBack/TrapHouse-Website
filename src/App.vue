@@ -35,17 +35,10 @@ import ScrollProgress from '@/components/ui/ScrollProgress.vue'
            die Einblend-Animation jedes Mal neu, und die Elemente mit .reveal
            werden erneut beobachtet.
 
-           ⚠ Hier stand kurzzeitig ein <Transition mode="out-in">. Das sieht
-           auf den ersten Blick eleganter aus, macht aber die nachgeladenen
-           Unterseiten kaputt: Shop, Discord und Socials werden erst beim
-           Aufruf heruntergeladen (siehe router/index.js) und sind im Moment
-           des Wechsels noch gar nicht da. <Transition> braucht aber genau ein
-           Kind — bei "noch nichts da" wartet es auf einen Übergang, der nie
-           kommt, und die Seite bleibt leer.
-
-           Ein einfacher Rahmen mit CSS-Animation kennt dieses Problem nicht:
-           Er animiert sich selbst, unabhängig davon, wann sein Inhalt fertig
-           geladen ist. -->
+           Ein einfacher Rahmen mit CSS-Animation hält den Seitenwechsel kurz
+           und zuverlässig. Die kleinen Unterseiten werden direkt mit der App
+           geladen, damit Desktop- und Mobilnavigation schon beim ersten Klick
+           ohne Nachladepause reagieren. -->
       <div :key="route.name" class="page-anim">
         <component :is="Component" />
       </div>

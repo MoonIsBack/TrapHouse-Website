@@ -349,13 +349,13 @@ button {
    Die Animation liegt auf einem Rahmen um die Seite (siehe App.vue) und läuft
    bei jedem Wechsel neu an, weil der Rahmen über :key neu aufgebaut wird. */
 .page-anim {
-  animation: page-in 0.34s ease both;
+  animation: page-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(6px);
   }
 }
 

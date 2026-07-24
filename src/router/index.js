@@ -1,6 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
+import ShopView from '@/views/ShopView.vue'
+import DiscordView from '@/views/DiscordView.vue'
+import SocialsView from '@/views/SocialsView.vue'
+import ImprintView from '@/views/ImprintView.vue'
+import PrivacyView from '@/views/PrivacyView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 import { showLegalPages } from '@/config/legalConfig'
 
 // WARUM HASH-ROUTING (die # in der Adresse)?
@@ -40,20 +46,19 @@ const router = createRouter({
     {
       path: '/shop',
       name: 'shop',
-      // Die übrigen Ansichten werden erst geladen, wenn sie gebraucht werden
-      // ("lazy loading"). Wer nur die Startseite anschaut, lädt den Shop-Code
-      // gar nicht erst herunter.
-      component: () => import('@/views/ShopView.vue'),
+      // Die Unterseiten sind bewusst direkt geladen: Sie sind sehr klein und
+      // reagieren dadurch schon beim ersten Navigationsklick ohne Ladepause.
+      component: ShopView,
     },
     {
       path: '/discord',
       name: 'discord',
-      component: () => import('@/views/DiscordView.vue'),
+      component: DiscordView,
     },
     {
       path: '/socials',
       name: 'socials',
-      component: () => import('@/views/SocialsView.vue'),
+      component: SocialsView,
     },
 
     // RECHTSSEITEN
@@ -73,12 +78,12 @@ const router = createRouter({
           {
             path: '/impressum',
             name: 'impressum',
-            component: () => import('@/views/ImprintView.vue'),
+            component: ImprintView,
           },
           {
             path: '/datenschutz',
             name: 'datenschutz',
-            component: () => import('@/views/PrivacyView.vue'),
+            component: PrivacyView,
           },
         ]
       : []),
@@ -88,7 +93,7 @@ const router = createRouter({
     {
       path: '/:pfad(.*)*',
       name: 'not-found',
-      component: () => import('@/views/NotFoundView.vue'),
+      component: NotFoundView,
     },
   ],
 
@@ -106,7 +111,10 @@ const router = createRouter({
       return { el: to.hash, behavior: 'smooth' }
     }
 
-    return { top: 0 }
+    // Beim Seitenwechsel sofort oben beginnen. Ohne "instant" übernimmt die
+    // globale Smooth-Scroll-Regel und lässt die neue Seite scheinbar langsam
+    // laden, während der Browser in Wahrheit nur noch nach oben scrollt.
+    return { top: 0, behavior: 'instant' }
   },
 })
 
