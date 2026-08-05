@@ -6,8 +6,18 @@
 // eigentlich ist. Wer die Seite zum ersten Mal sieht, braucht genau das.
 import { HIGHLIGHTS } from '@/data/community'
 import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
+import { usePointerTilt } from '@/composables/usePointerTilt'
 
-const { onPointerMove } = usePointerSpotlight()
+const { onPointerMove: moveSpotlight } = usePointerSpotlight()
+const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
+
+// Beide Zeiger-Composables hören auf dasselbe Ereignis — hier zusammengefasst,
+// damit im Template nur ein Handler steht statt zwei @pointermove auf einem
+// Element (das würde nur der letzte gewinnen).
+function onPointerMove(event) {
+  moveSpotlight(event)
+  moveTilt(event)
+}
 </script>
 
 <template>
@@ -18,8 +28,9 @@ const { onPointerMove } = usePointerSpotlight()
     <article
       v-for="(item, index) in HIGHLIGHTS"
       :key="item.id"
-      class="highlight-card reveal reveal-pop spotlight"
+      class="highlight-card reveal reveal-pop reveal-cinematic spotlight"
       @pointermove="onPointerMove"
+      @pointerleave="onTiltLeave"
     >
       <!-- Die Nummer ist Deko, aber sie gibt dem Raster einen Takt und lässt
            die Karten wie eine Aufzählung wirken statt wie vier lose Kästen. -->
@@ -70,6 +81,31 @@ const { onPointerMove } = usePointerSpotlight()
   transform: translateY(-5px);
   border-color: rgba(var(--accent-rgb), 0.35);
   background: var(--surface-hover);
+}
+
+/* 3D-KIPPEN — nur mit echtem Zeiger
+   usePointerTilt.js schreibt --rx/--ry als Neigungswinkel. Diese Erweiterung
+   der Hover-Regel von oben (gleiche Selektoren, aber innerhalb der Abfrage
+   und später im Quelltext) gewinnt auf Geräten mit Maus/Trackpad; Touchscreens
+   sehen unverändert die einfache Anhebung von oben.
+   → main.css benutzt dieselbe Abfrage für den Lichtfleck (.spotlight). */
+@media (hover: hover) and (pointer: fine) {
+  .highlight-card {
+    --rx: 0deg;
+    --ry: 0deg;
+
+    /* --ease-out-smooth statt --ease-spring: siehe main.css. Etwas länger
+       (0.5s statt 0.4s) für ein ruhigeres Eintreten, wenn der Zeiger aus dem
+       Leeren auf die Karte kommt. */
+    transition:
+      transform 0.5s var(--ease-out-smooth),
+      border-color var(--transition),
+      background var(--transition);
+  }
+
+  .highlight-card:hover {
+    transform: perspective(900px) translateY(-5px) rotateX(var(--rx)) rotateY(var(--ry));
+  }
 }
 
 /* Alles außer dem Lichtfleck muss über ihm liegen, sonst legt sich der

@@ -6,24 +6,29 @@ Ein Verzeichnis: Was macht welche Datei, und wo wird sie benutzt?
 
 ## Der Rahmen
 
-### `App.vue` (73 Zeilen)
+### `App.vue` (90 Zeilen)
 
-Der Rahmen um alles. Setzt Kopfbereich, Inhalt, Fußbereich und die beiden
-Deko-Ebenen zusammen. Enthält außerdem den „Zum Inhalt springen"-Link für die
+Der Rahmen um alles. Setzt Kopfbereich, Inhalt, Fußbereich und die
+Deko-Ebenen zusammen (Hintergrundschein, Fortschrittsbalken, Pixel-Figuren,
+eigener Cursor). Enthält außerdem den „Zum Inhalt springen"-Link für die
 Tastaturbedienung.
 
-### `components/AppHeader.vue` (304 Zeilen)
+### `components/AppHeader.vue` (420 Zeilen)
 
 Der klebende Kopfbereich. Die größte Datei im Projekt, weil sie zwei
 Navigationen enthält: die Leiste für breite Bildschirme und das Klappmenü fürs
 Handy.
 
-Zwei Feinheiten:
+Drei Feinheiten:
 
 - Ganz oben ist er durchsichtig, beim Scrollen wird er milchig — sonst läge ein
   Balken über dem Hero-Bild
-- Die aktive Seite bekommt einen farbigen Punkt. Die Klasse dafür
+- Die aktive Seite ist farbig markiert. Die Klasse dafür
   (`router-link-active`) vergibt der Router selbst
+- Hinter Hover- und aktivem Link gleitet eine Fläche her (`.nav-highlight`)
+  statt eines statischen Punkts — Position und Breite kommen per
+  `getBoundingClientRect()`, ausführlich in
+  [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
 
 ### `components/AppFooter.vue` (178 Zeilen)
 
@@ -31,10 +36,14 @@ Logo, Navigation, Social-Links, Jahreszahl. Liest alles aus `data/`. Die
 Jahreszahl kommt aus `new Date().getFullYear()`, damit dort nie eine veraltete
 Zahl steht.
 
-### `components/BackdropGlow.vue`
+### `components/BackdropGlow.vue` (202 Zeilen)
 
 Die farbigen Schleier im Hintergrund. Liegt hinter allem (`z-index: -1`) und
 lässt Klicks durch (`pointer-events: none`).
+
+Jeder Fleck steckt in einer eigenen Hülle, die zusätzlich zur dauerhaften
+Drift eine scroll-gebundene Verschiebung trägt — Details dazu in
+[16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
 
 ⚠ Fehlte `pointer-events: none`, läge eine unsichtbare Fläche über der Seite
 und würde jeden Klick schlucken. Ein Fehler, der schwer zu finden ist, weil
@@ -101,9 +110,19 @@ mitentschärft:
 Die beiden Pixel-Figuren unten. Auf Bildschirmen unter 900 px ausgeblendet,
 weil sie dort den Inhalt verdecken würden.
 
+### `components/AppCursor.vue` (236 Zeilen)
+
+Ein eigener Punkt + Ring, der dem Mauszeiger folgt und sich über Links,
+Knöpfen und Karten vergrößert. Nur aktiv mit echtem Zeiger und ohne
+„Bewegung reduzieren" — sonst bleibt einfach der normale Zeiger sichtbar.
+
+⚠ Der native Zeiger wird nie fest per CSS versteckt, sondern nur über eine
+Klasse, die diese Komponente erst nach Prüfung ans `<html>` setzt. Details
+dazu in [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
+
 ## Wiederverwendbare Bausteine (`ui/`)
 
-### `ui/BaseButton.vue` (131 Zeilen)
+### `ui/BaseButton.vue` (190 Zeilen)
 
 Der eine Knopf für alles. Entscheidet selbst, welches HTML-Element er wird:
 
@@ -115,6 +134,11 @@ Der eine Knopf für alles. Entscheidet selbst, welches HTML-Element er wird:
 
 Zwei Ausführungen: `variant="primary"` (Orange-Verlauf) und `variant="ghost"`
 (nur Umrandung).
+
+Auf Geräten mit echtem Zeiger zieht sich der Knopf zusätzlich ein kleines
+Stück in Richtung Zeiger (`useMagneticPointer.js`) und schnappt mit einer
+Feder-Kurve zurück — Details in
+[16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
 
 ### `ui/SectionHeader.vue` (81 Zeilen)
 
@@ -168,27 +192,41 @@ unsichtbar. Ohne die Verdopplung entstünde am Ende eine Lücke.
 
 ### `home/HeroSection.vue`
 
-Der Bereich ganz oben auf der Startseite. Das Bild ist ein echtes `<img>` und
-kein CSS-Hintergrund — der Browser findet es dadurch früher und kann es
-parallel laden.
+Der Bereich ganz oben auf der Startseite. Der Hintergrund ist **kein Bild**,
+sondern `.hero-aura` — mehrere `radial-gradient`-Schichten in den
+Markenfarben über einem dunklen Verlauf, nach demselben Bauplan wie
+`BackdropGlow.vue`, nur lokal auf den Hero zugeschnitten.
 
-Darüber liegen drei Schichten: eine Abdunklung für die Lesbarkeit, ein oranger
-Schein hinter der Überschrift und ein feines Raster für Struktur.
+Darüber liegen vier weitere Schichten: eine feine Körnung gegen Banding auf
+den großen Verläufen, eine Abdunklung für die Lesbarkeit, ein zusätzlicher
+oranger Schein direkt hinter der Überschrift und ein feines Raster für
+Struktur.
 
-⭐ **Warum dort nicht mehr die Instagram-Grafik liegt.** Ursprünglich war
-`hero-backdrop.webp` der Hintergrund — die Community-Kachel von Instagram. Die
-ist aber voller Text („Jeder ist willkommen", „Was euch erwartet:"). Dieser
-Text schlug durch die Abdunklung und stand direkt neben der echten Überschrift.
-Zwei konkurrierende Texte übereinander liest niemand als Gestaltung, sondern
-als Fehler.
+⭐ **Warum dort kein Foto mehr liegt.** Ursprünglich war `hero-backdrop.webp`
+der Hintergrund — die Community-Kachel von Instagram. Die war aber voller
+Text („Jeder ist willkommen", „Was euch erwartet:"), der durch die Abdunklung
+schlug und neben der echten Überschrift stand. Als Reparatur folgte
+`hero-texture.webp`: dieselbe Grafik, aber so stark weichgezeichnet, dass nur
+ein Farbverlauf übrig blieb — Text war weg, aber ein auf 5 KB
+weichgezeichnetes, über die volle Breite gezerrtes Foto sah aus der Nähe nach
+genau dem aus, was es war: unscharf.
 
-Jetzt liegt dort `hero-texture.webp`: dieselbe Grafik, aber so stark
-weichgezeichnet, dass nur ein Farbverlauf übrig bleibt. Markenfarben bleiben,
-Text ist weg — und die Datei schrumpfte von 179 KB auf 5 KB, weil ein
-weichgezeichnetes Bild kaum noch Information enthält.
+Seit 06.08.2026 liegt dort deshalb überhaupt kein Bild mehr. Ein
+`radial-gradient` ist in jeder Auflösung von Natur aus scharf — er kann gar
+nicht verwaschen aussehen, weil nichts hochskaliert werden muss. Nebeneffekt:
+eine Bilddatei weniger zu laden. `hero-texture.webp` bleibt trotzdem im
+Projekt liegen (`docs/lernheft/20-Bilder-und-Schriften.md`), falls doch wieder
+ein Foto gewünscht ist.
 
 **Die Lehre daraus:** Ein Hero-Hintergrund muss Atmosphäre liefern, nicht
-Inhalt. Sobald er selbst etwas sagen will, kämpft er mit dem Text davor.
+Inhalt — und diese Atmosphäre muss nicht zwingend aus einem Foto kommen. Wo
+ein Bild nur noch als verschwommener Farbfleck dienen soll, malt ein
+handgebauter Verlauf oft das schärfere, kontrolliertere Ergebnis.
+
+Die beiden Überschriftzeilen fahren wie ein Vorhang von unten herein statt nur
+zu verblassen, und der ganze Textblock zieht sich beim Herunterscrollen leicht
+zurück (rein CSS-gesteuert, `animation-timeline: scroll(root block)`) —
+Details in [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
 
 ### `home/HighlightGrid.vue`
 
@@ -197,7 +235,11 @@ Inhalt. Sobald er selbst etwas sagen will, kämpft er mit dem Text davor.
 Dieser Bereich hat lange gefehlt: Die Startseite sprang vom Willkommensgruß
 direkt zum T-Shirt, ohne je zu sagen, was die Community eigentlich ist.
 
-### `shop/ProductCard.vue` (207 Zeilen)
+Wie `ProductCard.vue` und `SocialCard.vue` kombiniert diese Karte den
+Lichtfleck (`usePointerSpotlight.js`) mit einem leichten 3D-Kippen
+(`usePointerTilt.js`) und dem scroll-gebundenen `.reveal-cinematic`.
+
+### `shop/ProductCard.vue` (263 Zeilen)
 
 Eine Artikel-Karte. Liest `status` aus den Daten und schaltet die Knöpfe
 entsprechend frei oder grau.
@@ -205,7 +247,7 @@ entsprechend frei oder grau.
 Das Bild sitzt in einem festen Seitenverhältnis (`aspect-ratio: 4 / 5`), damit
 mehrere Karten nebeneinander gleich hoch beginnen.
 
-### `socials/SocialCard.vue` (149 Zeilen)
+### `socials/SocialCard.vue` (194 Zeilen)
 
 Eine Kanal-Karte. Die Markenfarbe kommt aus den Daten und erscheint erst beim
 Darüberfahren — im Ruhezustand bleibt alles orange.
@@ -260,3 +302,5 @@ nicht zweimal hingeschrieben.
 
 - [03-Wie-TrapHouse-aufgebaut-ist](03-Wie-TrapHouse-aufgebaut-ist.md)
 - [12-Composables-Uebersicht](12-Composables-Uebersicht.md)
+- [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md) —
+  Magnet-Knöpfe, 3D-Kippen, Vorhang-Reveal, eigener Cursor

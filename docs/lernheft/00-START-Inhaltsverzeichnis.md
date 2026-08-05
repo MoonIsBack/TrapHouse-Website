@@ -50,6 +50,7 @@ bei dem es nicht um Optik geht.
 | 13 | [Design-Tokens und Farben](13-Design-Tokens-und-Farben.md) | Wie das Aussehen zusammenhängt |
 | 14 | [Router und Unterseiten](14-Router-und-Unterseiten.md) | Warum die `#` in der Adresse steht |
 | 15 | [Scrollverhalten](15-Scrollverhalten.md) | Der Schalter zwischen „normal" und „Kapitel" |
+| 16 | [Scroll-Effekte und Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md) | Magnet-Knöpfe, 3D-Kippen, Vorhang-Reveal, eigener Cursor |
 
 ### Inhalte und Material
 

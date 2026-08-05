@@ -96,6 +96,26 @@
   /* --- Übergänge -------------------------------------------------------
      Eine Dauer für alles, damit sich die Seite einheitlich anfühlt. */
   --transition: 0.25s ease;
+
+  /* Eine Feder-Kurve mit leichtem Überschwingen — für Dinge, die sich aktiv
+     "zurückschnappen" sollen (Magnet-Buttons, Vorhang-Reveal), statt nur
+     linear anzukommen. Läuft komplett auf transform/opacity, kostet also
+     nichts zusätzlich an Rechenzeit. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Dieselbe Kurve, die schon .page-anim beim Seitenwechsel benutzt: schnell
+     raus, weich abgebremst, kein Überschwingen. Für große, einmalige
+     Bewegungen wie den Vorhang-Reveal der Hero-Überschrift — dort wäre ein
+     Zurückfedern zu verspielt für eine Überschrift. */
+  --ease-out-hero: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Weich abgebremst wie --ease-out-hero, aber nicht ganz so schnell am
+     Anfang — und vor allem OHNE jedes Überschwingen, anders als
+     --ease-spring. Für Dinge, die sehr häufig zwischen zwei Zuständen
+     wechseln (Karten-Kippen, der Ring des eigenen Cursors): Eine Feder, die
+     bei jedem Wechsel kurz "boingt", wirkt nach dem dritten Mal unruhig statt
+     lebendig. */
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -189,6 +209,28 @@ a {
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+/* EIGENER CURSOR — im Ruhezustand aus
+   AppCursor.vue setzt diese Klasse erst per JavaScript, und zwar erst,
+   nachdem geprüft wurde, dass ein echter Zeiger vorhanden ist UND "Bewegung
+   reduzieren" nicht eingestellt ist. Ohne die Klasse hier passiert gar
+   nichts — der native Zeiger bleibt also in jedem Fehlerfall, auf jedem
+   Touchscreen und bei jeder Bewegungseinstellung sichtbar.
+   !important: Es gibt keinen Fall, in dem ein einzelnes Element (z. B. ein
+   <button> mit seinem eigenen "cursor: pointer" oben) den nativen Zeiger
+   zurückholen soll, während der eigene aktiv ist. */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+
+/* MARKIERTER TEXT
+   Ohne diese Regel markiert jeder Browser mit seinem eigenen Standardblau —
+   das wirkt neben einer durchgestylten Seite wie ein Fremdkörper. */
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 /* TASTATUR-BEDIENUNG
@@ -327,6 +369,46 @@ button {
 }
 .reveal-stagger > *:nth-child(n + 6) {
   transition-delay: 0.35s;
+}
+
+/* KINO-EINBLENDEN BEI SCROLL-FÄHIGEN BROWSERN
+   ============================================
+   Ergänzt .reveal oben um eine modernere zweite Stufe: Statt einer einmal
+   abgespielten Übergangs-Animation folgt die Bewegung hier direkt und
+   stetig der Scrollposition (animation-timeline: view()). Das übernimmt der
+   Browser auf der Grafikkarte, völlig ohne JavaScript pro Bild — dieselbe
+   Idee wie bei useScrollProgress.js, nur dass die Technik dort (noch) nicht
+   eingesetzt wird, weil ein dauerhaft sichtbarer Fortschrittsbalken in jedem
+   Browser laufen MUSS. Hier ist es reine Dekoration: Browser ohne
+   Unterstützung sehen unverändert die JS/Transition-Variante von .reveal.
+
+   WARUM DAS NICHT GEGEN "einmal sichtbar bleibt sichtbar" VERSTÖSST
+   (siehe useScrollReveal.js): Eine zeitgesteuerte Animation, die bei jedem
+   erneuten Vorbeiscrollen nochmal abläuft, wirkt nach dem zweiten Mal
+   aufdringlich — genau deshalb bleiben .reveal-Elemente nach dem ersten Mal
+   sichtbar. Eine view()-Animation "spielt" aber nichts ab: Sie ist ein
+   direkter Ausdruck der aktuellen Scrollposition, genau wie eine Parallaxe.
+   Deshalb bleibt die Bewegungsspanne hier bewusst klein statt ein
+   auffälliges Rein-Raus-Flackern beim Hin- und Herscrollen zu erzeugen. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-cinematic {
+      opacity: 1;
+      transform: none;
+      transition: none;
+
+      animation: reveal-cinematic-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@keyframes reveal-cinematic-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.94) rotate(-1deg);
+  }
 }
 
 /* ZEIGER-SCHEINWERFER AUF KARTEN

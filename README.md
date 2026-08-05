@@ -15,6 +15,8 @@ Projekt, es gibt kein Tracking und keine Cookies.
   (`'standard'` oder `'chapter'`)
 - Links zu fremden Diensten per Schalter abschaltbar
   (`src/config/linkConfig.js`)
+- Eigener Mauszeiger per Schalter an-/abschaltbar (`src/config/cursorConfig.js`,
+  aktuell aus)
 - Klappmenü fürs Handy — schließt bei Escape und beim Seitenwechsel
 - Einblenden beim Scrollen, abgeschaltet für alle, die „Bewegung reduzieren"
   eingestellt haben

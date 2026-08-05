@@ -9,10 +9,19 @@ import { computed } from 'vue'
 
 import { formatPrice } from '@/data/products'
 import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
+import { usePointerTilt } from '@/composables/usePointerTilt'
 import IconHeart from '@/components/icons/IconHeart.vue'
 import IconCart from '@/components/icons/IconCart.vue'
 
-const { onPointerMove } = usePointerSpotlight()
+const { onPointerMove: moveSpotlight } = usePointerSpotlight()
+const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
+
+// Siehe HighlightGrid.vue: beide Zeiger-Composables in einem Handler
+// zusammengefasst, damit im Template nur ein @pointermove nötig ist.
+function onPointerMove(event) {
+  moveSpotlight(event)
+  moveTilt(event)
+}
 
 const props = defineProps({
   product: {
@@ -25,7 +34,11 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
 </script>
 
 <template>
-  <article class="product-card reveal reveal-pop spotlight" @pointermove="onPointerMove">
+  <article
+    class="product-card reveal reveal-pop reveal-cinematic spotlight"
+    @pointermove="onPointerMove"
+    @pointerleave="onTiltLeave"
+  >
     <div class="product-image">
       <img :src="product.image" :alt="product.imageAlt" loading="lazy" width="900" height="1350" />
 
@@ -89,6 +102,28 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   transform: translateY(-6px);
   border-color: rgba(var(--accent-rgb), 0.42);
   box-shadow: var(--shadow-lifted);
+}
+
+/* 3D-KIPPEN — nur mit echtem Zeiger. Siehe HighlightGrid.vue für die
+   ausführliche Begründung; hier dieselbe Technik, nur mit der Anhebung
+   dieser Karte (-6px statt -5px). */
+@media (hover: hover) and (pointer: fine) {
+  .product-card {
+    --rx: 0deg;
+    --ry: 0deg;
+
+    /* --ease-out-smooth statt --ease-spring: siehe main.css. Etwas länger
+       (0.5s statt 0.4s) für ein ruhigeres Eintreten, wenn der Zeiger aus dem
+       Leeren auf die Karte kommt. */
+    transition:
+      transform 0.5s var(--ease-out-smooth),
+      border-color var(--transition),
+      box-shadow var(--transition);
+  }
+
+  .product-card:hover {
+    transform: perspective(900px) translateY(-6px) rotateX(var(--rx)) rotateY(var(--ry));
+  }
 }
 
 /* Bild und Textteil müssen über dem Lichtfleck liegen — sonst legt der sich

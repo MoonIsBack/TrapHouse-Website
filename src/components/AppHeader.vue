@@ -7,7 +7,8 @@
 //
 // Die Navigationseinträge kommen aus data/navigation.js; der Kopfbereich
 // entscheidet nicht selbst, welche Seiten es gibt.
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, nextTick, onMounted, onBeforeUnmount, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { NAV_LINKS } from '@/data/navigation'
 import { DISCORD_INVITE } from '@/data/socialLinks'
@@ -21,12 +22,79 @@ import IconClose from '@/components/icons/IconClose.vue'
 import logo from '@/assets/images/traphouse-logo.webp'
 
 const { isOpen, toggle, close } = useMobileNav()
+const route = useRoute()
+const router = useRouter()
 
 const isScrolled = ref(false)
 
 function handleScroll() {
   isScrolled.value = window.scrollY > 12
 }
+
+// GLEITENDE HERVORHEBUNG IN DER NAVIGATION
+// =========================================
+// Statt eines statischen Punkts unter dem aktiven Eintrag (das war vorher
+// die einzige Kennzeichnung) gleitet jetzt eine Fläche hinter Hover- und
+// aktivem Link her. Position und Breite kommen per getBoundingClientRect —
+// dieselbe Technik, mit der auch usePointerSpotlight.js & Co. arbeiten, nur
+// hier ohne eigenes Composable, weil sie ausschließlich hier gebraucht wird.
+const desktopNavRef = ref(null)
+const highlightVisible = ref(false)
+const highlightX = ref(0)
+const highlightWidth = ref(0)
+
+function positionHighlightOn(linkElement) {
+  const containerElement = desktopNavRef.value
+  if (!linkElement || !containerElement) return
+
+  const containerRect = containerElement.getBoundingClientRect()
+  const linkRect = linkElement.getBoundingClientRect()
+
+  highlightX.value = linkRect.left - containerRect.left
+  highlightWidth.value = linkRect.width
+  highlightVisible.value = true
+}
+
+function activeLinkElement() {
+  return desktopNavRef.value?.querySelector('.router-link-active') ?? null
+}
+
+// Beim Überfahren eines beliebigen Links dorthin gleiten. Ein einzelner
+// Lauscher am <nav> statt einem pro Link — dieselbe Delegations-Idee wie bei
+// haltExternenKlickAn im Fußbereich.
+function onNavPointerOver(event) {
+  const link = event.target.closest('.nav-link')
+  if (link) positionHighlightOn(link)
+}
+
+// Beim Verlassen zurück zum aktiven Eintrag — oder ganz verstecken, wenn
+// gerade keiner der Links die aktuelle Seite ist (z. B. auf einer Rechtsseite).
+function onNavPointerLeave() {
+  const active = activeLinkElement()
+
+  if (active) {
+    positionHighlightOn(active)
+  } else {
+    highlightVisible.value = false
+  }
+}
+
+// Nach jedem Seitenwechsel und einmal beim Laden auf den neuen aktiven Link
+// ausrichten. nextTick, weil der Router die Klasse "router-link-active" erst
+// setzt, nachdem Vue die Navigation neu gezeichnet hat.
+function syncHighlightToRoute() {
+  nextTick(() => {
+    const active = activeLinkElement()
+
+    if (active) {
+      positionHighlightOn(active)
+    } else {
+      highlightVisible.value = false
+    }
+  })
+}
+
+watch(() => route.fullPath, syncHighlightToRoute)
 
 onMounted(() => {
   // passive: true sagt dem Browser zu, dass dieser Lauscher das Scrollen
@@ -37,10 +105,25 @@ onMounted(() => {
   // Einmal direkt aufrufen: Wer die Seite mittendrin neu lädt, startet nicht
   // zwangsläufig ganz oben.
   handleScroll()
+
+  // ⚠ NICHT einfach syncHighlightToRoute() direkt aufrufen: main.js hängt die
+  // App ein, OHNE vorher auf router.isReady() zu warten (bewusst so — sonst
+  // stünde die Seite beim ersten Laden kurz leer da, bis der Router fertig
+  // ist). Dadurch läuft dieser onMounted-Block VOR der ersten Auflösung der
+  // Route, und noch kein Link trägt die Klasse "router-link-active". Ein
+  // nextTick() allein reicht hier nicht — das wartet nur auf Vues nächstes
+  // Neuzeichnen, nicht auf die (separate, asynchrone) Routenauflösung.
+  // router.isReady() wird genau dafür von vue-router angeboten.
+  router.isReady().then(syncHighlightToRoute)
+
+  // Ändert sich die Fensterbreite (oder die Schriftgröße im Betriebssystem),
+  // verschieben sich auch die Linkbreiten — die Hervorhebung muss mitziehen.
+  window.addEventListener('resize', syncHighlightToRoute)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', syncHighlightToRoute)
 })
 </script>
 
@@ -60,7 +143,23 @@ onBeforeUnmount(() => {
            :key ist das Label und nicht der Name: Externe Einträge haben gar
            keinen "name", und ein v-for ohne eindeutigen key führt zu
            merkwürdigen Fehlern beim Neuzeichnen. -->
-      <nav class="desktop-nav" aria-label="Hauptnavigation">
+      <nav
+        ref="desktopNavRef"
+        class="desktop-nav"
+        aria-label="Hauptnavigation"
+        @pointerover="onNavPointerOver"
+        @pointerleave="onNavPointerLeave"
+      >
+        <span
+          class="nav-highlight"
+          :class="{ 'is-visible': highlightVisible }"
+          :style="{
+            '--nav-highlight-x': `${highlightX}px`,
+            '--nav-highlight-width': `${highlightWidth}px`,
+          }"
+          aria-hidden="true"
+        />
+
         <NavLink
           v-for="link in NAV_LINKS"
           :key="link.label"
@@ -159,6 +258,7 @@ onBeforeUnmount(() => {
 
 /* --- Navigation auf großen Bildschirmen --- */
 .desktop-nav {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -167,8 +267,40 @@ onBeforeUnmount(() => {
   margin: 0 auto;
 }
 
+/* DIE GLEITENDE HERVORHEBUNG
+   AppHeader.vue schreibt Position und Breite als --nav-highlight-x/-width,
+   ermittelt aus der tatsächlichen Größe des gerade relevanten Links. transform
+   statt left/width als animierte Eigenschaft, damit der Browser nichts neu
+   layouten muss, während sie gleitet — nur width bleibt zwangsläufig eine
+   Layout-Eigenschaft, ändert sich aber seltener als die Position. */
+.nav-highlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 0;
+
+  height: 36px;
+  width: var(--nav-highlight-width, 0px);
+  transform: translate(var(--nav-highlight-x, 0px), -50%);
+
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s var(--ease-spring),
+    width 0.35s var(--ease-spring),
+    opacity 0.2s ease;
+}
+
+.nav-highlight.is-visible {
+  opacity: 1;
+}
+
 .desktop-nav a {
   position: relative;
+  z-index: 1;
   padding: 8px 14px;
   border-radius: var(--radius-pill);
 
@@ -176,33 +308,19 @@ onBeforeUnmount(() => {
   font-size: 0.93rem;
   font-weight: 600;
 
-  transition:
-    color var(--transition),
-    background var(--transition);
+  transition: color var(--transition);
 }
 
 .desktop-nav a:hover {
   color: var(--text);
-  background: var(--surface);
 }
 
-/* Der aktive Eintrag: in der Akzentfarbe und mit einem kleinen Punkt darunter.
-   Die Klasse vergibt der Router selbst. */
+/* Der aktive Eintrag: in der Akzentfarbe. Die Klasse vergibt der Router
+   selbst. Die Position wird zusätzlich von der gleitenden Fläche oben
+   markiert — ein einzelner, durchgängiger Indikator statt zweier
+   verschiedener (früher: Punkt + Farbe). */
 .desktop-nav a.router-link-active {
   color: var(--accent-strong);
-}
-
-.desktop-nav a.router-link-active::after {
-  content: '';
-  position: absolute;
-  bottom: 1px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
 }
 
 .header-actions {

@@ -2,7 +2,7 @@
 
 ## Wofür ist das?
 
-TrapHouse hat acht Composables. Jedes erledigt Dinge, die man beim
+TrapHouse hat zehn Composables. Jedes erledigt Dinge, die man beim
 Selbstbauen zuverlässig vergisst — Aufräumen, Rücksicht auf Einstellungen,
 Schonung der Rechenleistung.
 
@@ -13,6 +13,8 @@ Schonung der Rechenleistung.
 | `useScrollProgress.js` | Fortschrittsbalken ganz oben |
 | `useParallax.js` | Hintergrund wandert langsamer als der Text |
 | `usePointerSpotlight.js` | Lichtfleck folgt dem Mauszeiger über Karten |
+| `usePointerTilt.js` | Karte neigt sich leicht in Richtung Zeiger |
+| `useMagneticPointer.js` | Knopf zieht sich ein Stück in Richtung Zeiger |
 | `useHomeScroll.js` | Wählt aus, wie die Startseite scrollt |
 | `useStandardScroll.js` | Normales Browser-Scrollen (absichtlich leer) |
 | `useChapterScroll.js` | Ein Impuls = ein Kapitel weiter |
@@ -20,6 +22,11 @@ Schonung der Rechenleistung.
 Die letzten drei gehören zusammen und werden über **einen Schalter** in
 `src/config/scrollConfig.js` ausgewählt.
 → Eigenes Kapitel: [15-Scrollverhalten](15-Scrollverhalten.md)
+
+`usePointerTilt.js` und `useMagneticPointer.js` folgen demselben Muster wie
+`usePointerSpotlight.js` (siehe unten) und gehören zu den neueren
+Mikrointeraktionen.
+→ Eigenes Kapitel: [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
 
 ## Was ist ein Composable nochmal?
 
@@ -190,6 +197,19 @@ Bild, mal die Überschrift. Die Fleckposition würde je nach Untergrund
 umspringen. `currentTarget` ist immer die Karte selbst, also das Element mit
 dem Lauscher.
 
+## `usePointerTilt.js` (71 Zeilen) und `useMagneticPointer.js` (67 Zeilen)
+
+Zwei Geschwister von `usePointerSpotlight.js`, nach demselben Bauplan:
+`requestAnimationFrame`, `currentTarget` statt `target`, Aussehen komplett im
+CSS der jeweiligen Komponente. `usePointerTilt.js` liefert einen
+Neigungswinkel (`--rx`/`--ry`) für die 3D-Kippen-Karten, `useMagneticPointer.js`
+einen Zug in Zeigerrichtung (`--tx`/`--ty`) für die Knöpfe.
+
+Ausführlich, inklusive der Frage, wie man beide gleichzeitig mit
+`usePointerSpotlight.js` auf derselben Karte benutzt (Vue erlaubt nur einen
+`@pointermove` pro Element):
+[16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
+
 ## Die drei Scroll-Composables der Startseite
 
 Sie hängen zusammen und werden nie einzeln aufgerufen. `HomeView.vue` ruft
@@ -253,3 +273,5 @@ fest; ohne Aufräumen bleiben die im Speicher liegen.
 - [04-Datenfluss](04-Datenfluss.md) — Beispiel 2 und 3 zeigen Composables in Aktion
 - [10-Vue-Grundbegriffe](10-Vue-Grundbegriffe.md)
 - [15-Scrollverhalten](15-Scrollverhalten.md) — die drei Scroll-Composables im Zusammenhang
+- [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md) —
+  Tilt, Magnet-Pointer und die scroll-gebundenen CSS-Animationen darüber

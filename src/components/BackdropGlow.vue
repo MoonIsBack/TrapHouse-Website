@@ -17,8 +17,18 @@
 
 <template>
   <div class="backdrop" aria-hidden="true">
-    <span class="glow glow-primary" />
-    <span class="glow glow-secondary" />
+    <!-- Die Hüllen tragen die neue, scroll-gebundene Verschiebung; die Flecken
+         darin behalten ihre eigene, zeitgesteuerte Drift unverändert. Zwei
+         Elemente statt eines, weil zwei "transform"-Animationen auf DEMSELBEN
+         Element sich nicht addieren, sondern die zweite die erste einfach
+         ersetzen würde. Verschachtelt komponieren sie sich dagegen ganz von
+         selbst — normales CSS, seit jeher unterstützt. -->
+    <span class="glow-shift glow-shift-a">
+      <span class="glow glow-primary" />
+    </span>
+    <span class="glow-shift glow-shift-b">
+      <span class="glow glow-secondary" />
+    </span>
     <span class="grain" />
   </div>
 </template>
@@ -143,6 +153,50 @@
   }
   to {
     transform: translate3d(80px, -50px, 0) scale(1.08);
+  }
+}
+
+/* Hüllen für die neue Verschiebung: exakt dieselbe Fläche wie .backdrop, ohne
+   selbst irgendetwas darzustellen. */
+.glow-shift {
+  position: absolute;
+  inset: 0;
+}
+
+/* DIE SEITE "ATMET" MIT DEM SCROLLEN
+   ====================================
+   Zusätzlich zur immer laufenden Drift oben verschieben sich die Flecken jetzt
+   auch ein kleines Stück, während man scrollt — dieselbe Technik wie beim
+   Hero-Rückzug in HeroSection.vue: animation-timeline: scroll(root) bindet die
+   Bewegung an die Scrollposition der ganzen Seite statt an eine Uhr, läuft
+   komplett auf der Grafikkarte und kostet keinen JavaScript-Schritt.
+
+   @supports fängt Browser ohne diese Funktion vollständig auf: Dort bleibt es
+   bei der bestehenden Drift, unverändert zu vorher — kein Fallback nötig.
+   → docs/lernheft/16-Scroll-Effekte-und-Mikrointeraktionen.md */
+@supports (animation-timeline: scroll(root)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .glow-shift-a {
+      animation: glow-scroll-a linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .glow-shift-b {
+      animation: glow-scroll-b linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+@keyframes glow-scroll-a {
+  to {
+    transform: translate3d(0, 90px, 0);
+  }
+}
+
+@keyframes glow-scroll-b {
+  to {
+    transform: translate3d(0, -70px, 0);
   }
 }
 </style>

@@ -10,12 +10,21 @@
 // vite.config.js 'unsafe-inline' bei style-src erlaubt.
 import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
 import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
+import { usePointerTilt } from '@/composables/usePointerTilt'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
 import IconTikTok from '@/components/icons/IconTikTok.vue'
 import IconInstagram from '@/components/icons/IconInstagram.vue'
 import IconArrowRight from '@/components/icons/IconArrowRight.vue'
 
-const { onPointerMove } = usePointerSpotlight()
+const { onPointerMove: moveSpotlight } = usePointerSpotlight()
+const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
+
+// Siehe HighlightGrid.vue: beide Zeiger-Composables in einem Handler
+// zusammengefasst, damit im Template nur ein @pointermove nötig ist.
+function onPointerMove(event) {
+  moveSpotlight(event)
+  moveTilt(event)
+}
 
 defineProps({
   social: {
@@ -37,9 +46,10 @@ const SOCIAL_ICONS = {
     :target="EXTERNE_LINKS_AKTIV ? '_blank' : null"
     :rel="EXTERNE_LINKS_AKTIV ? 'noopener noreferrer' : null"
     :aria-disabled="EXTERNE_LINKS_AKTIV ? null : 'true'"
-    class="social-card reveal reveal-pop spotlight"
+    class="social-card reveal reveal-pop reveal-cinematic spotlight"
     :style="{ '--brand': social.brand }"
     @pointermove="onPointerMove"
+    @pointerleave="onTiltLeave"
     @click="haltExternenKlickAn"
   >
     <span class="social-icon">
@@ -86,6 +96,27 @@ const SOCIAL_ICONS = {
   /* Hier kommt die Markenfarbe zum Vorschein */
   border-color: var(--brand);
   background: var(--surface-hover);
+}
+
+/* 3D-KIPPEN — nur mit echtem Zeiger. Siehe HighlightGrid.vue für die
+   ausführliche Begründung. */
+@media (hover: hover) and (pointer: fine) {
+  .social-card {
+    --rx: 0deg;
+    --ry: 0deg;
+
+    /* --ease-out-smooth statt --ease-spring: siehe main.css. Etwas länger
+       (0.5s statt 0.4s) für ein ruhigeres Eintreten, wenn der Zeiger aus dem
+       Leeren auf die Karte kommt. */
+    transition:
+      transform 0.5s var(--ease-out-smooth),
+      border-color var(--transition),
+      background var(--transition);
+  }
+
+  .social-card:hover {
+    transform: perspective(900px) translateY(-6px) rotateX(var(--rx)) rotateY(var(--ry));
+  }
 }
 
 /* Inhalt über den Lichtfleck legen, sonst wirkt die Schrift milchig */

@@ -15,6 +15,12 @@
 import { computed } from 'vue'
 
 import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
+import { useMagneticPointer } from '@/composables/useMagneticPointer'
+
+// Zieht den Knopf auf Geräten mit echtem Zeiger ein kleines Stück in dessen
+// Richtung. Auf Touchscreens bleibt es ohne Wirkung — main.css schaltet den
+// Effekt nur innerhalb von "hover: hover" scharf, siehe dort.
+const { onPointerMove, onPointerLeave } = useMagneticPointer()
 
 const props = defineProps({
   // Ziel innerhalb der Seite, z. B. { name: 'shop' }
@@ -75,7 +81,14 @@ const attributes = computed(() => {
 </script>
 
 <template>
-  <component :is="tag" v-bind="attributes" class="base-button" :class="`is-${variant}`">
+  <component
+    :is="tag"
+    v-bind="attributes"
+    class="base-button"
+    :class="`is-${variant}`"
+    @pointermove="onPointerMove"
+    @pointerleave="onPointerLeave"
+  >
     <slot />
   </component>
 </template>
@@ -111,6 +124,35 @@ const attributes = computed(() => {
 .base-button:active {
   /* Kurz "eindrücken" — gibt beim Klick eine spürbare Rückmeldung */
   transform: translateY(0);
+}
+
+/* MAGNET-EFFEKT — nur mit echtem Zeiger
+   ======================================
+   useMagneticPointer.js schreibt --tx/--ty als Zug in Zeigerrichtung. Auf
+   Touchscreens bleibt es bei der einfachen Version oben: Dort gibt es keinen
+   Zeiger, der "anziehen" könnte, und pointermove feuert dort ohnehin fast nie.
+   → main.css benutzt dieselbe Abfrage für den Lichtfleck (.spotlight). */
+@media (hover: hover) and (pointer: fine) {
+  .base-button {
+    --tx: 0px;
+    --ty: 0px;
+
+    /* Kürzer und mit Überschwingen statt der langen, linearen Standarddauer —
+       das macht aus dem Zug ein spürbares "Einrasten" statt eines Rutschens. */
+    transition:
+      transform 0.35s var(--ease-spring),
+      box-shadow var(--transition),
+      background var(--transition),
+      border-color var(--transition);
+  }
+
+  .base-button:hover {
+    transform: translate3d(var(--tx), calc(var(--ty) - 2px), 0);
+  }
+
+  .base-button:active {
+    transform: translate3d(var(--tx), var(--ty), 0);
+  }
 }
 
 .is-primary {

@@ -82,7 +82,7 @@ In `src/assets/images/`, zusammen **302 KB** (vorher 4,4 MB):
 | `shirt.webp` | 149 KB | Das Shirt im Shop (mit Kante) |
 | `moon-pixel.webp` | 87 KB | Maskottchen beim Discord-Aufruf (animiert) |
 | `traphouse-logo.webp` | 36 KB | Logo in Kopf und Fuß |
-| `hero-texture.webp` | 8 KB | Hintergrund im Hero (warm eingefärbt) |
+| `hero-texture.webp` | 8 KB | ⚠ liegt noch im Projekt, wird aber seit 06.08.2026 nicht mehr eingebunden — siehe unten |
 | `pixel-left.png` | 3 KB | Figur unten links |
 | `pixel-right.png` | 3 KB | Figur unten rechts |
 
@@ -152,6 +152,15 @@ dasselbe — nachgemessen lag die mittlere Abweichung bei 0,33 von 255.
 **💡 Die Regel:** Was sich am Bild nie ändert, gehört ins Bild. `filter` im CSS
 ist für Zustände da, die wechseln (etwa beim Darüberfahren), nicht für eine
 Korrektur, die immer gilt.
+
+⚠ **Update 06.08.2026:** `hero-texture.webp` selbst wird im Hero nicht mehr
+angezeigt. Auf großen Bildschirmen wirkte ein auf 8 KB weichgezeichnetes,
+großflächig gezerrtes Foto unscharf statt hochwertig. An seiner Stelle malt
+jetzt `.hero-aura` in `HeroSection.vue` mehrere `radial-gradient`-Schichten in
+den Markenfarben — ein Verlauf ist in jeder Auflösung von Natur aus scharf,
+kann also gar nicht "verwaschen" aussehen. Die Lektion oben (Korrekturen ins
+Bild statt ins CSS) gilt weiter, nur eben für andere Bilder auf der Seite. Die
+Datei bleibt im Projekt liegen, falls doch wieder ein Foto gewünscht ist.
 
 ### Warum WebP?
 

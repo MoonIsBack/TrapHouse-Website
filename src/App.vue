@@ -7,6 +7,7 @@
 // die einzelnen Bausteine kümmern sich nur um ihre eigene Darstellung.
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import AppCursor from '@/components/AppCursor.vue'
 import BackdropGlow from '@/components/BackdropGlow.vue'
 import PixelCorners from '@/components/PixelCorners.vue'
 import ScrollProgress from '@/components/ui/ScrollProgress.vue'
@@ -48,6 +49,8 @@ import ScrollProgress from '@/components/ui/ScrollProgress.vue'
   <AppFooter />
 
   <PixelCorners />
+
+  <AppCursor />
 </template>
 
 <style scoped>
