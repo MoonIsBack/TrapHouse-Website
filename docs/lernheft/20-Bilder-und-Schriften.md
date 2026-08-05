@@ -75,16 +75,20 @@ das oft nicht der Fall.
 
 ## Die Bilder
 
-In `src/assets/images/`, zusammen **302 KB** (vorher 4,4 MB):
+In `src/assets/images/`, zusammen **≈282 KB** (vorher 4,4 MB):
 
 | Datei | Größe | Wofür |
 |---|---|---|
 | `shirt.webp` | 149 KB | Das Shirt im Shop (mit Kante) |
 | `moon-pixel.webp` | 87 KB | Maskottchen beim Discord-Aufruf (animiert) |
 | `traphouse-logo.webp` | 36 KB | Logo in Kopf und Fuß |
-| `hero-texture.webp` | 8 KB | ⚠ liegt noch im Projekt, wird aber seit 06.08.2026 nicht mehr eingebunden — siehe unten |
 | `pixel-left.png` | 3 KB | Figur unten links |
 | `pixel-right.png` | 3 KB | Figur unten rechts |
+
+⚠ `hero-texture.webp` stand hier bis zum Aufräumen am 06.08.2026 noch mit
+drin, wurde im Code aber schon seit demselben Tag nicht mehr eingebunden
+(siehe unten). Beim Aufräumen dann konsequent auch die Datei gelöscht — bei
+Bedarf aus der Git-Historie wiederherstellbar.
 
 ### Das Maskottchen `moon-pixel.webp`
 
@@ -153,14 +157,17 @@ dasselbe — nachgemessen lag die mittlere Abweichung bei 0,33 von 255.
 ist für Zustände da, die wechseln (etwa beim Darüberfahren), nicht für eine
 Korrektur, die immer gilt.
 
-⚠ **Update 06.08.2026:** `hero-texture.webp` selbst wird im Hero nicht mehr
+⚠ **Update 06.08.2026:** `hero-texture.webp` wird im Hero nicht mehr
 angezeigt. Auf großen Bildschirmen wirkte ein auf 8 KB weichgezeichnetes,
 großflächig gezerrtes Foto unscharf statt hochwertig. An seiner Stelle malt
-jetzt `.hero-aura` in `HeroSection.vue` mehrere `radial-gradient`-Schichten in
-den Markenfarben — ein Verlauf ist in jeder Auflösung von Natur aus scharf,
+jetzt `.hero-aura` in `home/HeroBackdrop.vue` mehrere `radial-gradient`-Schichten
+in den Markenfarben — ein Verlauf ist in jeder Auflösung von Natur aus scharf,
 kann also gar nicht "verwaschen" aussehen. Die Lektion oben (Korrekturen ins
-Bild statt ins CSS) gilt weiter, nur eben für andere Bilder auf der Seite. Die
-Datei bleibt im Projekt liegen, falls doch wieder ein Foto gewünscht ist.
+Bild statt ins CSS) gilt weiter, nur eben für andere Bilder auf der Seite.
+
+Beim Aufräumen desselben Tages wurde die Datei dann ganz gelöscht — sie war
+nirgends mehr referenziert. Wird doch wieder ein Foto gewünscht, lässt sie
+sich aus der Git-Historie zurückholen (`git log -- src/assets/images/hero-texture.webp`).
 
 ### Warum WebP?
 

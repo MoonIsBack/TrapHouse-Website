@@ -225,10 +225,11 @@ genau dem aus, was es war: unscharf.
 
 Seit 06.08.2026 liegt dort deshalb überhaupt kein Bild mehr. Ein
 `radial-gradient` ist in jeder Auflösung von Natur aus scharf — er kann gar
-nicht verwaschen aussehen, weil nichts hochskaliert werden muss. Nebeneffekt:
-eine Bilddatei weniger zu laden. `hero-texture.webp` bleibt trotzdem im
-Projekt liegen (`docs/lernheft/20-Bilder-und-Schriften.md`), falls doch wieder
-ein Foto gewünscht ist.
+nicht verwaschen aussehen, weil nichts hochskaliert werden muss. Die Datei
+`hero-texture.webp` selbst wurde beim anschließenden Aufräumen desselben Tages
+gelöscht, da nirgends mehr referenziert (Details in
+[20-Bilder-und-Schriften](20-Bilder-und-Schriften.md)) — bei Bedarf aus der
+Git-Historie wiederherstellbar.
 
 **Die Lehre daraus:** Ein Hero-Hintergrund muss Atmosphäre liefern, nicht
 Inhalt — und diese Atmosphäre muss nicht zwingend aus einem Foto kommen. Wo
