@@ -2,13 +2,14 @@
 
 ## Wofür ist das?
 
-TrapHouse hat zehn Composables. Jedes erledigt Dinge, die man beim
+TrapHouse hat elf Composables. Jedes erledigt Dinge, die man beim
 Selbstbauen zuverlässig vergisst — Aufräumen, Rücksicht auf Einstellungen,
 Schonung der Rechenleistung.
 
 | Datei | Aufgabe |
 |---|---|
 | `useMobileNav.js` | Klappmenü auf dem Handy |
+| `useNavHighlight.js` | Gleitende Hervorhebung hinter dem Nav-Link |
 | `useScrollReveal.js` | Elemente einblenden, sobald sie ins Bild kommen |
 | `useScrollProgress.js` | Fortschrittsbalken ganz oben |
 | `useParallax.js` | Hintergrund wandert langsamer als der Text |
@@ -74,6 +75,29 @@ hängen. Das passiert an zwei Stellen: beim Schließen (`watch`) und beim
 Verschwinden der Komponente (`onBeforeUnmount`). Die zweite ist der Fall, den
 man vergisst: Wenn das Menü offen ist und sich dabei etwas grundlegend ändert,
 bliebe die Seite sonst für immer gesperrt.
+
+## `useNavHighlight.js` (~100 Zeilen)
+
+Die gleitende Fläche hinter Hover- und aktivem Link in der Desktop-Navigation
+(siehe [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
+für die volle Erklärung). Aus `AppHeader.vue` ausgelagert, weil das sonst die
+größte Datei im Projekt gewesen wäre — nach demselben Vorbild wie
+`useMobileNav.js` direkt darüber: einmal benutzt, trotzdem ein eigenes
+Composable, damit die Komponente selbst nur noch Vorlage und Verdrahtung ist.
+
+```js
+const {
+  desktopNavRef, highlightVisible, highlightX, highlightWidth,
+  onNavPointerOver, onNavPointerLeave,
+} = useNavHighlight()
+```
+
+⚠ Der erste Abgleich beim Laden wartet auf `router.isReady()`, nicht nur auf
+`nextTick()`. `main.js` hängt die App bewusst ein, OHNE vorher auf den Router
+zu warten (sonst stünde die Seite kurz leer da) — dadurch existiert beim
+allerersten `onMounted` noch kein Link mit der Klasse `router-link-active`.
+`nextTick()` wartet nur auf Vues nächstes Neuzeichnen, nicht auf die separate,
+asynchrone Routenauflösung.
 
 ## `useScrollReveal.js` (68 Zeilen)
 

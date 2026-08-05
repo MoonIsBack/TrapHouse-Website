@@ -13,11 +13,10 @@ Deko-Ebenen zusammen (Hintergrundschein, Fortschrittsbalken, Pixel-Figuren,
 eigener Cursor). Enthält außerdem den „Zum Inhalt springen"-Link für die
 Tastaturbedienung.
 
-### `components/AppHeader.vue` (420 Zeilen)
+### `components/AppHeader.vue` (359 Zeilen)
 
-Der klebende Kopfbereich. Die größte Datei im Projekt, weil sie zwei
-Navigationen enthält: die Leiste für breite Bildschirme und das Klappmenü fürs
-Handy.
+Der klebende Kopfbereich. Enthält zwei Navigationen: die Leiste für breite
+Bildschirme und das Klappmenü fürs Handy.
 
 Drei Feinheiten:
 
@@ -26,8 +25,9 @@ Drei Feinheiten:
 - Die aktive Seite ist farbig markiert. Die Klasse dafür
   (`router-link-active`) vergibt der Router selbst
 - Hinter Hover- und aktivem Link gleitet eine Fläche her (`.nav-highlight`)
-  statt eines statischen Punkts — Position und Breite kommen per
-  `getBoundingClientRect()`, ausführlich in
+  statt eines statischen Punkts. Die Logik dazu steckt in
+  `useNavHighlight.js` (siehe [12-Composables-Uebersicht](12-Composables-Uebersicht.md)),
+  ausführlich erklärt in
   [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
 
 ### `components/AppFooter.vue` (178 Zeilen)
@@ -192,7 +192,19 @@ unsichtbar. Ohne die Verdopplung entstünde am Ende eine Lücke.
 
 ### `home/HeroSection.vue`
 
-Der Bereich ganz oben auf der Startseite. Der Hintergrund ist **kein Bild**,
+Der Bereich ganz oben auf der Startseite — Badge, Überschrift, Text, Buttons.
+Die Hintergrund-Deko steckt seit dem Aufräumen am 06.08.2026 in einer eigenen
+Datei, `HeroBackdrop.vue` (direkt darunter), damit diese Datei sich auf den
+Inhalt konzentrieren kann.
+
+Die beiden Überschriftzeilen fahren wie ein Vorhang von unten herein statt nur
+zu verblassen, und der ganze Textblock zieht sich beim Herunterscrollen leicht
+zurück (rein CSS-gesteuert, `animation-timeline: scroll(root block)`) —
+Details in [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
+
+### `home/HeroBackdrop.vue`
+
+Die Hintergrund-Deko des Hero-Bereichs. Der Hintergrund ist **kein Bild**,
 sondern `.hero-aura` — mehrere `radial-gradient`-Schichten in den
 Markenfarben über einem dunklen Verlauf, nach demselben Bauplan wie
 `BackdropGlow.vue`, nur lokal auf den Hero zugeschnitten.
@@ -222,11 +234,6 @@ ein Foto gewünscht ist.
 Inhalt — und diese Atmosphäre muss nicht zwingend aus einem Foto kommen. Wo
 ein Bild nur noch als verschwommener Farbfleck dienen soll, malt ein
 handgebauter Verlauf oft das schärfere, kontrolliertere Ergebnis.
-
-Die beiden Überschriftzeilen fahren wie ein Vorhang von unten herein statt nur
-zu verblassen, und der ganze Textblock zieht sich beim Herunterscrollen leicht
-zurück (rein CSS-gesteuert, `animation-timeline: scroll(root block)`) —
-Details in [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
 
 ### `home/HighlightGrid.vue`
 

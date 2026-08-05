@@ -143,9 +143,12 @@ einfachen Version. Dieselbe Abfrage benutzt auch `.spotlight` in main.css.
 `AppHeader.vue` hat jetzt eine Fläche, die per `transform` zum gerade
 relevanten Link gleitet (Hover oder aktive Seite), statt nur eines
 statischen Punkts unter dem aktiven Eintrag. Position und Breite kommen aus
-`getBoundingClientRect()` — dieselbe Technik wie in den Zeiger-Composables,
-hier aber direkt in der Komponente, weil sie ausschließlich dort gebraucht
-wird (kein eigenes Composable).
+`getBoundingClientRect()` — dieselbe Technik wie in den Zeiger-Composables.
+
+Die Logik dahinter steckt in `useNavHighlight.js` (ausgelagert beim
+Aufräumen am 06.08.2026, vorher direkt in `AppHeader.vue`). Dort auch die
+Begründung, warum der erste Sync auf `router.isReady()` warten muss statt
+nur auf `nextTick()`.
 
 ## Eigener Cursor
 
