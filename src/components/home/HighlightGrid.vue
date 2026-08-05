@@ -5,19 +5,9 @@
 // Willkommensgruß direkt zum Merch, ohne je zu sagen, was die Community
 // eigentlich ist. Wer die Seite zum ersten Mal sieht, braucht genau das.
 import { HIGHLIGHTS } from '@/data/community'
-import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
-import { usePointerTilt } from '@/composables/usePointerTilt'
+import { useCardInteraction } from '@/composables/useCardInteraction'
 
-const { onPointerMove: moveSpotlight } = usePointerSpotlight()
-const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
-
-// Beide Zeiger-Composables hören auf dasselbe Ereignis — hier zusammengefasst,
-// damit im Template nur ein Handler steht statt zwei @pointermove auf einem
-// Element (das würde nur der letzte gewinnen).
-function onPointerMove(event) {
-  moveSpotlight(event)
-  moveTilt(event)
-}
+const { onPointerMove, onPointerLeave } = useCardInteraction()
 </script>
 
 <template>
@@ -30,7 +20,7 @@ function onPointerMove(event) {
       :key="item.id"
       class="highlight-card reveal reveal-pop reveal-cinematic spotlight"
       @pointermove="onPointerMove"
-      @pointerleave="onTiltLeave"
+      @pointerleave="onPointerLeave"
     >
       <!-- Die Nummer ist Deko, aber sie gibt dem Raster einen Takt und lässt
            die Karten wie eine Aufzählung wirken statt wie vier lose Kästen. -->

@@ -9,22 +9,13 @@
 // zur Bauzeit noch nicht feststeht. Das ist genau der Fall, für den die CSP in
 // vite.config.js 'unsafe-inline' bei style-src erlaubt.
 import { EXTERNE_LINKS_AKTIV, haltExternenKlickAn } from '@/config/linkConfig'
-import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
-import { usePointerTilt } from '@/composables/usePointerTilt'
+import { useCardInteraction } from '@/composables/useCardInteraction'
 import IconYouTube from '@/components/icons/IconYouTube.vue'
 import IconTikTok from '@/components/icons/IconTikTok.vue'
 import IconInstagram from '@/components/icons/IconInstagram.vue'
 import IconArrowRight from '@/components/icons/IconArrowRight.vue'
 
-const { onPointerMove: moveSpotlight } = usePointerSpotlight()
-const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
-
-// Siehe HighlightGrid.vue: beide Zeiger-Composables in einem Handler
-// zusammengefasst, damit im Template nur ein @pointermove nötig ist.
-function onPointerMove(event) {
-  moveSpotlight(event)
-  moveTilt(event)
-}
+const { onPointerMove, onPointerLeave } = useCardInteraction()
 
 defineProps({
   social: {
@@ -49,7 +40,7 @@ const SOCIAL_ICONS = {
     class="social-card reveal reveal-pop reveal-cinematic spotlight"
     :style="{ '--brand': social.brand }"
     @pointermove="onPointerMove"
-    @pointerleave="onTiltLeave"
+    @pointerleave="onPointerLeave"
     @click="haltExternenKlickAn"
   >
     <span class="social-icon">

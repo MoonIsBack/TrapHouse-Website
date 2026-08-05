@@ -8,20 +8,11 @@
 import { computed } from 'vue'
 
 import { formatPrice } from '@/data/products'
-import { usePointerSpotlight } from '@/composables/usePointerSpotlight'
-import { usePointerTilt } from '@/composables/usePointerTilt'
+import { useCardInteraction } from '@/composables/useCardInteraction'
 import IconHeart from '@/components/icons/IconHeart.vue'
 import IconCart from '@/components/icons/IconCart.vue'
 
-const { onPointerMove: moveSpotlight } = usePointerSpotlight()
-const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
-
-// Siehe HighlightGrid.vue: beide Zeiger-Composables in einem Handler
-// zusammengefasst, damit im Template nur ein @pointermove nötig ist.
-function onPointerMove(event) {
-  moveSpotlight(event)
-  moveTilt(event)
-}
+const { onPointerMove, onPointerLeave } = useCardInteraction()
 
 const props = defineProps({
   product: {
@@ -37,7 +28,7 @@ const isAvailable = computed(() => props.product.status === 'verfuegbar')
   <article
     class="product-card reveal reveal-pop reveal-cinematic spotlight"
     @pointermove="onPointerMove"
-    @pointerleave="onTiltLeave"
+    @pointerleave="onPointerLeave"
   >
     <div class="product-image">
       <img :src="product.image" :alt="product.imageAlt" loading="lazy" width="900" height="1350" />
