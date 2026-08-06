@@ -12,4 +12,4 @@
 // ⚠ Betrifft ausschließlich Geräte mit echtem Zeiger. Auf Touchscreens und
 // bei "Bewegung reduzieren" bleibt es so oder so beim nativen Zeiger — dieser
 // Schalter kommt dort gar nicht erst zum Tragen.
-export const EIGENER_CURSOR_AKTIV = true
+export const EIGENER_CURSOR_AKTIV = false
