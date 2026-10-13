@@ -14,6 +14,14 @@ dist-ssr
 coverage
 *.local
 
+# Geheimnisse – nie einchecken. .env.development bleibt bewusst im Repo
+# (enthält keine Geheimnisse); echte Geheimnisse gehören in .env.local
+# (*.local ist oben schon ausgeschlossen).
+.env
+.env.production
+*.pem
+*.key
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
