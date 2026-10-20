@@ -15,7 +15,7 @@ diese.
 
 ## Bild im Kopf
 
-```
+```text
                     data/  (Navigation, Socials, Produkte)
                       │
                       │ lesen daraus
@@ -86,7 +86,7 @@ Diese Tabelle ist der eigentliche Nutzen der ganzen Ordnerstruktur.
 - **View** = eine ganze Seite, hat eine eigene Adresse
 - **Component** = ein Teil davon, hat keine
 
-`ShopView.vue` ist kurz (60 Zeilen), weil sie fast nichts selbst macht: Sie
+`ShopView.vue` ist kurz (57 Zeilen), weil sie fast nichts selbst macht: Sie
 holt die Produkte und lässt `ProductCard` sie zeichnen. Genau so soll es sein.
 
 ## 💡 Merken

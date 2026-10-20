@@ -40,7 +40,7 @@ die alte Ansicht weiterzuverwenden — dadurch läuft die Einblend-Animation
 
 Es gibt zwei Möglichkeiten:
 
-```
+```text
 createWebHistory      → traphouse.de/shop        (schöner)
 createWebHashHistory  → traphouse.de/#/shop      (funktioniert überall)
 ```
@@ -125,7 +125,7 @@ In `src/data/navigation.js`:
 ```js
 export const NAV_LINKS = [
   { name: 'home', label: 'Home' },
-  { name: 'shop', label: 'Shop' },
+  { name: 'shop', label: 'Merch' },
   { name: 'about', label: 'Über uns' },   // ← neu
   …
 ]

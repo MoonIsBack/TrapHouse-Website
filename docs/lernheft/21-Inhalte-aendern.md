@@ -96,7 +96,7 @@ export const PRODUCTS = [
     image: hoodieImage,
     imageAlt: 'Schwarzer TrapHouse Hoodie mit weißem Logo auf der Brust',
     description: 'Schwerer Hoodie mit Kängurutasche. Unisex, S bis XXL.',
-    status: 'bald',
+    status: 'ankuendigung',
   },
 ]
 ```
@@ -114,7 +114,8 @@ price: 25,     // ← nur die Zahl, ohne "€" und ohne Anführungszeichen
 ```
 
 Das Euro-Zeichen und das Komma kommen aus `formatPrice()`. Aus `25` wird
-automatisch `25,00 €`.
+automatisch `25,00 €`. Zu sehen ist der Preis aber erst, wenn der `status` auf
+`'verfuegbar'` steht — bei `'ankuendigung'` zeigt die Karte keinen Preis.
 
 ## Den Shop wirklich öffnen
 
@@ -122,7 +123,8 @@ automatisch `25,00 €`.
 status: 'verfuegbar',
 ```
 
-Damit verschwindet das „Demnächst"-Schild und die Knöpfe werden aktiv.
+Damit verschwindet das „Coming Soon"-Schild, und Preis sowie die Knöpfe für
+Merkliste und Warenkorb erscheinen.
 
 ⚠ **Sie tun dann aber noch nichts.** Es gibt keinen Warenkorb dahinter. Siehe
 [40-Was-noch-fehlt](40-Was-noch-fehlt.md), bevor du das umstellst.

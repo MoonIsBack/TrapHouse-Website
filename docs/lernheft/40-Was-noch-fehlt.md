@@ -17,8 +17,14 @@ verkauft wird.
 
 Beide Seiten existieren inzwischen (`#/impressum` und `#/datenschutz`), aber in
 `src/config/legalConfig.js` stehen noch Platzhalter. Solange das so ist, zeigen
-sie einen roten Warnkasten — und die Seite darf nicht öffentlich erreichbar
-sein.
+sie mit `npm run dev` einen roten Warnkasten, und in der gebauten,
+veröffentlichten Fassung fehlen beide Seiten samt Fußbereich-Links ganz
+(`showLegalPages`, Details in Kapitel 22): Die Adressen führen dort zur
+404-Seite.
+
+In diesem Zustand darf die Seite nicht öffentlich erreichbar sein — so steht es
+auch im Warnkasten selbst (`LegalPage.vue`). Am 20.10.2026 war sie es trotzdem
+(Live-Adresse antwortet mit HTTP 200). Keine Rechtsberatung.
 
 **Vorher zu entscheiden:** welche Anschrift hineinkommt. Ein Postfach reicht
 nicht; für eine Privatperson heißt das in der Regel, dass die Wohnadresse
@@ -31,13 +37,16 @@ nicht; für eine Privatperson heißt das in der Regel, dass die Wohnadresse
 Auf GitHub unter **Settings → Pages → Source** auf „GitHub Actions" stellen.
 Ohne das läuft der Deploy-Workflow zwar durch, veröffentlicht aber nichts.
 
+*Stand 21.10.2026: erledigt — laut GitHub-API steht die Quelle auf „GitHub
+Actions".*
+
 ## 🟡 Sollte, bevor der Shop öffnet
 
 ### 3. Es gibt keinen Warenkorb
 
-Die Knöpfe „Merken" und „In den Warenkorb" sind aktuell absichtlich deaktiviert
-(`status: 'bald'`). Stellst du auf `'verfuegbar'` um, werden sie klickbar —
-**tun aber nichts**.
+Die Knöpfe „Merken" und „In den Warenkorb" erscheinen aktuell gar nicht
+(`status: 'ankuendigung'`: kein Preis, keine Knöpfe). Stellst du auf
+`'verfuegbar'` um, werden sie angezeigt — **tun aber nichts**.
 
 Ein echter Shop braucht:
 

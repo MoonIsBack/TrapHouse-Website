@@ -6,11 +6,25 @@ Damit du weißt, wo du suchen musst.
 
 ## Die Ordner
 
-```
+```text
 TrapHouse-Website/
 ├── index.html            Einstiegspunkt (fast leer, Vue füllt ihn)
 ├── package.json          Abhängigkeiten + Befehle (npm run ...)
+├── package-lock.json     Exakte Paketversionen (pflegt npm)
 ├── vite.config.js        Build-Einstellungen + Sicherheitsregel (CSP)
+├── README.md             Überblick für Fremde
+├── .env.development      Werte nur für npm run dev (liegt bewusst in Git)
+├── eslint.config.js      Regeln für ESLint
+├── .oxlintrc.json        Regeln für oxlint
+├── .prettierrc.json      Wie Prettier formatiert
+├── jsconfig.json         Damit der Editor @/ als src/ versteht
+├── .editorconfig         Einrückung im Editor
+├── .gitattributes        Einheitliche Zeilenenden (LF)
+├── .gitignore            Was NICHT in Git landet
+├── .vscode/              Empfohlene VS-Code-Erweiterungen
+│
+├── .github/workflows/
+│   └── deploy.yml        Baut und veröffentlicht bei jedem Push auf main
 │
 ├── public/               Dateien, die 1:1 mitkopiert werden
 │   └── traphouse-logo-transparent-v5.png  Das Browser-Tab-Logo ⭐
@@ -30,21 +44,29 @@ TrapHouse-Website/
     ├── config/           Schalter, die DU umlegst
     │   ├── legalConfig.js     Impressumsangaben ⭐
     │   ├── linkConfig.js      Links nach außen an/aus
-    │   └── scrollConfig.js    'standard' oder 'chapter'
+    │   ├── scrollConfig.js    'standard' oder 'chapter'
+    │   └── cursorConfig.js    Eigener Mauszeiger an/aus
     │
-    ├── router/           Welche Adresse zeigt welche Seite
+    ├── router/           index.js — welche Adresse zeigt welche Seite
     ├── views/            Je eine Datei pro Unterseite
     ├── components/       Bausteine, die man sehen kann
+    │   ├── AppHeader.vue, AppFooter.vue, AppCursor.vue,
+    │   │   BackdropGlow.vue, PixelCorners.vue
+    │   │                      Rahmen und Deko — auf jeder Seite
     │   ├── icons/             SVG-Icons
-    │   ├── ui/                Knopf, Überschrift — überall verwendet
+    │   ├── ui/                Knopf, Überschrift, Nav-Link … — überall verwendet
     │   ├── home/              Nur für die Startseite
-    │   ├── shop/              Nur für den Shop
-    │   ├── socials/           Nur für die Socials
+    │   ├── shop/              Merch-Karte (Shop und Startseite)
+    │   ├── socials/           Kanal-Karte (Socials und Startseite)
     │   ├── legal/             Rahmen für Impressum + Datenschutz
-    │   └── discord/           Nur für Discord
+    │   └── discord/           Discord-Aufruf (Startseite und Discord-Seite)
     │
     ├── composables/      Wiederverwendbare Logik ohne Aussehen
-    └── data/             Die Inhalte: Links, Produkte, Navigation ⭐
+    └── data/             Die Inhalte ⭐
+        ├── navigation.js      Menüpunkte (+ Adresse von RankRoom)
+        ├── socialLinks.js     Kanäle + Discord-Link
+        ├── products.js        Merch-Artikel
+        └── community.js       Laufband + „Was dich erwartet"
 ```
 
 ### ⚠ Zum `public/`-Ordner
@@ -57,7 +79,7 @@ Bei der Suche nach dem richtigen Tab-Bild waren zeitweise sechs Fassungen
 darin (ein T-Monogramm, eine zweizeilige Variante, ein `.ico` …). Die sind
 aufgeräumt; wer sie braucht, holt sie aus der Git-Historie zurück:
 
-```sh
+```bash
 git log --diff-filter=D --name-only -- public/
 ```
 
@@ -107,7 +129,8 @@ die man beim Aufräumen immer wieder hat:
 
 > „Wenn ich das hier ändere — was geht dabei kaputt?"
 
-- Etwas in `components/shop/` ändern → betrifft den Shop
+- Etwas in `components/shop/` ändern → betrifft die Merch-Karten (im Shop und
+  auf der Startseite)
 - Etwas in `components/ui/` ändern → betrifft **die ganze Seite**
 
 Der Ordnername ist also eine eingebaute Warnung.

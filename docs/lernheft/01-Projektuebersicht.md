@@ -3,7 +3,8 @@
 ## Wofür ist das?
 
 TrapHouse ist die Website der gleichnamigen **Musik-Community für Artists und
-Producer**: Startseite, Shop, Discord-Aufruf und die Social-Kanäle.
+Producer**: Startseite, Merch (Adresse `#/shop`), Discord-Aufruf und die
+Social-Kanäle.
 
 Es ist eine reine Vorstellungs-Website — sie zeigt etwas, sie verarbeitet
 nichts. Niemand meldet sich an, niemand gibt Daten ein.
@@ -14,8 +15,8 @@ nichts. Niemand meldet sich an, niemand gibt Daten ein.
 |---|---|
 | Womit gebaut? | Vue 3 + Vite |
 | Programmiersprache | JavaScript (kein TypeScript) |
-| Unterseiten | Ja, über vue-router (`#/shop`, `#/discord`, `#/socials`) |
-| Wo läuft es? | GitHub Pages: `moonisback.github.io/TrapHouse-Website/` |
+| Unterseiten | Ja, über vue-router (`#/shop`, `#/discord`, `#/socials`), dazu eine 404-Seite und die Rechtsseiten (`#/impressum`, `#/datenschutz`) — die aber nur, sobald `legalConfig.js` ausgefüllt ist |
+| Wo läuft es? | GitHub Pages: `moonisback.github.io/TrapHouse-Website/` (passt zu `base` in `vite.config.js`; ein Abruf am 20.10.2026 ergab HTTP 200) |
 | Backend? | **Nein** |
 | Datenbank? | **Nein** |
 | Nutzerkonten? | **Nein** |
@@ -25,14 +26,14 @@ nichts. Niemand meldet sich an, niemand gibt Daten ein.
 ## Was es vorher war
 
 Die alte Fassung bestand aus **einer** `index.html` und **einer** `style.css`
-— zusammen 365 Zeilen, ohne JavaScript. Sie funktionierte, hatte aber ein paar
+— zusammen 364 Zeilen, ohne JavaScript. Sie funktionierte, hatte aber ein paar
 Probleme, die sich mit einer einzelnen Datei nicht lösen ließen:
 
 | Problem in der alten Fassung | Wie es jetzt gelöst ist |
 |---|---|
 | ☰-Knopf ohne jede Funktion | `useMobileNav.js` — echtes Klappmenü |
 | Schriften und Icons vom fremden CDN | Beides liegt jetzt im Projekt |
-| 4,4 MB Bilder | 302 KB als WebP |
+| 4,4 MB Bilder | rund 280 KB, überwiegend WebP (Stand 20.10.2026) |
 | Pixel-Figuren auf der falschen Seite | Klassen heißen jetzt, was sie tun |
 | `font-weight: 600` war nie geladen | Der Schnitt wird jetzt mitgeliefert |
 | Alle Inhalte im HTML verstreut | Gesammelt in `src/data/` |
@@ -59,16 +60,17 @@ plötzlich all das nötig. Siehe [40-Was-noch-fehlt](40-Was-noch-fehlt.md).
 
 ## Größenordnung
 
-Rund **2.750 Zeilen** in `src/`, verteilt auf 34 Dateien.
+Stand 20.10.2026: Rund **6.000 Zeilen** in `src/`, verteilt auf 58 Code-Dateien
+(Vue, JavaScript, CSS). Dazu kommen 4 Schrift- und 5 Bilddateien.
 
 Die größten Dateien:
 
-- `AppHeader.vue` (304 Zeilen)
-- `main.css` (247)
-- `ProductCard.vue` (207)
-- `HeroSection.vue` (195)
+- `main.css` (523 Zeilen)
+- `AppHeader.vue` (359)
+- `HeroSection.vue` (311)
+- `ProductCard.vue` (257)
 
-Zum Vergleich: RankRoom hat rund 6.800 Zeilen. TrapHouse ist deutlich kleiner,
+Zum Vergleich: RankRoom hat rund 9.900 Zeilen. TrapHouse ist deutlich kleiner,
 weil es nichts berechnet und nichts speichert — es zeigt nur an.
 
 ## 💡 Merken

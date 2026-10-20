@@ -2,7 +2,7 @@
 
 ## Wofür ist das?
 
-TrapHouse hat elf Composables. Jedes erledigt Dinge, die man beim
+TrapHouse hat zwölf Composables. Jedes erledigt Dinge, die man beim
 Selbstbauen zuverlässig vergisst — Aufräumen, Rücksicht auf Einstellungen,
 Schonung der Rechenleistung.
 
@@ -16,6 +16,7 @@ Schonung der Rechenleistung.
 | `usePointerSpotlight.js` | Lichtfleck folgt dem Mauszeiger über Karten |
 | `usePointerTilt.js` | Karte neigt sich leicht in Richtung Zeiger |
 | `useMagneticPointer.js` | Knopf zieht sich ein Stück in Richtung Zeiger |
+| `useCardInteraction.js` | Bündelt Lichtfleck und Kippen für die Karten (Startseite, Merch, Socials) |
 | `useHomeScroll.js` | Wählt aus, wie die Startseite scrollt |
 | `useStandardScroll.js` | Normales Browser-Scrollen (absichtlich leer) |
 | `useChapterScroll.js` | Ein Impuls = ein Kapitel weiter |
@@ -26,7 +27,10 @@ Die letzten drei gehören zusammen und werden über **einen Schalter** in
 
 `usePointerTilt.js` und `useMagneticPointer.js` folgen demselben Muster wie
 `usePointerSpotlight.js` (siehe unten) und gehören zu den neueren
-Mikrointeraktionen.
+Mikrointeraktionen. `useCardInteraction.js` setzt `usePointerSpotlight.js` und
+`usePointerTilt.js` für die drei Karten-Komponenten (`HighlightGrid.vue`,
+`ProductCard.vue`, `SocialCard.vue`) zu einem einzigen `@pointermove`-Handler
+zusammen.
 → Eigenes Kapitel: [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
 
 ## Was ist ein Composable nochmal?
@@ -76,7 +80,7 @@ Verschwinden der Komponente (`onBeforeUnmount`). Die zweite ist der Fall, den
 man vergisst: Wenn das Menü offen ist und sich dabei etwas grundlegend ändert,
 bliebe die Seite sonst für immer gesperrt.
 
-## `useNavHighlight.js` (~100 Zeilen)
+## `useNavHighlight.js` (113 Zeilen)
 
 Die gleitende Fläche hinter Hover- und aktivem Link in der Desktop-Navigation
 (siehe [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
@@ -149,7 +153,7 @@ nur die Animation abschalten, blieben sie auf `opacity: 0` stehen — die Seite
 wäre für genau diese Nutzer leer. Deshalb setzt `main.css` die Klasse `.reveal`
 in diesem Fall komplett zurück.
 
-## `useScrollProgress.js` (73 Zeilen)
+## `useScrollProgress.js` (67 Zeilen)
 
 Liefert einen Wert zwischen 0 (ganz oben) und 1 (ganz unten). Daraus zeichnet
 `ScrollProgress.vue` den dünnen Balken am oberen Rand.
@@ -181,7 +185,7 @@ Das Bild „schwimmt" dann sichtbar gegenüber dem Text.
 Deshalb wird der Effekt bei „Bewegung reduzieren" komplett abgeschaltet — nicht
 nur verlangsamt.
 
-## `usePointerSpotlight.js` (62 Zeilen)
+## `usePointerSpotlight.js` (59 Zeilen)
 
 Ein weicher Lichtfleck folgt dem Mauszeiger über einer Karte.
 
@@ -221,7 +225,7 @@ Bild, mal die Überschrift. Die Fleckposition würde je nach Untergrund
 umspringen. `currentTarget` ist immer die Karte selbst, also das Element mit
 dem Lauscher.
 
-## `usePointerTilt.js` (71 Zeilen) und `useMagneticPointer.js` (67 Zeilen)
+## `usePointerTilt.js` (77 Zeilen) und `useMagneticPointer.js` (74 Zeilen)
 
 Zwei Geschwister von `usePointerSpotlight.js`, nach demselben Bauplan:
 `requestAnimationFrame`, `currentTarget` statt `target`, Aussehen komplett im

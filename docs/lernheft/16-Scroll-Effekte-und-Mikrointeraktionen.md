@@ -14,6 +14,7 @@ Klicks und Hover-Zuständen etwas Spürbareres machen.
 | Datei | Aufgabe |
 |---|---|
 | `usePointerTilt.js` | Neigungswinkel für die 3D-Kippen-Karten |
+| `useCardInteraction.js` | Bündelt Lichtfleck und Kippen für die Karten (seit 06.08.2026) |
 | `useMagneticPointer.js` | Zug in Zeigerrichtung für Magnet-Knöpfe |
 | `AppCursor.vue` | Eigener Punkt + Ring, folgt dem Zeiger |
 | `.reveal-cinematic` (main.css) | Scroll-gebundenes Einblenden für Browser mit `animation-timeline: view()` |
@@ -114,19 +115,23 @@ merken, erst beim nächsten Bild schreiben.
 
 **Wo beide Composables auf demselben Element gebraucht werden** (die drei
 Karten-Komponenten kombinieren Spotlight + Tilt), zeigt sich ein kleiner
-Kniff: Vue erlaubt nur einen `@pointermove`-Handler pro Element. Die
-Komponenten bündeln deshalb beide `onPointerMove`-Funktionen in einer
-gemeinsamen lokalen Funktion:
+Kniff: Vue erlaubt nur einen `@pointermove`-Handler pro Element. Deshalb
+bündelt `useCardInteraction.js` (seit dem 06.08.2026; vorher stand dieselbe
+Bündelung dreimal fast identisch in den Komponenten) beide
+`onPointerMove`-Funktionen in einer:
 
 ```js
 const { onPointerMove: moveSpotlight } = usePointerSpotlight()
-const { onPointerMove: moveTilt, onPointerLeave: onTiltLeave } = usePointerTilt()
+const { onPointerMove: moveTilt, onPointerLeave } = usePointerTilt()
 
 function onPointerMove(event) {
   moveSpotlight(event)
   moveTilt(event)
 }
 ```
+
+`HighlightGrid.vue`, `ProductCard.vue` und `SocialCard.vue` rufen nur noch
+`const { onPointerMove, onPointerLeave } = useCardInteraction()` auf.
 
 ### Warum die Kipp-/Magnet-CSS in zwei Blöcken steht
 

@@ -243,8 +243,11 @@ Attribut ganz, liest ein Screenreader den Dateinamen vor.
 Bilder weiter unten auf der Seite bekommen `loading="lazy"` — sie werden erst
 geladen, wenn man in ihre Nähe scrollt.
 
-⚠ **Nicht** beim Hero-Bild. Das ist als Erstes sichtbar und soll so früh wie
-möglich kommen; es hat stattdessen `fetchpriority="high"`.
+⚠ **Nicht** bei einem Bild, das gleich beim Laden im sichtbaren Bereich steht —
+etwa das Logo im Kopfbereich (`AppHeader.vue`). Das soll so früh wie möglich
+kommen. Früher bekam das Hero-Bild dafür zusätzlich `fetchpriority="high"`;
+seit dem 06.08.2026 besteht der Hero-Bereich aus Farbverläufen (siehe oben),
+und im Code kommt `fetchpriority` nirgends mehr vor.
 
 ## 💡 Merken
 

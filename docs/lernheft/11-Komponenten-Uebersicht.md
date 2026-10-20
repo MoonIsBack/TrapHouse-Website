@@ -4,6 +4,8 @@
 
 Ein Verzeichnis: Was macht welche Datei, und wo wird sie benutzt?
 
+Die Zeilenzahlen in den Überschriften sind gemessen am 20.10.2026.
+
 ## Der Rahmen
 
 ### `App.vue` (90 Zeilen)
@@ -11,7 +13,9 @@ Ein Verzeichnis: Was macht welche Datei, und wo wird sie benutzt?
 Der Rahmen um alles. Setzt Kopfbereich, Inhalt, Fußbereich und die
 Deko-Ebenen zusammen (Hintergrundschein, Fortschrittsbalken, Pixel-Figuren,
 eigener Cursor). Enthält außerdem den „Zum Inhalt springen"-Link für die
-Tastaturbedienung.
+Tastaturbedienung. ⚠ Der führt derzeit auf die 404-Seite: Mit Hash-Routing
+liest der Router `#inhalt` als Adresse `/inhalt` (Fehler im Code, siehe README →
+Offene Punkte).
 
 ### `components/AppHeader.vue` (359 Zeilen)
 
@@ -21,7 +25,7 @@ Bildschirme und das Klappmenü fürs Handy.
 Drei Feinheiten:
 
 - Ganz oben ist er durchsichtig, beim Scrollen wird er milchig — sonst läge ein
-  Balken über dem Hero-Bild
+  Balken über dem Hero-Bereich
 - Die aktive Seite ist farbig markiert. Die Klasse dafür
   (`router-link-active`) vergibt der Router selbst
 - Hinter Hover- und aktivem Link gleitet eine Fläche her (`.nav-highlight`)
@@ -30,7 +34,7 @@ Drei Feinheiten:
   ausführlich erklärt in
   [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md)
 
-### `components/AppFooter.vue` (178 Zeilen)
+### `components/AppFooter.vue` (234 Zeilen)
 
 Logo, Navigation, Social-Links, Jahreszahl. Liest alles aus `data/`. Die
 Jahreszahl kommt aus `new Date().getFullYear()`, damit dort nie eine veraltete
@@ -110,7 +114,7 @@ mitentschärft:
 Die beiden Pixel-Figuren unten. Auf Bildschirmen unter 900 px ausgeblendet,
 weil sie dort den Inhalt verdecken würden.
 
-### `components/AppCursor.vue` (236 Zeilen)
+### `components/AppCursor.vue` (255 Zeilen)
 
 Ein eigener Punkt + Ring, der dem Mauszeiger folgt und sich über Links,
 Knöpfen und Karten vergrößert. Nur aktiv mit echtem Zeiger und ohne
@@ -140,7 +144,7 @@ Stück in Richtung Zeiger (`useMagneticPointer.js`) und schnappt mit einer
 Feder-Kurve zurück — Details in
 [16-Scroll-Effekte-und-Mikrointeraktionen](16-Scroll-Effekte-und-Mikrointeraktionen.md).
 
-### `ui/SectionHeader.vue` (81 Zeilen)
+### `ui/SectionHeader.vue` (67 Zeilen)
 
 Die Überschrift über jedem Bereich: kleines Label, große Überschrift, Text.
 Sorgt dafür, dass alle Bereiche denselben Rhythmus haben.
@@ -245,22 +249,25 @@ direkt zum T-Shirt, ohne je zu sagen, was die Community eigentlich ist.
 
 Wie `ProductCard.vue` und `SocialCard.vue` kombiniert diese Karte den
 Lichtfleck (`usePointerSpotlight.js`) mit einem leichten 3D-Kippen
-(`usePointerTilt.js`) und dem scroll-gebundenen `.reveal-cinematic`.
+(`usePointerTilt.js`) — beides gebündelt in `useCardInteraction.js` — und dem
+scroll-gebundenen `.reveal-cinematic`.
 
-### `shop/ProductCard.vue` (263 Zeilen)
+### `shop/ProductCard.vue` (257 Zeilen)
 
-Eine Artikel-Karte. Liest `status` aus den Daten und schaltet die Knöpfe
-entsprechend frei oder grau.
+Eine Artikel-Karte. Liest `status` aus den Daten: Bei `'ankuendigung'` zeigt
+sie das Schild „Coming Soon" und den Text „Kommt bald" — ohne Preis und ohne
+Knöpfe. Bei `'verfuegbar'` erscheinen Preis und zwei Knöpfe (Merkliste,
+Warenkorb), die noch nichts tun.
 
 Das Bild sitzt in einem festen Seitenverhältnis (`aspect-ratio: 4 / 5`), damit
 mehrere Karten nebeneinander gleich hoch beginnen.
 
-### `socials/SocialCard.vue` (194 Zeilen)
+### `socials/SocialCard.vue` (188 Zeilen)
 
 Eine Kanal-Karte. Die Markenfarbe kommt aus den Daten und erscheint erst beim
 Darüberfahren — im Ruhezustand bleibt alles orange.
 
-### `discord/DiscordCta.vue` (116 Zeilen)
+### `discord/DiscordCta.vue` (120 Zeilen)
 
 Der große Beitreten-Aufruf. Steht auf **zwei** Seiten (Startseite und
 Discord-Seite), deshalb eine eigene Komponente. Über `:show-heading="false"`
@@ -284,10 +291,10 @@ der Schriftgröße), `fill="currentColor"` (nimmt die Textfarbe an),
 
 | Datei | Adresse | Zeilen |
 |---|---|---|
-| `HomeView.vue` | `#/` | ~145 |
-| `ShopView.vue` | `#/shop` | ~50 |
-| `DiscordView.vue` | `#/discord` | ~105 |
-| `SocialsView.vue` | `#/socials` | ~27 |
+| `HomeView.vue` | `#/` | ~180 |
+| `ShopView.vue` | `#/shop` | ~57 |
+| `DiscordView.vue` | `#/discord` | ~104 |
+| `SocialsView.vue` | `#/socials` | ~29 |
 | `ImprintView.vue` | `#/impressum` | — |
 | `PrivacyView.vue` | `#/datenschutz` | — |
 | `NotFoundView.vue` | alles andere | 57 |

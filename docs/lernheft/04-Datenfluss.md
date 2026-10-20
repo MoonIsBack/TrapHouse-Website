@@ -9,7 +9,7 @@ das einmal nachvollzogen hast, findest du jede Änderung von selbst.
 
 Du öffnest `#/shop`. Was passiert der Reihe nach:
 
-```
+```text
 1. router/index.js       Adresse "/shop" → lade ShopView.vue
                                   ↓
 2. ShopView.vue          importiert PRODUCTS aus data/products.js
@@ -20,9 +20,11 @@ Du öffnest `#/shop`. Was passiert der Reihe nach:
                          → für jedes Produkt eine <ProductCard :product="…" />
                                   ↓
 5. ProductCard.vue       bekommt das Produkt als "prop"
-                         zeigt Name, Bild, Beschreibung, Preis
+                         zeigt Name, Bild, Beschreibung — den Preis nur,
+                         wenn der status 'verfuegbar' ist
                                   ↓
 6. formatPrice(20)       macht aus der Zahl 20 den Text "20,00 €"
+                         (bei 'ankuendigung' entfällt dieser Schritt)
 ```
 
 **Sechs Schritte, aber jeder einzelne ist winzig.** Genau das ist der Trick.
@@ -41,7 +43,7 @@ Du öffnest `#/shop`. Was passiert der Reihe nach:
 
 Hier fließen keine Daten, sondern **Zustand**. Du tippst auf ☰:
 
-```
+```text
 1. AppHeader.vue      @click="toggle"
                              ↓
 2. useMobileNav.js    isOpen wird von false auf true gesetzt
@@ -58,7 +60,7 @@ Hier fließen keine Daten, sondern **Zustand**. Du tippst auf ☰:
 
 Und beim Tippen auf „Shop":
 
-```
+```text
 6. RouterLink         wechselt die Adresse auf #/shop
                              ↓
 7. useMobileNav.js    watch(route.fullPath) merkt den Wechsel → close()
@@ -72,7 +74,7 @@ für immer.**
 
 ## Beispiel 3: Ein Element blendet beim Scrollen ein
 
-```
+```text
 1. main.css            .reveal  → durchsichtig, 18px nach unten versetzt
                              ↓
 2. HomeView.vue        ruft useScrollReveal() auf

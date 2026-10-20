@@ -17,7 +17,10 @@ passiert, wenn du es doch änderst.
 | `.oxlintrc.json` | Schneller Vor-Linter | Selten |
 | `jsconfig.json` | Damit VS Code `@/` versteht | Nie |
 | `.editorconfig` | Einrückung im Editor | Nie |
+| `.gitattributes` | Einheitliche Zeilenenden (LF) | Nie |
+| `.vscode/extensions.json` | Empfohlene VS-Code-Erweiterungen | Selten |
 | `.gitignore` | Was **nicht** in Git landet | Neuer generierter Ordner |
+| `.env.development` | Werte nur für `npm run dev` — laut `data/navigation.js` die Variable `VITE_RANKROOM_URL` (Adresse deines lokalen RankRoom-Servers). Liegt laut `.gitignore` bewusst in Git und enthält keine Geheimnisse | Wenn dein lokaler RankRoom-Server unter einer anderen Adresse läuft |
 
 ## Die zwei, bei denen es wirklich darauf ankommt
 
@@ -38,7 +41,12 @@ Das ist die **einzige** Zeile, die beim Umzug zu ändern ist.
 
 ### `vite.config.js` → `CONTENT_SECURITY_POLICY`
 
-Die Liste dessen, was der Browser laden darf. Sie ist absichtlich sehr eng.
+Die Liste dessen, was der Browser laden darf. Sie ist absichtlich sehr eng —
+Stand 20.10.2026 stehen darin: `default-src 'self'`, `script-src 'self'`,
+`style-src 'self' 'unsafe-inline'`, `img-src 'self' data:`, `font-src 'self'`,
+`connect-src 'self'`, `object-src 'none'`, `base-uri 'self'`,
+`form-action 'none'`. Sie wird nur beim Bauen in die `index.html` geschrieben,
+nicht bei `npm run dev`.
 
 ⚠ **Wenn du irgendwann etwas von außen einbindest** — ein YouTube-Video, eine
 Karte, ein Schriftart-CDN — musst du es hier erlauben, sonst blockiert der
@@ -72,7 +80,9 @@ korrigiert ihn sofort nach dem Laden.
 ## `.github/workflows/deploy.yml`
 
 Baut die Seite bei jedem Push auf `main` und lädt sie zu GitHub Pages hoch.
-Läuft von allein.
+Läuft von allein. Von Hand starten geht auch: Actions → „Deploy TrapHouse to
+GitHub Pages" → „Run workflow" (dafür steht `workflow_dispatch` in der Datei).
+Einen Test-Schritt gibt es nicht — es gibt keine Tests.
 
 ⚠ Damit das überhaupt greift, muss auf GitHub unter
 **Settings → Pages → Source** „GitHub Actions" eingestellt sein. Das ist eine

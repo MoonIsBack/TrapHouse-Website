@@ -24,7 +24,7 @@ Zusammenführen später ein kompletter Neuschrieb geworden.
 
 ### A) RankRoom wird eine Route in TrapHouse ⭐ empfohlen
 
-```
+```text
 traphouse.de/#/           Startseite
 traphouse.de/#/shop       Shop
 traphouse.de/#/rankroom   ← die Tierlist-App
@@ -49,6 +49,9 @@ Kopfbereich verschwindet beim Wechsel.
 → **Fang damit an.** Als Zwischenschritt ist das völlig in Ordnung, und du
 merkst dabei, ob du die enge Verzahnung überhaupt willst.
 
+*Stand 20.10.2026: umgesetzt — der Menüpunkt „RankRoom" in `data/navigation.js`
+führt nach außen (`RANKROOM_URL`).*
+
 ### C) Monorepo mit zwei Builds
 
 Beide Projekte in einem Ordner, aber getrennt gebaut.
@@ -62,7 +65,7 @@ Größe zu kompliziert.
 
 Alles nach `src/rankroom/`, damit nichts kollidiert:
 
-```
+```text
 src/
 ├── components/          TrapHouse
 │   ├── AppHeader.vue
@@ -137,7 +140,7 @@ Und in `RankRoomView.vue` das Ganze einwickeln:
 
 **Warum das funktioniert:** CSS-Variablen werden nach unten vererbt. Innerhalb
 dieses `div` gilt das Indigo, außerhalb weiter das Orange. Genau deshalb steht in
-TrapHouses Komponenten nirgends eine feste Farbe, sondern immer `var(--accent)`.
+TrapHouses Komponenten nirgends eine feste Akzentfarbe, sondern immer `var(--accent)`.
 
 → Willst du RankRoom stattdessen an TrapHouse angleichen, lässt du diesen
 Block einfach weg. Dann übernimmt RankRoom das Orange — ohne eine einzige
@@ -160,22 +163,21 @@ eingefügt. Deshalb nach dem Zusammenführen unbedingt einmal
 
 ### Schritt 6: Die `viewport`-Angabe klären
 
-RankRooms `index.html` hat:
+Früher stand in RankRooms `index.html`:
 
 ```html
 content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 ```
 
-TrapHouse hat bewusst **nur** `width=device-width, initial-scale=1.0`.
+Diese Zoom-Sperre ist dort seit dem 07.08.2026 entfernt. Beide Projekte haben
+jetzt **nur** `width=device-width, initial-scale=1.0` — hier ist also nichts
+mehr anzugleichen.
 
-`user-scalable=no` verhindert das Zoomen mit zwei Fingern. Für RankRoom ist das
-sinnvoll, weil man dort Karten mit dem Finger zieht und sonst versehentlich die
-Seite zoomt. Für eine Lese-Seite ist es ein Problem: Wer schlecht sieht, kann
-nicht mehr vergrößern.
-
-→ Beim Zusammenführen bei TrapHouses Fassung bleiben und in RankRoom stattdessen
-`touch-action: none` auf die Zieh-Fläche setzen. Das unterbindet gezielt die
-Geste dort, wo sie stört, ohne das Zoomen der ganzen Seite abzuschalten.
+Der Grund der Änderung: `user-scalable=no` verhindert das Zoomen mit zwei
+Fingern, und wer schlecht sieht, kann dann nicht mehr vergrößern. Dass die Seite
+beim Ziehen einer Karte mitzoomt, verhindert stattdessen `touch-action: none`
+auf der Zieh-Fläche (in RankRoom bei `ItemCard.vue` und `TierRow.vue`) — gezielt
+dort, wo die Geste stört, ohne das Zoomen der ganzen Seite abzuschalten.
 
 ### Schritt 7: `base` prüfen
 
@@ -197,8 +199,10 @@ base: '/',   // statt '/TrapHouse-Website/'
 
 ## Reihenfolge, die ich empfehlen würde
 
-1. **Jetzt:** Möglichkeit B — nur verlinken. Kostet zehn Minuten
-2. **Wenn TrapHouse steht:** Discord-Link eintragen, Inhalte finalisieren
+1. **Jetzt:** Möglichkeit B — nur verlinken. Kostet zehn Minuten (erledigt,
+   siehe oben)
+2. **Wenn TrapHouse steht:** Discord-Link eintragen (erledigt), Inhalte
+   finalisieren
 3. **Wenn du sicher bist, dass du es willst:** Schritte 1–7 an einem Stück, in
    einem eigenen Git-Branch
 4. **Danach:** `npm run build && npm run preview` — und wirklich jede Seite
@@ -213,7 +217,7 @@ findest du die Ursache nicht mehr.
 **Das Zusammenführen ist vorbereitet, aber nicht angefangen.**
 
 Der wichtigste Baustein dafür ist unscheinbar: Weil in TrapHouse nirgends eine
-feste Farbe steht, sondern immer `var(--accent)`, lassen sich beide Projekte
+feste Akzentfarbe steht, sondern immer `var(--accent)`, lassen sich beide Projekte
 später mit **einem** CSS-Block entweder trennen oder angleichen.
 
 ## Siehe auch

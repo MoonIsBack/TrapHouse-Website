@@ -31,7 +31,8 @@ export const operator = {
 ### Die eingebaute Bremse
 
 Solange irgendwo `AUSFÜLLEN` steht, zeigen beide Rechtsseiten oben einen roten
-Warnkasten:
+Warnkasten — allerdings nur mit `npm run dev` (zur zweiten Bremse siehe weiter
+unten):
 
 > **Diese Seite ist noch nicht ausgefüllt.**
 
@@ -48,6 +49,26 @@ export function hasPlaceholders() {
   )
 }
 ```
+
+### Die zweite Bremse: in der veröffentlichten Fassung fehlen die Seiten
+
+Den roten Kasten siehst du nur beim Entwickeln. In der gebauten, also der
+veröffentlichten Fassung gibt es, solange Platzhalter drinstehen, **weder die
+Adressen `#/impressum` und `#/datenschutz` noch die Links im Fußbereich** —
+wer die Adressen aufruft, sieht die 404-Seite. Das regelt `showLegalPages`
+am Ende von `legalConfig.js`:
+
+```js
+export const showLegalPages = import.meta.env.DEV || !hasPlaceholders()
+```
+
+`import.meta.env.DEV` ist nur mit `npm run dev` wahr. Der Sinn: Ein Impressum
+mit „AUSFÜLLEN: PLZ" ist schlechter als gar keins. Füllst du `operator`
+vollständig aus, erscheinen beide Seiten samt Fußbereich-Links von allein —
+umstellen musst du nichts. Bis dahin hat die veröffentlichte Seite allerdings
+weder Impressum noch Datenschutzerklärung (Stand 20.10.2026), obwohl sie
+öffentlich erreichbar ist. Der Warnkasten selbst sagt dazu: Solange Platzhalter
+drinstehen, darf die Website nicht öffentlich erreichbar sein.
 
 ## ⚠ Der Punkt, über den du vorher nachdenken solltest
 
@@ -91,7 +112,7 @@ Möglichkeit — es gab noch keinen Router.
 
 TrapHouse hat einen, deshalb sind es hier echte Adressen:
 
-```
+```text
 #/impressum
 #/datenschutz
 ```
@@ -101,8 +122,8 @@ Der Grund ist nicht Bequemlichkeit: § 5 DDG verlangt, dass das Impressum
 eigene Adresse lässt sich verlinken, in einem neuen Tab öffnen und weitergeben.
 Genau das erwartet man bei Impressum und Datenschutz.
 
-Die Links stehen im Fußbereich und damit auf **jeder** Seite.
-⚠ Nimm sie dort nicht heraus.
+Sobald alles ausgefüllt ist, stehen die Links im Fußbereich und damit auf
+**jeder** Seite. ⚠ Nimm sie dort nicht heraus.
 
 ## ⭐ Was in der Datenschutzerklärung steht — und warum
 
@@ -151,7 +172,7 @@ Datum mit.
 
 - [ ] Entschieden, welche Adresse ins Impressum kommt
 - [ ] `legalConfig.js` vollständig ausgefüllt
-- [ ] Beide Seiten aufgerufen — kein roter Warnkasten mehr
+- [ ] Beide Seiten aufgerufen — mit `npm run dev` kein roter Warnkasten mehr, nach `npm run build` und `npm run preview` Seiten und Fußbereich-Links vorhanden
 - [ ] E-Mail-Adresse geprüft: kommt Post dort wirklich an?
 - [ ] `legalFacts` ehrlich eingestellt
 - [x] Discord-Link eingetragen (`data/socialLinks.js`)
@@ -160,7 +181,8 @@ Datum mit.
 ## 💡 Merken
 
 **Eine Datei ausfüllen — `src/config/legalConfig.js` — und beide Rechtsseiten
-sind fertig.** Der rote Kasten sagt dir, wann du durch bist.
+sind fertig.** Der rote Kasten (nur beim Entwickeln) und das Fehlen der
+Seiten in der gebauten Fassung sagen dir, ob du durch bist.
 
 ## Siehe auch
 

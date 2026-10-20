@@ -21,19 +21,24 @@ ins Leere führen, ohne dass es jemandem auffällt.
 
 Einen Kanal ergänzen: Eintrag in `SOCIAL_LINKS` hinzufügen, dann in
 `AppFooter.vue` und `SocialCard.vue` das passende Icon in `SOCIAL_ICONS`
-eintragen.
+eintragen. Gibt es das Icon noch nicht, zuerst eine Icon-Komponente in
+`components/icons/` anlegen (Beispiel in [21-Inhalte-aendern](21-Inhalte-aendern.md)).
 
 ### 2. `src/data/products.js` — Shop-Artikel
 
 Name, Preis, Beschreibung, Bild und der Status.
 
 ```js
-status: 'bald'        // Knöpfe sind grau, Badge "Demnächst"
-status: 'verfuegbar'  // Knöpfe sind aktiv
+status: 'ankuendigung'  // nur Bild, Name, Beschreibung — Badge "Coming Soon", kein Preis, keine Knöpfe
+status: 'verfuegbar'    // Preis und die Knöpfe für Merkliste und Warenkorb erscheinen
 ```
 
-⚠ `'verfuegbar'` schaltet die Knöpfe nur **optisch** frei — es gibt noch
-keinen Warenkorb dahinter. Siehe [40-Was-noch-fehlt](40-Was-noch-fehlt.md).
+Stand 20.10.2026 steht der eine Artikel auf `'ankuendigung'`.
+
+⚠ `'verfuegbar'` zeigt die Knöpfe nur an — sie tun noch nichts, es gibt keinen
+Warenkorb dahinter. Und sobald ein Preis dasteht, gelten Preisangaben-Pflichten,
+und die Seite wirkt geschäftsmäßig (Impressumspflicht). Die Begründung steht als
+Kommentar in `products.js`. Siehe [40-Was-noch-fehlt](40-Was-noch-fehlt.md).
 
 ### 3. `src/assets/main.css` — Farben und Abstände
 
@@ -50,9 +55,9 @@ Alles zwischen `:root {` und der schließenden Klammer.
 
 ```vue
 <SectionHeader
-  eyebrow="Shop"
+  eyebrow="Merch"
   title="TrapHouse Merch"
-  text="Alles in kleiner Auflage …"
+  text="Ein Blick auf das, was gerade entsteht. …"
 />
 ```
 
@@ -71,6 +76,9 @@ Dinge:
 
 Fehlt eins davon, bricht die Navigation.
 
+Ausnahme: Ein Eintrag mit `href` und `external: true` — wie „RankRoom" — führt
+nach außen und braucht weder Route noch View.
+
 ## Häufige Aufgaben auf einen Blick
 
 | Ich will … | Datei |
@@ -86,6 +94,9 @@ Fehlt eins davon, bricht die Navigation.
 | Hero-Text | `components/home/HeroSection.vue` |
 | Punkte auf der Discord-Seite | `views/DiscordView.vue` (`FEATURES`) |
 | Text ganz unten | `components/AppFooter.vue` |
+| Wörter im Laufband, Karten „Was dich erwartet" | `data/community.js` |
+| Eigenen Mauszeiger an- oder ausschalten | `config/cursorConfig.js` |
+| Ziel des Menüpunkts „RankRoom" | `data/navigation.js` (`RANKROOM_URL`) |
 | Startseite anders scrollen lassen | `config/scrollConfig.js` — siehe [15](15-Scrollverhalten.md) |
 | Impressumsangaben | `config/legalConfig.js` — siehe [22](22-Rechtsseiten.md) |
 | Neue Unterseite | 3 Dateien — siehe [14](14-Router-und-Unterseiten.md) |

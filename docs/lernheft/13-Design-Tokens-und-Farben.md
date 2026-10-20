@@ -2,7 +2,7 @@
 
 ## Wofür ist das?
 
-Zu verstehen, warum in keiner Komponente eine feste Farbe steht — und wie du
+Zu verstehen, warum in keiner Komponente eine feste Akzentfarbe steht — und wie du
 das Aussehen der ganzen Seite an einer Stelle änderst.
 
 ## Was ist ein Design-Token?
